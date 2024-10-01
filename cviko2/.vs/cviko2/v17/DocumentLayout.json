@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\cer0548\\vsb-zpg\\cviko2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{87445634-1E9B-4884-81D0-2E53079DAE93}|cviko2\\cviko2.vcxproj|D:\\cer0548\\vsb-zpg\\cviko2\\cviko2\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{87445634-1E9B-4884-81D0-2E53079DAE93}|cviko2\\cviko2.vcxproj|solutionrelative:cviko2\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.cpp",
+              "DocumentMoniker": "D:\\cer0548\\vsb-zpg\\cviko2\\cviko2\\main.cpp",
+              "RelativeDocumentMoniker": "cviko2\\main.cpp",
+              "ToolTip": "D:\\cer0548\\vsb-zpg\\cviko2\\cviko2\\main.cpp",
+              "RelativeToolTip": "cviko2\\main.cpp",
+              "ViewState": "AgIAAFUAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-10-01T09:40:01.397Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
