@@ -429,3 +429,13 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore HTML and JSON files
+*.html
+*.json
+
+# Ignore build directories
+/build/
+/cmake-build-debug/
+/cmake-build-release/
+/dist/
