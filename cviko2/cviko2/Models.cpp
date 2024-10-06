@@ -1,7 +1,7 @@
 #include "Models.h"
 #include "Application.h"
 
-Models::Models() : VAO_square(0) {}
+Models::Models() : VAO_square(0), VAO_triangle(0) {}
 
 Models::~Models() {}
 
