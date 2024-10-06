@@ -6,7 +6,7 @@
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
-    fflush(stderr);  // Pro okamžitý výstup do konzole
+    fflush(stderr);
 }
 
 Application::Application()

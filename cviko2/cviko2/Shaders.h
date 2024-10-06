@@ -9,7 +9,6 @@ public:
     void createShaders();
     void useRedProgram();
     void useBlueProgram();
-    GLuint getProgram();
 private:
     GLuint shaderProgramRed;
     GLuint shaderProgramBlue;

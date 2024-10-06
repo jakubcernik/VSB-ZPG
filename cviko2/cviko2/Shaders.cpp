@@ -34,9 +34,8 @@ void Shaders::createShaders()
         "     frag_colour = vec4(0.0, 0.0, 1.0, 1.0);"  // Blue color
         "}";
 
-    // Compile Red Shader Program
+    // Compile Shaders
     shaderProgramRed = compileShaderProgram(vertex_shader, fragment_shader_red);
-    // Compile Blue Shader Program
     shaderProgramBlue = compileShaderProgram(vertex_shader, fragment_shader_blue);
 }
 
@@ -69,10 +68,4 @@ void Shaders::useRedProgram()
 void Shaders::useBlueProgram()
 {
     glUseProgram(shaderProgramBlue);
-}
-
-
-GLuint Shaders::getProgram()
-{
-    return 1;
 }

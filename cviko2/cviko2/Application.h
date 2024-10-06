@@ -4,11 +4,10 @@
 #include <cstdlib>
 #include <stdio.h>
 
-// Předběžné deklarace tříd Shaders a Models
+// Předběžné deklarace
 class Shaders;
 class Models;
 
-// Deklarace callback funkcí
 static void error_callback(int error, const char* description);
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 static void window_focus_callback(GLFWwindow* window, int focused);
