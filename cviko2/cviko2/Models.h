@@ -11,5 +11,6 @@ public:
     void draw();
 
 private:
-    GLuint VAO;
+    GLuint VAO_square;
+    GLuint VAO_triangle;
 };

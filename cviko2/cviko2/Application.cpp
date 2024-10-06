@@ -36,7 +36,7 @@ void Application::initialization()
         exit(EXIT_FAILURE);
     }
 
-    window = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
+    window = glfwCreateWindow(800, 800, "ZPG", NULL, NULL);
     if (!window) {
         glfwTerminate();
         exit(EXIT_FAILURE);
