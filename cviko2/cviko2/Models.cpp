@@ -1,23 +1,21 @@
 #include "Models.h"
-#include "Application.h"
+#include <GL/glew.h>
 
 Models::Models() : VAO_square(0), VAO_triangle(0) {}
 
-Models::~Models() {}
+Models::~Models() {
+    glDeleteVertexArrays(1, &VAO_square);
+    glDeleteVertexArrays(1, &VAO_triangle);
+}
 
 void Models::createModels()
 {
+    // Ètverec (dùm)
     float pointsSquare[] = {
-        -0.5f,  0.0f, 0.0f,
-         0.5f,  0.0f, 0.0f,
-        -0.5f, -1.0f, 0.0f,
-         0.5f, -1.0f, 0.0f
-    };
-
-    float pointsTriangle[] = {
-         -0.5f,  0.0f, 0.0f,
-         0.5f,  0.0f, 0.0f,
-         0.0f, 0.5f, 0.0f
+        -0.5f,  0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f
     };
 
     GLuint VBO_square;
@@ -31,6 +29,13 @@ void Models::createModels()
     glBindBuffer(GL_ARRAY_BUFFER, VBO_square);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 
+    // Trojúhelník (støecha)
+    float pointsTriangle[] = {
+        -0.5f,  0.5f, 0.0f,
+         0.5f,  0.5f, 0.0f,
+         0.0f,  1.0f, 0.0f
+    };
+
     GLuint VBO_triangle;
     glGenBuffers(1, &VBO_triangle);
     glBindBuffer(GL_ARRAY_BUFFER, VBO_triangle);
@@ -43,10 +48,14 @@ void Models::createModels()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 }
 
-void Models::draw()
+void Models::drawSquare()
 {
     glBindVertexArray(VAO_square);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+}
+
+void Models::drawTriangle()
+{
     glBindVertexArray(VAO_triangle);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }

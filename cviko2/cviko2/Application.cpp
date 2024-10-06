@@ -1,16 +1,13 @@
 #include "Application.h"
 #include "Shaders.h"
 #include "Models.h"
-
 #include <stdio.h>
-
 
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %s\n", description);
-    fflush(stderr);
+    fflush(stderr);  // Pro okamžitý výstup do konzole
 }
-
 
 Application::Application()
 {
@@ -32,7 +29,6 @@ void Application::initialization()
     glfwSetErrorCallback(error_callback);
     if (!glfwInit()) {
         fprintf(stderr, "ERROR: could not start GLFW3\n");
-        fflush(stderr);
         exit(EXIT_FAILURE);
     }
 
@@ -48,10 +44,11 @@ void Application::initialization()
     glewInit();
     if (glewInit() != GLEW_OK) {
         fprintf(stderr, "ERROR: could not initialize GLEW\n");
-        fflush(stderr);
         exit(EXIT_FAILURE);
     }
 
+    createShaders();
+    createModels();
 }
 
 void Application::createShaders()
@@ -69,8 +66,15 @@ void Application::run()
     runStatus();
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        shaders->useProgram(); // Pouzije shadery
-        models->draw();        // Vykresli modely
+
+        // Použití èerveného shaderu pro ètverec (dùm)
+        shaders->useRedProgram();
+        models->drawSquare();
+
+        // Použití modrého shaderu pro trojúhelník (støecha)
+        shaders->useBlueProgram();
+        models->drawTriangle();
+
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
@@ -87,4 +91,3 @@ void Application::runStatus()
     glfwGetVersion(&major, &minor, &revision);
     printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 }
-

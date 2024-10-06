@@ -8,7 +8,8 @@ public:
     Models();
     ~Models();
     void createModels();
-    void draw();
+    void drawSquare();
+    void drawTriangle();
 
 private:
     GLuint VAO_square;

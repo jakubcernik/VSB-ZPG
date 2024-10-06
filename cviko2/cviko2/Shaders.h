@@ -7,8 +7,11 @@ public:
     Shaders();
     ~Shaders();
     void createShaders();
-    void useProgram();
-    GLuint getProgram() const;
+    void useRedProgram();
+    void useBlueProgram();
+    GLuint getProgram();
 private:
-    GLuint shaderProgram;
+    GLuint shaderProgramRed;
+    GLuint shaderProgramBlue;
+    GLuint compileShaderProgram(const char* vertex_shader_src, const char* fragment_shader_src);
 };
