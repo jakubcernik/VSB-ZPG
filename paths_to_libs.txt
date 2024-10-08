@@ -1,0 +1,3 @@
+C/C++ general: 		..\..\libraries\g-truc-glm-0af55cc;..\..\libraries\glew-2.1.0\include;..\..\libraries\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)
+Linker general:		..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)
+Linker input:		opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)

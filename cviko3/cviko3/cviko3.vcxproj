@@ -104,10 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\libraries\g-truc-glm-0af55cc;..\..\libraries\glew-2.1.0\include;..\..\libraries\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +130,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cviko3.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Models.cpp" />
+    <ClCompile Include="Shaders.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\bushes.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\gift.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\plain.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\sphere.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_flat.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_smooth.h" />
+    <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\tree.h" />
+    <ClInclude Include="Models.h" />
+    <ClInclude Include="Shaders.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
