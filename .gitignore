@@ -440,3 +440,5 @@ FodyWeavers.xsd
 /cmake-build-release/
 /dist/
 /cviko2/CER0548_cviceni2.zip
+/cviko3/cviko3/cviko3.vcxproj
+/cviko3/cviko3/cviko3.vcxproj.filters
