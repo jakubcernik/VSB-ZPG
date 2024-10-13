@@ -1,12 +1,15 @@
 ﻿#include "Application.h"
 
-int main(void)
-{
-	Application app;
+int main() {
+    // Nastavení šířky a výšky okna
+    const int windowWidth = 800;
+    const int windowHeight = 600;
 
-	app.initialization();
+    // Vytvoření aplikace
+    Application app(windowWidth, windowHeight);
 
-	app.createShaders();
-	app.createModels();
-	app.run();
+    // Spuštění aplikace
+    app.run();
+
+    return 0;
 }

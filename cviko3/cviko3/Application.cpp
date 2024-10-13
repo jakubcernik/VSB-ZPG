@@ -1,93 +1,62 @@
 ﻿#include "Application.h"
-#include "Shader.h"
-#include "Model.h"
-#include <stdio.h>
+#include <iostream>
 
-static void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-    fflush(stderr);
+// Konstruktor nastaví šířku, výšku a inicializuje OpenGL a okno
+Application::Application(int width, int height)
+    : width(width), height(height), window(nullptr) {
+    initGLFW();
+    initWindow();
+    initOpenGL();
 }
 
-Application::Application()
-{
-    window = nullptr;
-    shaders = new Shaders();
-    models = new Models();
-}
-
-Application::~Application()
-{
-    delete shaders;
-    delete models;
+// Destruktor, uvolnění zdrojů
+Application::~Application() {
     glfwDestroyWindow(window);
     glfwTerminate();
 }
 
-void Application::initialization()
-{
-    glfwSetErrorCallback(error_callback);
+void Application::initGLFW() {
     if (!glfwInit()) {
-        fprintf(stderr, "ERROR: could not start GLFW3\n");
+        std::cerr << "Failed to initialize GLFW!" << std::endl;
         exit(EXIT_FAILURE);
     }
+}
 
-    window = glfwCreateWindow(800, 800, "ZPG", NULL, NULL);
+void Application::initWindow() {
+    // Nastavení kontextu OpenGL verze 3.3, pro starší verze by bylo nutné nastavit jinak
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // Vytvoření okna
+    window = glfwCreateWindow(width, height, "OpenGL Application", nullptr, nullptr);
     if (!window) {
+        std::cerr << "Failed to create GLFW window!" << std::endl;
         glfwTerminate();
         exit(EXIT_FAILURE);
     }
-
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
-    glewExperimental = GL_TRUE;
-    glewInit();
-    if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "ERROR: could not initialize GLEW\n");
-        exit(EXIT_FAILURE);
-    }
-
-    createShaders();
-    createModels();
 }
 
-void Application::createShaders()
-{
-    shaders->createShaders();
+void Application::initOpenGL() {
+    // Zde můžeš provést nastavení OpenGL
+    glEnable(GL_DEPTH_TEST);
+    // Další nastavení (např. glClearColor) podle potřeby
 }
 
-void Application::createModels()
-{
-    models->createModels();
-}
-
-void Application::run()
-{
-    runStatus();
+void Application::run() {
+    // Hlavní smyčka aplikace
     while (!glfwWindowShouldClose(window)) {
+        // Zpracování vstupů
+        glfwPollEvents();
+
+        // Vyčistění obrazovky
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Pou�it� �erven�ho shaderu pro �tverec (d�m)
-        shaders->useRedProgram();
-        models->drawSquare();
+        // Vykreslení scény
+        scene.render();
 
-        // Pou�it� modr�ho shaderu pro troj�heln�k (st�echa)
-        shaders->useBlueProgram();
-        models->drawTriangle();
-
-        glfwPollEvents();
+        // Přepnutí bufferů
         glfwSwapBuffers(window);
     }
-}
-
-void Application::runStatus()
-{
-    printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
-    printf("Using GLEW %s\n", glewGetString(GLEW_VERSION));
-    printf("Vendor %s\n", glGetString(GL_VENDOR));
-    printf("Renderer %s\n", glGetString(GL_RENDERER));
-    printf("GLSL %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    int major, minor, revision;
-    glfwGetVersion(&major, &minor, &revision);
-    printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 }
