@@ -12,10 +12,10 @@ ForestScene::ForestScene(const std::string& modelPath, const std::string& vertex
     ShaderProgram shader(vertexShaderPath, fragmentShaderPath);
 
     // Vytvoøení lesa
-    createForest(modelPath, shader, treeCount);
+    createForest(modelPath, vertexShaderPath, fragmentShaderPath, treeCount);
 }
 
-void ForestScene::createForest(const std::string& modelPath, const ShaderProgram& shader, int treeCount) {
+void ForestScene::createForest(const std::string& modelPath, const std::string& vertexShaderPath, const std::string& fragmentShaderPath, int treeCount) {
     // Naètení modelu stromu
     Model treeModel(modelPath);
 
@@ -43,7 +43,7 @@ void ForestScene::createForest(const std::string& modelPath, const ShaderProgram
         treeTransform.setScale(glm::vec3(randomScaleFactor));
 
         // Vytvoøení DrawableObjectu stromu
-        DrawableObject tree(treeModel, treeTransform, shader);
+        DrawableObject tree(treeModel, treeTransform, vertexShaderPath, fragmentShaderPath);
 
         // Pøidání stromu do scény
         addObject(tree);

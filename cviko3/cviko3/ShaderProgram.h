@@ -1,6 +1,8 @@
 #pragma once
 #include "VertexShader.h"
 #include "FragmentShader.h"
+#include <glm/glm.hpp>
+
 
 class ShaderProgram {
 private:
@@ -11,6 +13,7 @@ private:
     void compileAndLinkShaders(); // Interní metoda pro sestavení shaderu.
 
 public:
-    ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath);
-    void use(); // Aktivuje shader program
+    ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+    void use() const;
+    void setUniform(const std::string& name, const glm::mat4& matrix) const;
 };

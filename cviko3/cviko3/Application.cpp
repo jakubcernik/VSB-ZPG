@@ -78,23 +78,14 @@ void Application::run() {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Předání matic shaderům, pokud používáš jednorázový shader
-        GLuint shaderID = shaderProgram.getID();
-        glUseProgram(shaderID);
-
-        GLuint projectionLoc = glGetUniformLocation(shaderID, "projection");
-        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-        GLuint viewLoc = glGetUniformLocation(shaderID, "view");
-        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-
         if (scene) {
-            scene->render();
+            scene->render(projection, view); // Předáme matice při renderování scény
         }
 
         glfwSwapBuffers(window);
     }
 }
+
 
 
 

@@ -8,5 +8,5 @@ private:
 
 public:
     void addObject(const DrawableObject& object);
-    void render(); // Vykreslí všechny objekty ve scénì.
+    void render(const glm::mat4& projection, const glm::mat4& view); // Vykreslí všechny objekty ve scénì.
 };

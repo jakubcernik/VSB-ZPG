@@ -7,9 +7,10 @@ class DrawableObject {
 private:
     const Model* model;
     Transformation transformation;
-    ShaderProgram shaderProgram;
+    ShaderProgram shaderProgram; // Pøidání shaderu jako èlena tøídy
 
 public:
-    DrawableObject(const Model& mdl, const Transformation& trans, const ShaderProgram& shader);
-    void draw();
+    DrawableObject(const Model& mdl, const Transformation& trans, const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
+    void draw(const glm::mat4& projection, const glm::mat4& view);
+
 };
