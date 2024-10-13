@@ -8,11 +8,10 @@ int main() {
         return -1;
     }
 
-    auto forestScene = std::make_shared<ForestScene>();
+    ForestScene forestScene;
     app.addScene(forestScene);
 
     while (!app.shouldClose()) {
-
         app.renderScene();
         app.pollEvents();
     }

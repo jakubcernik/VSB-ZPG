@@ -4,9 +4,6 @@
 Application::Application() : currentScene(0), window(nullptr) {}
 
 bool Application::initialize() {
-    glEnable(GL_DEPTH_TEST);  // Povolení hloubkového testu
-    glDepthFunc(GL_LESS);     // Funkce pro z-buffer
-
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
         return false;
@@ -20,7 +17,6 @@ bool Application::initialize() {
     }
 
     glfwMakeContextCurrent(window);
-    glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
         std::cerr << "Failed to initialize GLEW" << std::endl;
         return false;
@@ -29,14 +25,14 @@ bool Application::initialize() {
     return true;
 }
 
-void Application::addScene(std::shared_ptr<Scene> scene) {
+void Application::addScene(const Scene& scene) {
     scenes.push_back(scene);
 }
 
 void Application::renderScene() {
     if (currentScene < scenes.size()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        scenes[currentScene]->render(); // Použití ukazatele
+        scenes[currentScene].render();
         glfwSwapBuffers(window);
     }
 }

@@ -6,10 +6,10 @@
 
 class Scene {
 protected:
-    std::vector<std::shared_ptr<DrawableObject>> objects;
+    std::vector<DrawableObject> objects;
 
 public:
-    void addObject(const std::shared_ptr<DrawableObject>& object);
+    void addObject(const DrawableObject& object);
     virtual void render();
 };
 

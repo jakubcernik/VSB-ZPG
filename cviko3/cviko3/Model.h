@@ -1,22 +1,22 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include <GL/glew.h>
+#include <vector>
+#include <string>
 
 class Model {
-protected:
-    unsigned int id; // OpenGL buffer ID
+private:
+    unsigned int id;
+    std::vector<float> vertices;
+    std::vector<unsigned int> indices;
 
-    virtual void setupModel() = 0; // Virtuální metoda, kterou implementuje podtøída
+    void loadModel(const std::string& filePath);
 
 public:
-    Model();
-    virtual ~Model();
-
-    virtual void draw() const = 0; // Virtuální metoda, kterou podtøída musí definovat
-    void bind() const;
-    void unbind() const;
-    GLuint getId() const;
+    Model(const std::string& filePath);
+    ~Model();
+    unsigned int getId() const;
+    void draw() const;
 };
 
 #endif // MODEL_H

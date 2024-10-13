@@ -8,14 +8,14 @@
 
 class Application {
 private:
-    std::vector<std::shared_ptr<Scene>> scenes;
+    std::vector<Scene> scenes;
     int currentScene;
     GLFWwindow* window;
 
 public:
     Application();
     bool initialize();
-    void addScene(std::shared_ptr<Scene> scene);
+    void addScene(const Scene& scene);
     void renderScene();
     void pollEvents();
     bool shouldClose() const;

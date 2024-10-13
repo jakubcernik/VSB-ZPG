@@ -4,8 +4,6 @@
 #include "Scene.h"
 
 class ForestScene : public Scene {
-private:
-    std::vector<std::shared_ptr<DrawableObject>> objects;
 public:
     ForestScene();
     void setupScene();

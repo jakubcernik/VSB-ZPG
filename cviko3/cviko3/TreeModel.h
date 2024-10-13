@@ -8,7 +8,7 @@ private:
     void setupModel() override;
 
 public:
-    TreeModel();  // Konstruktor
+    TreeModel();
     void draw() const override;
 };
 

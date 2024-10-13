@@ -4,19 +4,19 @@
 #include <string>
 
 class Shader {
-private:
-    unsigned int id; // Unique private ID for the shader
-    unsigned int shaderType; // GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc.
-
-    std::string loadShaderSource(const std::string& filePath);
-    void compileShader(const std::string& source);
-
 public:
-    Shader(const std::string& filePath, unsigned int type); // Konstruktor naète shader ze souboru
+    Shader(const std::string& filePath, unsigned int type);
     ~Shader();
 
     unsigned int getId() const;
     void attachToProgram(unsigned int programId) const;
+
+private:
+    unsigned int id;
+    unsigned int shaderType;
+
+    void compileShader(const std::string& source);
+    std::string loadShaderSource(const std::string& filePath);
 };
 
 #endif // SHADER_H
