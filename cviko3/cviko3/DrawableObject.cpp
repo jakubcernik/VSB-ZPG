@@ -1,15 +1,14 @@
 #include "DrawableObject.h"
 
-DrawableObject::DrawableObject(const Model& mdl, const Transformation& trans, const std::string& vertexShaderPath, const std::string& fragmentShaderPath)
-    : model(&mdl), transformation(trans), shaderProgram(vertexShaderPath, fragmentShaderPath) {}
+DrawableObject::DrawableObject(const Model& mdl, const Transformation& trans, ShaderProgram& shaderProgram)
+    : model(&mdl), transformation(trans), shaderProgram(shaderProgram) {}
 
-void DrawableObject::draw(const glm::mat4& projection, const glm::mat4& view) {
+
+void DrawableObject::draw(const glm::mat4& projection) {
     shaderProgram.use();
 
-    // Pøedání matic shaderu
-    shaderProgram.setUniform("projection", projection);
-    shaderProgram.setUniform("view", view);
     shaderProgram.setUniform("model", transformation.getModelMatrix());
+    shaderProgram.setUniform("projection", projection); // Pøedáváme jen projekci
 
     model->draw();
 }

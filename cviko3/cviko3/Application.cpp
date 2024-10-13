@@ -66,23 +66,23 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 void Application::run() {
-    // Definice projekční a pohledové matice
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
-    glm::mat4 view = glm::lookAt(
-        glm::vec3(0.0f, 0.0f, 3.0f), // Pozice kamery
-        glm::vec3(0.0f, 0.0f, 0.0f), // Bod, na který kamera směřuje
-        glm::vec3(0.0f, 1.0f, 0.0f)  // Směr nahoru
-    );
+    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (scene) {
-            scene->render(projection, view); // Předáme matice při renderování scény
+            scene->render(projection);
         }
 
         glfwSwapBuffers(window);
+
+        // Kontrola chyb OpenGL
+        GLenum err;
+        while ((err = glGetError()) != GL_NO_ERROR) {
+            std::cerr << "OpenGL error: " << err << std::endl;
+        }
     }
 }
 

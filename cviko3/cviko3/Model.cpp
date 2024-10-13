@@ -22,20 +22,19 @@ void Model::loadModel(const std::string& path) {
 
     // Naplnění dat bufferu přímo pomocí pole `tree`
     glBufferData(GL_ARRAY_BUFFER, sizeof(tree), tree, GL_STATIC_DRAW);
-
-    // Specifikace vertex atributů
-    // Pozice (location 0) - první tři hodnoty (vec3)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    GLenum error = glGetError();
+    if (error != GL_NO_ERROR) {
+        std::cerr << "Error after glBufferData: " << error << std::endl;
+    }
+    // Specifikace vertex atributů pouze pro pozici (location 0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
-    // Normály (location 1) - následující tři hodnoty (vec3)
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
 
     // Odpoutání bufferu a vertex array objektu
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
+
 
 Model::~Model() {
     glDeleteBuffers(1, &vbo);
