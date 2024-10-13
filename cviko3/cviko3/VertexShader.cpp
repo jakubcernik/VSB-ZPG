@@ -2,6 +2,7 @@
 #include <GL/glew.h>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 using namespace std;
 
 VertexShader::VertexShader(const string& filePath) {
@@ -18,7 +19,15 @@ void VertexShader::compile(const string& source) {
     const char* src = source.c_str();
     glShaderSource(shaderID, 1, &src, nullptr);
     glCompileShader(shaderID);
-    // Kontrola úspìchu kompilace
+
+    // Kontrola úspìšnosti kompilace
+    GLint success;
+    glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        char infoLog[512];
+        glGetShaderInfoLog(shaderID, 512, nullptr, infoLog);
+        std::cerr << "Error compiling vertex shader: " << infoLog << std::endl;
+    }
 }
 
 unsigned int VertexShader::getID() const {

@@ -1,6 +1,9 @@
 ﻿#include <GL/glew.h> // Přidej do Application.cpp, pokud ještě není zahrnuto
 #include "Application.h"
 #include <iostream>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 using namespace std;
@@ -53,6 +56,9 @@ void Application::initOpenGL() {
 
     glEnable(GL_DEPTH_TEST);
     // Další nastavení (např. glClearColor) podle potřeby
+
+    // Nastav barvu pozadí
+    glClearColor(0.8f, 0.8f, 0.8f, 1.0f); // Světle šedá
 }
 
 void Application::setScene(Scene* scenePtr) {
@@ -60,11 +66,29 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 void Application::run() {
+    // Definice projekční a pohledové matice
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 100.0f);
+    glm::mat4 view = glm::lookAt(
+        glm::vec3(0.0f, 0.0f, 3.0f), // Pozice kamery
+        glm::vec3(0.0f, 0.0f, 0.0f), // Bod, na který kamera směřuje
+        glm::vec3(0.0f, 1.0f, 0.0f)  // Směr nahoru
+    );
+
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        if (scene) { // Ověření, že scene není nullptr
+        // Předání matic shaderům, pokud používáš jednorázový shader
+        GLuint shaderID = shaderProgram.getID();
+        glUseProgram(shaderID);
+
+        GLuint projectionLoc = glGetUniformLocation(shaderID, "projection");
+        glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+        GLuint viewLoc = glGetUniformLocation(shaderID, "view");
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+        if (scene) {
             scene->render();
         }
 
