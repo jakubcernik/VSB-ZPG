@@ -3,20 +3,20 @@
 
 class Model {
 private:
-    unsigned int vao; // Vertex Array Object
-    unsigned int vbo; // Vertex Buffer Object
+    unsigned int vao;
+    unsigned int vbo;
 
-    void loadModel(const std::string& path); // Metoda pro naètení modelových dat
+    void loadModel(const std::string& path);
 
 public:
     Model(const std::string& path);
     ~Model();
 
-    void draw() const; // Metoda pro vykreslení modelu
+    void draw() const;
 
-    // Zakázání kopírování
+    // Zakázání kopírování kvuli pointerum
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
 
-    static const unsigned int vertexCount = 92814; // Poèet vrcholù
+    static const unsigned int vertexCount = 92814;
 };

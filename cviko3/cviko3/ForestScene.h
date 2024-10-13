@@ -9,7 +9,7 @@ public:
     ForestScene(const std::string& modelPath, const std::string& vertexShaderPath, const std::string& fragmentShaderPath, int treeCount);
 
 private:
-    Model treeModel;         // Pøidej èlen treeModel
-    ShaderProgram shader;    // Pøidej èlen shader
-    void createForest(int treeCount); // Metoda createForest má jeden parametr
+    Model treeModel;
+    ShaderProgram shader;
+    void createForest(int treeCount);
 };

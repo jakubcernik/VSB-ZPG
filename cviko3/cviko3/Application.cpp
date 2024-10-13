@@ -1,4 +1,4 @@
-﻿#include <GL/glew.h> // Přidej do Application.cpp, pokud ještě není zahrnuto
+﻿#include <GL/glew.h>
 #include "Application.h"
 #include <iostream>
 #include <glm/glm.hpp>
@@ -17,7 +17,6 @@ Application::Application(int width, int height)
 }
 
 
-// Destruktor, uvolnění zdrojů
 Application::~Application() {
     glfwDestroyWindow(window);
     glfwTerminate();
@@ -31,7 +30,7 @@ void Application::initGLFW() {
 }
 
 void Application::initWindow() {
-    // Nastavení kontextu OpenGL verze 3.3, pro starší verze by bylo nutné nastavit jinak
+    // Nastavení kontextu OpenGL verze 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -55,9 +54,8 @@ void Application::initOpenGL() {
     }
 
     glEnable(GL_DEPTH_TEST);
-    // Další nastavení (např. glClearColor) podle potřeby
 
-    // Nastav barvu pozadí
+    // Barva pozadí
     glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 }
 

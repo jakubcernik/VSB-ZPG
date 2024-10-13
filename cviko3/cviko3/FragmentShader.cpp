@@ -17,7 +17,6 @@ void FragmentShader::compile(const string& source) {
     const char* src = source.c_str();
     glShaderSource(shaderID, 1, &src, nullptr);
     glCompileShader(shaderID);
-    // Kontrola úspìchu kompilace
 }
 
 unsigned int FragmentShader::getID() const {

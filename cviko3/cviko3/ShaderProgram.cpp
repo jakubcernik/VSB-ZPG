@@ -15,7 +15,6 @@ void ShaderProgram::compileAndLinkShaders() {
     glAttachShader(programID, vertexShader.getID());
     glAttachShader(programID, fragmentShader.getID());
     glLinkProgram(programID);
-    // Kontrola úspìchu propojení
 
     GLint success;
     glGetProgramiv(programID, GL_LINK_STATUS, &success);

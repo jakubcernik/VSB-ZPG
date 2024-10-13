@@ -10,7 +10,7 @@ private:
     VertexShader vertexShader;
     FragmentShader fragmentShader;
 
-    void compileAndLinkShaders(); // Interní metoda pro sestavení shaderu.
+    void compileAndLinkShaders();
 
 public:
     ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);

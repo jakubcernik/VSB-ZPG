@@ -13,7 +13,6 @@ int main() {
 
     ForestScene forestScene(modelPath, vertexShaderPath, fragmentShaderPath, 100);
 
-    // Nastavení scény pro aplikaci
     app.setScene(&forestScene);
 
     app.run();

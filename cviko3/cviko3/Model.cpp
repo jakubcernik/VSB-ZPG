@@ -1,5 +1,5 @@
 ﻿#include "Model.h"
-#include "tree.h" // zahrneme přímo tree.h
+#include "tree.h"
 #include <GL/glew.h>
 #include <iostream>
 
@@ -43,6 +43,6 @@ Model::~Model() {
 
 void Model::draw() const {
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 92814); // Použijeme pevný počet vrcholů
+    glDrawArrays(GL_TRIANGLES, 0, 92814);
     glBindVertexArray(0);
 }

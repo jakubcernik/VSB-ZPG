@@ -12,11 +12,11 @@ private:
 
     void initGLFW();
     void initWindow();
-    void initOpenGL(); // Načítání a nastavení OpenGL kontextu
+    void initOpenGL();
 
 public:
     Application(int width, int height);
     ~Application();
-    void run(); // Spustí hlavní smyčku aplikace
+    void run();
     void setScene(Scene* scenePtr);
 };

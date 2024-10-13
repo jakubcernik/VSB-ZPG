@@ -6,7 +6,6 @@
 using namespace std;
 
 VertexShader::VertexShader(const string& filePath) {
-    // Naètení zdroje shaderu a kompilace
     ifstream shaderFile(filePath);
     stringstream shaderStream;
     shaderStream << shaderFile.rdbuf();
@@ -20,7 +19,6 @@ void VertexShader::compile(const string& source) {
     glShaderSource(shaderID, 1, &src, nullptr);
     glCompileShader(shaderID);
 
-    // Kontrola úspìšnosti kompilace
     GLint success;
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);
     if (!success) {

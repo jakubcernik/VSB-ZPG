@@ -4,7 +4,7 @@
 class Transformation {
 private:
     glm::vec3 position;
-    glm::vec3 rotation; // Rotace uložená jako Eulerovy úhly ve stupních
+    glm::vec3 rotation;
     glm::vec3 scale;
 
 public:
@@ -15,9 +15,8 @@ public:
     void rotate(const glm::vec3& deltaRotation);
     void setScale(const glm::vec3& newScale);
 
-    glm::mat4 getModelMatrix() const; // Vytvoøí modelovou matici na základì transformací
+    glm::mat4 getModelMatrix() const; // Celkova matice
 
-    // Metody pro získání aktuálních transformací
     glm::vec3 getPosition() const;
     glm::vec3 getRotation() const;
     glm::vec3 getScale() const;

@@ -6,10 +6,10 @@
 #include <ctime>
 
 ForestScene::ForestScene(const std::string& modelPath, const std::string& vertexShaderPath, const std::string& fragmentShaderPath, int treeCount)
-    : treeModel(modelPath), shader(vertexShaderPath, fragmentShaderPath) { // Použití èlenù tøídy
+    : treeModel(modelPath), shader(vertexShaderPath, fragmentShaderPath) {
 
     // Vytvoøení lesa
-    createForest(treeCount); // Pøedej pouze treeCount, jak je definováno
+    createForest(treeCount);
 }
 
 
@@ -20,9 +20,9 @@ void ForestScene::createForest(int treeCount) {
         Transformation treeTransform;
 
         glm::vec3 randomPosition = glm::vec3(
-            (std::rand() % 200 - 100) * 0.5f,  // x mezi -25 a 25
-            (std::rand() % 200 - 100) * 0.5f,  // y mezi -25 a 25
-            (std::rand() % 200 - 100) * 0.5f   // z mezi -25 a 25
+            (std::rand() % 200 - 100) * 0.5f,  // x mezi -50 a 50
+            (std::rand() % 200 - 100) * 0.5f,
+            (std::rand() % 200 - 100) * 0.5f
         );
 
         treeTransform.translate(randomPosition);

@@ -23,15 +23,17 @@ glm::mat4 Transformation::getModelMatrix() const {
     // Aplikace translace
     glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
 
-    // Aplikace rotace (pøevod Eulerových úhlù na kvaternion)
-    glm::quat quaternionRotation = glm::quat(glm::radians(rotation));
-    model *= glm::toMat4(quaternionRotation);
+    // Aplikace rotace kolem os
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotace kolem osy X
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotace kolem osy Y
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotace kolem osy Z
 
     // Aplikace škálování
     model = glm::scale(model, scale);
 
     return model;
 }
+
 
 glm::vec3 Transformation::getPosition() const {
     return position;
