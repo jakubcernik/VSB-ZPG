@@ -1,22 +1,17 @@
-#ifndef MODEL_H
-#define MODEL_H
+#pragma once
+#include "Application.h"
 
-#include <vector>
-#include <string>
 
-class Model {
-private:
-    unsigned int id;
-    std::vector<float> vertices;
-    std::vector<unsigned int> indices;
-
-    void loadModel(const std::string& filePath);
-
+class Models
+{
 public:
-    Model(const std::string& filePath);
-    ~Model();
-    unsigned int getId() const;
-    void draw() const;
-};
+    Models();
+    ~Models();
+    void createModels();
+    void drawSquare();
+    void drawTriangle();
 
-#endif // MODEL_H
+private:
+    GLuint VAO_square;
+    GLuint VAO_triangle;
+};

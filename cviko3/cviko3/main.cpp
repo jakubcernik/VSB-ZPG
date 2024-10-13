@@ -1,21 +1,12 @@
 ﻿#include "Application.h"
-#include "ForestScene.h"
 
-int main() {
-    Application app;
+int main(void)
+{
+	Application app;
 
-    if (!app.initialize()) {
-        return -1;
-    }
+	app.initialization();
 
-    ForestScene forestScene;
-    app.addScene(forestScene);
-
-    while (!app.shouldClose()) {
-        app.renderScene();
-        app.pollEvents();
-    }
-
-    app.terminate();
-    return 0;
+	app.createShaders();
+	app.createModels();
+	app.run();
 }
