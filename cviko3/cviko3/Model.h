@@ -1,17 +1,12 @@
 #pragma once
-#include "Application.h"
+#include <string>
 
-
-class Models
-{
-public:
-    Models();
-    ~Models();
-    void createModels();
-    void drawSquare();
-    void drawTriangle();
-
+class Model {
 private:
-    GLuint VAO_square;
-    GLuint VAO_triangle;
+    unsigned int modelID;
+    void loadModel(const std::string& path);
+
+public:
+    Model(const std::string& path);
+    void draw() const;
 };
