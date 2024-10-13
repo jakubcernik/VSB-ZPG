@@ -5,11 +5,11 @@
 
 class DrawableObject {
 private:
-    Model model;
+    const Model* model;
     Transformation transformation;
     ShaderProgram shaderProgram;
 
 public:
     DrawableObject(const Model& mdl, const Transformation& trans, const ShaderProgram& shader);
-    void draw(); // Vykreslí objekt
+    void draw();
 };

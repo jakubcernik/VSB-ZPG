@@ -1,14 +1,18 @@
-﻿#include "Application.h"
+﻿#include <GL/glew.h> // Přidej do Application.cpp, pokud ještě není zahrnuto
+#include "Application.h"
 #include <iostream>
+
+
 using namespace std;
 
 // Konstruktor nastaví šířku, výšku a inicializuje OpenGL a okno
 Application::Application(int width, int height)
-    : width(width), height(height), window(nullptr) {
+    : width(width), height(height), window(nullptr), scene(nullptr) {
     initGLFW();
     initWindow();
     initOpenGL();
 }
+
 
 // Destruktor, uvolnění zdrojů
 Application::~Application() {
@@ -40,24 +44,33 @@ void Application::initWindow() {
 }
 
 void Application::initOpenGL() {
-    // Zde můžeš provést nastavení OpenGL
+    // Inicializace GLEW po vytvoření okna a nastavení kontextu
+    glewExperimental = GL_TRUE; // Povolení experimentálních funkcí GLEW
+    if (glewInit() != GLEW_OK) {
+        std::cerr << "Failed to initialize GLEW!" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
     glEnable(GL_DEPTH_TEST);
     // Další nastavení (např. glClearColor) podle potřeby
 }
 
-void Application::run() {
-    // Hlavní smyčka aplikace
-    while (!glfwWindowShouldClose(window)) {
-        // Zpracování vstupů
-        glfwPollEvents();
+void Application::setScene(Scene* scenePtr) {
+    scene = scenePtr;
+}
 
-        // Vyčistění obrazovky
+void Application::run() {
+    while (!glfwWindowShouldClose(window)) {
+        glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Vykreslení scény
-        scene.render();
+        if (scene) { // Ověření, že scene není nullptr
+            scene->render();
+        }
 
-        // Přepnutí bufferů
         glfwSwapBuffers(window);
     }
 }
+
+
+

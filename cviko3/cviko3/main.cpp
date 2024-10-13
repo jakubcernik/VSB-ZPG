@@ -1,15 +1,23 @@
-﻿#include "Application.h"
+﻿#define GLM_ENABLE_EXPERIMENTAL
+#include "Application.h"
+#include "ForestScene.h"
 
 int main() {
-    // Nastavení šířky a výšky okna
     const int windowWidth = 800;
     const int windowHeight = 600;
-
-    // Vytvoření aplikace
     Application app(windowWidth, windowHeight);
 
-    // Spuštění aplikace
+    std::string modelPath = "tree.h";
+    std::string vertexShaderPath = "vertex_shader.glsl";
+    std::string fragmentShaderPath = "fragment_shader.glsl";
+
+    ForestScene forestScene(modelPath, vertexShaderPath, fragmentShaderPath, 10);
+
+    // Nastavení scény pro aplikaci
+    app.setScene(&forestScene);
+
     app.run();
 
     return 0;
 }
+
