@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 // Předběžné deklarace
-class Shaders;
-class Models;
+class Shader;
+class Model;
 
 static void error_callback(int error, const char* description);
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -29,6 +29,6 @@ public:
 
 private:
     GLFWwindow* window;
-    Shaders* shaders;
-    Models* models;
+    Shader* shaders;
+    Model* models;
 };

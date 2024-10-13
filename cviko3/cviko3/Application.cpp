@@ -1,6 +1,6 @@
 #include "Application.h"
-#include "Shaders.h"
-#include "Models.h"
+#include "Shader.h"
+#include "Model.h"
 #include <stdio.h>
 
 static void error_callback(int error, const char* description)
@@ -12,8 +12,8 @@ static void error_callback(int error, const char* description)
 Application::Application()
 {
     window = nullptr;
-    shaders = new Shaders();
-    models = new Models();
+    shaders = new Shader();
+    models = new Model();
 }
 
 Application::~Application()
@@ -53,12 +53,12 @@ void Application::initialization()
 
 void Application::createShaders()
 {
-    shaders->createShaders();
+    shaders->createShader();
 }
 
 void Application::createModels()
 {
-    models->createModels();
+    models->createModel();
 }
 
 void Application::run()

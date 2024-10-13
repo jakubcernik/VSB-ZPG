@@ -18,10 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shaders.cpp">
+    <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Models.cpp">
+    <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Application.cpp">
@@ -50,10 +50,10 @@
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\tree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shaders.h">
+    <ClInclude Include="Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Models.h">
+    <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Application.h">

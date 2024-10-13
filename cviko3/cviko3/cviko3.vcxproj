@@ -132,8 +132,8 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Models.cpp" />
-    <ClCompile Include="Shaders.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -144,8 +144,8 @@
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_flat.h" />
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_smooth.h" />
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\tree.h" />
-    <ClInclude Include="Models.h" />
-    <ClInclude Include="Shaders.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
