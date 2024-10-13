@@ -1,7 +1,8 @@
 #include "ShaderProgram.h"
 #include <GL/glew.h>
+using namespace std;
 
-ShaderProgram::ShaderProgram(const std::string& vertexPath, const std::string& fragmentPath)
+ShaderProgram::ShaderProgram(const string& vertexPath, const string& fragmentPath)
     : vertexShader(vertexPath), fragmentShader(fragmentPath) {
     compileAndLinkShaders();
 }

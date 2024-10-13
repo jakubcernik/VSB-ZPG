@@ -1,5 +1,6 @@
 ﻿#include "Application.h"
 #include <iostream>
+using namespace std;
 
 // Konstruktor nastaví šířku, výšku a inicializuje OpenGL a okno
 Application::Application(int width, int height)
@@ -17,7 +18,7 @@ Application::~Application() {
 
 void Application::initGLFW() {
     if (!glfwInit()) {
-        std::cerr << "Failed to initialize GLFW!" << std::endl;
+        cerr << "Failed to initialize GLFW!" << endl;
         exit(EXIT_FAILURE);
     }
 }
@@ -31,7 +32,7 @@ void Application::initWindow() {
     // Vytvoření okna
     window = glfwCreateWindow(width, height, "OpenGL Application", nullptr, nullptr);
     if (!window) {
-        std::cerr << "Failed to create GLFW window!" << std::endl;
+        cerr << "Failed to create GLFW window!" << endl;
         glfwTerminate();
         exit(EXIT_FAILURE);
     }

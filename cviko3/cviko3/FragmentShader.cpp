@@ -2,16 +2,17 @@
 #include <GL/glew.h>
 #include <fstream>
 #include <sstream>
+using namespace std;
 
-FragmentShader::FragmentShader(const std::string& filePath) {
-    std::ifstream shaderFile(filePath);
-    std::stringstream shaderStream;
+FragmentShader::FragmentShader(const string& filePath) {
+    ifstream shaderFile(filePath);
+    stringstream shaderStream;
     shaderStream << shaderFile.rdbuf();
-    std::string code = shaderStream.str();
+    string code = shaderStream.str();
     compile(code);
 }
 
-void FragmentShader::compile(const std::string& source) {
+void FragmentShader::compile(const string& source) {
     shaderID = glCreateShader(GL_FRAGMENT_SHADER);
     const char* src = source.c_str();
     glShaderSource(shaderID, 1, &src, nullptr);

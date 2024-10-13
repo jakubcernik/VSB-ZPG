@@ -1,11 +1,12 @@
 ﻿#include "Model.h"
 #include <GL/glew.h>
+using namespace std;
 
-Model::Model(const std::string& path) {
+Model::Model(const string& path) {
     loadModel(path);
 }
 
-void Model::loadModel(const std::string& path) {
+void Model::loadModel(const string& path) {
     // Načítání modelových dat
 }
 
