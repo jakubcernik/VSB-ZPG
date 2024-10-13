@@ -131,9 +131,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="DrawableObject.cpp" />
+    <ClCompile Include="ForestScene.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="TreeModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -144,8 +150,18 @@
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_flat.h" />
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\suzi_smooth.h" />
     <ClInclude Include="C:\Users\cer0548\Downloads\Models\Models\tree.h" />
+    <ClInclude Include="DrawableObject.h" />
+    <ClInclude Include="ForestScene.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Transformation.h" />
+    <ClInclude Include="TreeModel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="forest_fshader.glsl" />
+    <None Include="forest_vshader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

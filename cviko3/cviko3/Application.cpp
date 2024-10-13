@@ -1,93 +1,55 @@
 #include "Application.h"
-#include "Shader.h"
-#include "Model.h"
-#include <stdio.h>
+#include <iostream>
 
-static void error_callback(int error, const char* description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-    fflush(stderr);
-}
+Application::Application() : currentScene(0), window(nullptr) {}
 
-Application::Application()
-{
-    window = nullptr;
-    shaders = new Shader();
-    models = new Model();
-}
+bool Application::initialize() {
+    glEnable(GL_DEPTH_TEST);  // Povolení hloubkového testu
+    glDepthFunc(GL_LESS);     // Funkce pro z-buffer
 
-Application::~Application()
-{
-    delete shaders;
-    delete models;
-    glfwDestroyWindow(window);
-    glfwTerminate();
-}
-
-void Application::initialization()
-{
-    glfwSetErrorCallback(error_callback);
     if (!glfwInit()) {
-        fprintf(stderr, "ERROR: could not start GLFW3\n");
-        exit(EXIT_FAILURE);
+        std::cerr << "Failed to initialize GLFW" << std::endl;
+        return false;
     }
 
-    window = glfwCreateWindow(800, 800, "ZPG", NULL, NULL);
+    window = glfwCreateWindow(800, 600, "OpenGL Application", nullptr, nullptr);
     if (!window) {
+        std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
-        exit(EXIT_FAILURE);
+        return false;
     }
 
     glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
     glewExperimental = GL_TRUE;
-    glewInit();
     if (glewInit() != GLEW_OK) {
-        fprintf(stderr, "ERROR: could not initialize GLEW\n");
-        exit(EXIT_FAILURE);
+        std::cerr << "Failed to initialize GLEW" << std::endl;
+        return false;
     }
 
-    createShaders();
-    createModels();
+    return true;
 }
 
-void Application::createShaders()
-{
-    shaders->createShader();
+void Application::addScene(std::shared_ptr<Scene> scene) {
+    scenes.push_back(scene);
 }
 
-void Application::createModels()
-{
-    models->createModel();
-}
-
-void Application::run()
-{
-    runStatus();
-    while (!glfwWindowShouldClose(window)) {
+void Application::renderScene() {
+    if (currentScene < scenes.size()) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Použití èerveného shaderu pro ètverec (dùm)
-        shaders->useRedProgram();
-        models->drawSquare();
-
-        // Použití modrého shaderu pro trojúhelník (støecha)
-        shaders->useBlueProgram();
-        models->drawTriangle();
-
-        glfwPollEvents();
+        scenes[currentScene]->render(); // Použití ukazatele
         glfwSwapBuffers(window);
     }
 }
 
-void Application::runStatus()
-{
-    printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
-    printf("Using GLEW %s\n", glewGetString(GLEW_VERSION));
-    printf("Vendor %s\n", glGetString(GL_VENDOR));
-    printf("Renderer %s\n", glGetString(GL_RENDERER));
-    printf("GLSL %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-    int major, minor, revision;
-    glfwGetVersion(&major, &minor, &revision);
-    printf("Using GLFW %i.%i.%i\n", major, minor, revision);
+void Application::pollEvents() {
+    glfwPollEvents();
+}
+
+bool Application::shouldClose() const {
+    return glfwWindowShouldClose(window);
+}
+
+void Application::terminate() {
+    glfwDestroyWindow(window);
+    glfwTerminate();
 }

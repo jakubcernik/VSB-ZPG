@@ -1,16 +1,22 @@
-#pragma once
-#include "Application.h"
+#ifndef SHADER_H
+#define SHADER_H
 
-class Shader
-{
-public:
-    Shader();
-    ~Shader();
-    void createShader();
-    void useRedProgram();
-    void useBlueProgram();
+#include <string>
+
+class Shader {
 private:
-    GLuint shaderProgramRed;
-    GLuint shaderProgramBlue;
-    GLuint compileShaderProgram(const char* vertex_shader_src, const char* fragment_shader_src);
+    unsigned int id; // Unique private ID for the shader
+    unsigned int shaderType; // GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, etc.
+
+    std::string loadShaderSource(const std::string& filePath);
+    void compileShader(const std::string& source);
+
+public:
+    Shader(const std::string& filePath, unsigned int type); // Konstruktor naète shader ze souboru
+    ~Shader();
+
+    unsigned int getId() const;
+    void attachToProgram(unsigned int programId) const;
 };
+
+#endif // SHADER_H
