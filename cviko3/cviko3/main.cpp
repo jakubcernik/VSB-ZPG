@@ -1,12 +1,22 @@
 ﻿#include "Application.h"
+#include "ForestScene.h"
 
-int main(void)
-{
-	Application app;
-	
-	app.initialization();
+int main() {
+    Application app;
 
-	app.createShaders();
-	app.createModels();
-	app.run();
+    if (!app.initialize()) {
+        return -1;
+    }
+
+    auto forestScene = std::make_shared<ForestScene>();
+    app.addScene(forestScene);
+
+    while (!app.shouldClose()) {
+
+        app.renderScene();
+        app.pollEvents();
+    }
+
+    app.terminate();
+    return 0;
 }

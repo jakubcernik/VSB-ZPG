@@ -1,71 +1,66 @@
 #include "Shader.h"
-#include "Application.h"
+#include <GL/glew.h>
+#include <fstream>
+#include <sstream>
+#include <iostream>
 
-Shader::Shader() : shaderProgramRed(0), shaderProgramBlue(0) {}
+Shader::Shader(const std::string& filePath, unsigned int type)
+    : shaderType(type) {
+    std::string shaderSource = loadShaderSource(filePath);
+    if (shaderSource.empty()) {
+        std::cerr << "ERROR::SHADER::EMPTY_SOURCE\nShader source is empty for file: " << filePath << std::endl;
+        return;
+    }
+    compileShader(shaderSource);
+}
 
 Shader::~Shader() {
-    glDeleteProgram(shaderProgramRed);
-    glDeleteProgram(shaderProgramBlue);
+    glDeleteShader(id);
 }
 
-void Shader::createShader()
-{
-    // Vertex shader
-    const char* vertex_shader =
-        "#version 330\n"
-        "layout(location=0) in vec3 vp;"
-        "void main () {"
-        "     gl_Position = vec4(vp, 1.0);"
-        "}";
-
-    // Fragment shader (Red)
-    const char* fragment_shader_red =
-        "#version 330\n"
-        "out vec4 frag_colour;"
-        "void main () {"
-        "     frag_colour = vec4(1.0, 0.0, 0.0, 1.0);"  // Red color
-        "}";
-
-    // Fragment shader (Blue)
-    const char* fragment_shader_blue =
-        "#version 330\n"
-        "out vec4 frag_colour;"
-        "void main () {"
-        "     frag_colour = vec4(0.0, 0.0, 1.0, 1.0);"  // Blue color
-        "}";
-
-    // Compile Shader
-    shaderProgramRed = compileShaderProgram(vertex_shader, fragment_shader_red);
-    shaderProgramBlue = compileShaderProgram(vertex_shader, fragment_shader_blue);
+std::string Shader::loadShaderSource(const std::string& filePath) {
+    std::ifstream shaderFile(filePath);
+    if (!shaderFile.is_open()) {
+        std::cerr << "ERROR::SHADER::FILE_NOT_FOUND\nCould not open shader file: " << filePath << std::endl;
+        return "";
+    }
+    std::stringstream shaderStream;
+    shaderStream << shaderFile.rdbuf();
+    shaderFile.close();
+    return shaderStream.str();
 }
 
-GLuint Shader::compileShaderProgram(const char* vertex_shader_src, const char* fragment_shader_src)
-{
-    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertex_shader_src, NULL);
-    glCompileShader(vertexShader);
+void Shader::compileShader(const std::string& source) {
+    id = glCreateShader(shaderType);
+    const char* sourceCStr = source.c_str();
+    glShaderSource(id, 1, &sourceCStr, nullptr);
+    glCompileShader(id);
 
-    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragment_shader_src, NULL);
-    glCompileShader(fragmentShader);
-
-    GLuint shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
-
-    return shaderProgram;
+    int success;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        char infoLog[512];
+        glGetShaderInfoLog(id, 512, nullptr, infoLog);
+        std::cerr << "ERROR::SHADER::COMPILATION_FAILED\n" << infoLog << std::endl;
+    }
+    else {
+        std::cout << "Shader compiled successfully." << std::endl;
+    }
 }
 
-void Shader::useRedProgram()
-{
-    glUseProgram(shaderProgramRed);
+
+unsigned int Shader::getId() const {
+    return id;
 }
 
-void Shader::useBlueProgram()
-{
-    glUseProgram(shaderProgramBlue);
+void Shader::attachToProgram(unsigned int programId) const {
+    glAttachShader(programId, id);
+
+    // Kontrola zda bylo pøipojení úspìšné
+    GLint attached;
+    glGetProgramiv(programId, GL_ATTACHED_SHADERS, &attached);
+    if (attached <= 0) {
+        std::cerr << "ERROR::SHADER::ATTACHMENT_FAILED\nShader ID " << id << " could not be attached to Program ID " << programId << std::endl;
+    }
 }
+
