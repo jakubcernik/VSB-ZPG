@@ -20,16 +20,17 @@ void ForestScene::createForest(int treeCount) {
         Transformation treeTransform;
 
         glm::vec3 randomPosition = glm::vec3(
-            (std::rand() % 100 - 50) * 0.5f,
-            0.0f,
-            (std::rand() % 100 - 50) * 0.5f
+            (std::rand() % 200 - 100) * 0.5f,  // x mezi -25 a 25
+            (std::rand() % 200 - 100) * 0.5f,  // y mezi -25 a 25
+            (std::rand() % 200 - 100) * 0.5f   // z mezi -25 a 25
         );
+
         treeTransform.translate(randomPosition);
 
         float randomRotationY = static_cast<float>(std::rand() % 360);
         treeTransform.rotate(glm::vec3(0.0f, randomRotationY, 0.0f));
 
-        float randomScaleFactor = 0.8f + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / 0.4f));
+        float randomScaleFactor = 1.5f + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / 1.5f));
         treeTransform.setScale(glm::vec3(randomScaleFactor));
 
         // Použití trvalých instancí shaderu a modelu

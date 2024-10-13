@@ -11,7 +11,7 @@ int main() {
     std::string vertexShaderPath = "vertex_shader.glsl";
     std::string fragmentShaderPath = "fragment_shader.glsl";
 
-    ForestScene forestScene(modelPath, vertexShaderPath, fragmentShaderPath, 10);
+    ForestScene forestScene(modelPath, vertexShaderPath, fragmentShaderPath, 100);
 
     // Nastavení scény pro aplikaci
     app.setScene(&forestScene);

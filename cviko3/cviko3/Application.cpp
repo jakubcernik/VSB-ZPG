@@ -58,7 +58,7 @@ void Application::initOpenGL() {
     // Další nastavení (např. glClearColor) podle potřeby
 
     // Nastav barvu pozadí
-    glClearColor(0.8f, 0.8f, 0.8f, 1.0f); // Světle šedá
+    glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 }
 
 void Application::setScene(Scene* scenePtr) {
@@ -66,7 +66,9 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 void Application::run() {
-    glm::mat4 projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
+    glm::mat4 projection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f);
+
+
 
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();
