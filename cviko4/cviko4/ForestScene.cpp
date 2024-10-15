@@ -21,20 +21,20 @@ void ForestScene::createForest(int treeCount) {
 
         glm::vec3 randomPosition = glm::vec3(
             (std::rand() % 200 - 100) * 0.5f,
-            0.0f,  // Nastav y na 0.0f, aby byly stromy na stejné výšce
-            -((std::rand() % 200) * 0.5f) // Použij pouze záporné hodnoty pro z-pozici
+            0.0f,
+            -((std::rand() % 200 + 50) * 0.5f)
         );
 
         treeTransform.translate(randomPosition);
 
         float randomRotationY = static_cast<float>(std::rand() % 360);
-        treeTransform.rotate(glm::vec3(0.0f, randomRotationY, 0.0f));
+        treeTransform.rotate(0,randomRotationY,0); // Pouze rotace kolem osy Y
 
         float randomScaleFactor = 1.5f + static_cast<float>(std::rand()) / (static_cast<float>(RAND_MAX / 1.0f));
         treeTransform.setScale(glm::vec3(randomScaleFactor));
 
-        // Použití trvalých instancí shaderu a modelu
         DrawableObject tree(treeModel, treeTransform, shader);
         addObject(tree);
     }
 }
+

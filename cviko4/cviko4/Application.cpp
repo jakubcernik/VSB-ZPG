@@ -56,7 +56,7 @@ void Application::initOpenGL() {
     glEnable(GL_DEPTH_TEST);
 
     // Barva pozadí
-    glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
+    //glClearColor(0.2f, 0.3f, 0.8f, 1.0f);
 }
 
 void Application::setScene(Scene* scenePtr) {
@@ -66,9 +66,9 @@ void Application::setScene(Scene* scenePtr) {
 void Application::run() {
     //glm::mat4 projection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f);
     //glm::mat4 projection = glm::mat4(1.0f); // Jednotková matice
-    glm::mat4 projection = glm::perspective(glm::radians(90.0f), (float)width / (float)height, 0.1f, 100.0f);
-
-
+    //glm::mat4 projection = glm::perspective(glm::radians(30.0f), (float)width / (float)height, 0.1f, 100.0f);
+    //glm::mat4 projection = glm::ortho(0.0f, 4.0f, 0.0f, 3.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, 0.1f, 100.0f);
 
 
     while (!glfwWindowShouldClose(window)) {

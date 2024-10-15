@@ -1,19 +1,18 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp> // Pro transformace, jako je translate a rotate
+
 
 class Transformation {
-private:
-    glm::vec3 position;
-    glm::vec3 rotation;
-    glm::vec3 scale;
-
 public:
     Transformation();
-
-    // Metody pro nastavení jednotlivých transformací
     void translate(const glm::vec3& deltaPosition);
-    void rotate(const glm::vec3& deltaRotation);
+    void rotate(float angleX, float angleY, float angleZ);
     void setScale(const glm::vec3& newScale);
+    glm::mat4 getModelMatrix() const;
 
-    glm::mat4 getModelMatrix() const; // Celkova matice
+private:
+    glm::vec3 position;
+    glm::vec3 rotation; // Drží úhly rotace pro každou osu
+    glm::vec3 scale;
 };
