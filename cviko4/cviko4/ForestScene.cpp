@@ -21,7 +21,7 @@ void ForestScene::createForest(int treeCount) {
 
         glm::vec3 randomPosition = glm::vec3(
             (std::rand() % 200 - 100) * 0.5f,
-            0.0f,
+            (std::rand() % 200 - 100) * 0.5f,
             -((std::rand() % 200 + 50) * 0.5f)
         );
 
