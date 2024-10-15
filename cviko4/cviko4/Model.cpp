@@ -26,9 +26,13 @@ void Model::loadModel(const std::string& path) {
     if (error != GL_NO_ERROR) {
         std::cerr << "Error after glBufferData: " << error << std::endl;
     }
-    // Specifikace vertex atributů pouze pro pozici (location 0)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // Pozice (location 0)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+
+    // Normála (location 1)
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     // Odpoutání bufferu a vertex array objektu
     glBindBuffer(GL_ARRAY_BUFFER, 0);
