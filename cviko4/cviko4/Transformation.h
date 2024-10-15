@@ -16,8 +16,4 @@ public:
     void setScale(const glm::vec3& newScale);
 
     glm::mat4 getModelMatrix() const; // Celkova matice
-
-    glm::vec3 getPosition() const;
-    glm::vec3 getRotation() const;
-    glm::vec3 getScale() const;
 };

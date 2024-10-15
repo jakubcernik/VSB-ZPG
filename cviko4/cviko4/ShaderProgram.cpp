@@ -2,18 +2,37 @@
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
-using namespace std;
 
-ShaderProgram::ShaderProgram(const string& vertexPath, const string& fragmentPath)
-    : vertexShader(vertexPath), fragmentShader(fragmentPath) {
-    compileAndLinkShaders();
+ShaderProgram::ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
+    programID = glCreateProgram();
+
+    // Create shader objects
+    VertexShader vertexShader(vertexShaderPath);
+    FragmentShader fragmentShader(fragmentShaderPath);
+
+    // Compile shaders
+    vertexShader.compileShader();
+    fragmentShader.compileShader();
+
+    // Attach and link
+    attachVertexShader(vertexShader);
+    attachFragmentShader(fragmentShader);
+    linkProgram();
 }
 
-void ShaderProgram::compileAndLinkShaders() {
-    // Kompilace a propojení shaderù
-    programID = glCreateProgram();
-    glAttachShader(programID, vertexShader.getID());
-    glAttachShader(programID, fragmentShader.getID());
+ShaderProgram::~ShaderProgram() {
+    glDeleteProgram(programID);
+}
+
+void ShaderProgram::attachVertexShader(const VertexShader& vertexShader) {
+    glAttachShader(programID, vertexShader.getID()); // Attaching the vertex shader
+}
+
+void ShaderProgram::attachFragmentShader(const FragmentShader& fragmentShader) {
+    glAttachShader(programID, fragmentShader.getID()); // Attaching the fragment shader
+}
+
+void ShaderProgram::linkProgram() {
     glLinkProgram(programID);
 
     GLint success;
@@ -21,19 +40,18 @@ void ShaderProgram::compileAndLinkShaders() {
     if (!success) {
         char infoLog[512];
         glGetProgramInfoLog(programID, 512, nullptr, infoLog);
-        std::cerr << "Error linking shader program: " << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
     }
 }
 
-void ShaderProgram::use() const {
-    glUseProgram(programID);
+void ShaderProgram::use() {
+    glUseProgram(programID); // Setting the program as active
 }
 
-void ShaderProgram::setUniform(const std::string& name, const glm::mat4& matrix) const {
-    GLuint loc = glGetUniformLocation(programID, name.c_str());
-    if (loc == -1) {
-        std::cerr << "Warning: uniform '" << name << "' not found in shader program." << std::endl;
-        return; // Pokud uniform není nalezen, ukonèíme metodu
-    }
-    glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(matrix));
+unsigned int ShaderProgram::getProgramID() const {
+    return programID;
+}
+
+void ShaderProgram::setUniform(const std::string& name, const glm::mat4& matrix) {
+    glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 }

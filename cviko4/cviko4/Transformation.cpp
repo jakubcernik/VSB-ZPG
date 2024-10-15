@@ -33,16 +33,3 @@ glm::mat4 Transformation::getModelMatrix() const {
 
     return model;
 }
-
-
-glm::vec3 Transformation::getPosition() const {
-    return position;
-}
-
-glm::vec3 Transformation::getRotation() const {
-    return rotation;
-}
-
-glm::vec3 Transformation::getScale() const {
-    return scale;
-}

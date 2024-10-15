@@ -64,7 +64,10 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 void Application::run() {
-    glm::mat4 projection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f);
+    //glm::mat4 projection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, -50.0f, 50.0f);
+    //glm::mat4 projection = glm::mat4(1.0f); // Jednotková matice
+    glm::mat4 projection = glm::perspective(glm::radians(90.0f), (float)width / (float)height, 0.1f, 100.0f);
+
 
 
 

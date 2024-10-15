@@ -3,20 +3,32 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
-using namespace std;
 
-VertexShader::VertexShader(const string& filePath) {
-    ifstream shaderFile(filePath);
-    stringstream shaderStream;
-    shaderStream << shaderFile.rdbuf();
-    string code = shaderStream.str();
-    compile(code);
+// Constructor Implementation
+VertexShader::VertexShader(const std::string& filePath) : Shader(filePath) {
+    shaderID = glCreateShader(GL_VERTEX_SHADER);
 }
 
-void VertexShader::compile(const string& source) {
-    shaderID = glCreateShader(GL_VERTEX_SHADER);
-    const char* src = source.c_str();
-    glShaderSource(shaderID, 1, &src, nullptr);
+VertexShader::~VertexShader() {
+    // Base class destructor handles cleanup
+}
+
+void VertexShader::compileShader() {
+    std::ifstream shaderFile(path);
+    std::stringstream shaderStream;
+
+    if (shaderFile.is_open()) {
+        shaderStream << shaderFile.rdbuf();
+        shaderFile.close();
+    }
+    else {
+        std::cerr << "Failed to open vertex shader file: " << path << std::endl;
+        return;
+    }
+
+    std::string shaderCode = shaderStream.str();
+    const char* shaderSource = shaderCode.c_str();
+    glShaderSource(shaderID, 1, &shaderSource, nullptr);
     glCompileShader(shaderID);
 
     GLint success;
@@ -24,10 +36,10 @@ void VertexShader::compile(const string& source) {
     if (!success) {
         char infoLog[512];
         glGetShaderInfoLog(shaderID, 512, nullptr, infoLog);
-        std::cerr << "Error compiling vertex shader: " << infoLog << std::endl;
+        std::cerr << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
     }
 }
 
-unsigned int VertexShader::getID() const {
-    return shaderID;
+const char* VertexShader::getShaderType() const {
+    return "Vertex Shader";
 }

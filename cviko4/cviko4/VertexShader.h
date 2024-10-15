@@ -1,15 +1,11 @@
 #pragma once
-#include <string>
+#include "Shader.h"
 
-class VertexShader 
-{
-
+class VertexShader : public Shader {
 public:
     VertexShader(const std::string& filePath);
-    unsigned int getID() const;
+    ~VertexShader();
 
-private:
-    unsigned int shaderID;
-    void compile(const std::string& source);
-
+    void compileShader() override;
+    const char* getShaderType() const override;
 };

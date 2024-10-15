@@ -2,18 +2,20 @@
 #include "VertexShader.h"
 #include "FragmentShader.h"
 #include <glm/glm.hpp>
-
+#include <string>
 
 class ShaderProgram {
 private:
     unsigned int programID;
-    VertexShader vertexShader;
-    FragmentShader fragmentShader;
-
-    void compileAndLinkShaders();
 
 public:
     ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath);
-    void use() const;
-    void setUniform(const std::string& name, const glm::mat4& matrix) const;
+    ~ShaderProgram();
+
+    void attachVertexShader(const VertexShader& vertexShader); // For attaching vertex shader
+    void attachFragmentShader(const FragmentShader& fragmentShader); // For attaching fragment shader
+    void setUniform(const std::string& name, const glm::mat4& matrix);
+    void linkProgram();
+    void use(); // Restoring the use method
+    unsigned int getProgramID() const;
 };
