@@ -59,7 +59,10 @@ void ForestScene::createForest(int treeCount) {
     }
 }
 
-void ForestScene::render(const glm::mat4& projection) {
+void ForestScene::render() {
+
+    glm::mat4 projection = glm::ortho(-100.0f, 100.0f, -100.0f, 100.0f, 0.1f, 100.0f);
+
     for (const auto& object : objects) {
         object.draw(projection);  // Vykreslení každého objektu
     }

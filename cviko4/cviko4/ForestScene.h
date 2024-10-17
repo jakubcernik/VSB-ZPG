@@ -10,7 +10,7 @@ class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
-    void render(const glm::mat4& projection) override;
+    void render() override;
 
 private:
     TreeModel treeModel;

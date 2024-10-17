@@ -9,8 +9,6 @@ protected:
 
 public:
     virtual ~Scene() = default;
-
     void addObject(const DrawableObject& object);
-
-    virtual void render(const glm::mat4& projection) = 0;  // Pure virtual to ensure each Scene implements its own rendering
+    virtual void render() = 0;
 };

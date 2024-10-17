@@ -77,7 +77,7 @@ void Application::run() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (scene) {
-            scene->render(projection);
+            scene->render();
         }
 
         glfwSwapBuffers(window);
