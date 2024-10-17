@@ -442,3 +442,7 @@ FodyWeavers.xsd
 /cviko3/cviko3/cviko3.vcxproj
 /cviko3/cviko3/cviko3.vcxproj.filters
 *.zip
+
+# Výjimka pro složku libraries a všechny její podsložky
+!libraries/
+!libraries/**
