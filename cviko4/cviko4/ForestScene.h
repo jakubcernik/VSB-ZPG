@@ -1,5 +1,6 @@
 #pragma once
 #include "TreeModel.h"
+#include "BushModel.h"
 #include "Shader.h"  
 #include "DrawableObject.h"
 #include "Scene.h"
@@ -13,7 +14,9 @@ public:
 
 private:
     TreeModel treeModel;
-    ShaderProgram shaderProgram;
+    BushModel bushModel;
+    ShaderProgram treeShaderProgram;
+    ShaderProgram bushShaderProgram;
     std::vector<DrawableObject> objects;  // Uchovávejte stromy v seznamu nebo vektoru
 
     void addObject(const DrawableObject& object);

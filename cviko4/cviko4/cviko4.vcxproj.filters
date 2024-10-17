@@ -54,6 +54,9 @@
     <ClCompile Include="TreeModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BushModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -110,9 +113,14 @@
     <ClInclude Include="TreeModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BushModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="fragment_shader.glsl" />
-    <None Include="vertex_shader.glsl" />
+    <None Include="tree_fragment_shader.glsl" />
+    <None Include="tree_vertex_shader.glsl" />
+    <None Include="bush_fragment_shader.glsl" />
+    <None Include="bush_vertex_shader.glsl" />
   </ItemGroup>
 </Project>
