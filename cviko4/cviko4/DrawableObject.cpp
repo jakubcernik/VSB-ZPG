@@ -16,6 +16,8 @@ void DrawableObject::draw(const glm::mat4& projection) const {
 
     shaderProgram.setUniform("projection", projection); // Pøedáváme jen projekci
     shaderProgram.setUniform("model", modelMatrix);
+    shaderProgram.use();
+
 
     std::cout << "Model Matrix: " << glm::to_string(modelMatrix) << std::endl;
 
