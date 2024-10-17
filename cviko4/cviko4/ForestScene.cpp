@@ -11,6 +11,16 @@ float generateRandomFloat(float min, float max) {
     return distribution(engine);
 }
 
+glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
+    static std::default_random_engine engine{ std::random_device{}() };
+    std::uniform_real_distribution<float> distX(minX, maxX);
+    std::uniform_real_distribution<float> distY(minY, maxY);
+    std::uniform_real_distribution<float> distZ(minZ, maxZ);
+
+    return glm::vec3(distX(engine), distY(engine), distZ(engine));
+}
+
+
 ForestScene::ForestScene(int treeCount)
     : treeModel("tree.h"),
     bushModel("bush.h"),
@@ -28,17 +38,9 @@ void ForestScene::createForest(int treeCount) {
     for (int i = 0; i < treeCount; ++i) {
         Transformation treeTransform, bushTransform;
 
-        glm::vec3 treeRandomPosition = glm::vec3(
-            (std::rand() % 200 - 100) * 0.5f,
-            (std::rand() % 200 - 100) * 0.5f,
-            -((std::rand() % 200 + 50) * 0.5f)
-        );
+        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, -50.0f, 100.0f, -75.0f, -25.0f);
 
-        glm::vec3 bushRandomPosition = glm::vec3(
-            (std::rand() % 200 - 100) * 0.5f,
-            (std::rand() % 200 - 100) * 0.5f,
-            -((std::rand() % 200 + 50) * 0.5f)
-        );
+        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, -100.0f, -60.0f, -75.0f, -25.0f);
 
         treeTransform.translate(treeRandomPosition);
         bushTransform.translate(bushRandomPosition);
