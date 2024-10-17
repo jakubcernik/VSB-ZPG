@@ -12,5 +12,5 @@ private:
 
 public:
     DrawableObject(const Model& mdl, const Transformation& trans, ShaderProgram& shaderProgram);
-    void draw(const glm::mat4& projection);
+    void draw(const glm::mat4& projection) const;
 };

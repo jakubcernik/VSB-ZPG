@@ -141,6 +141,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="TreeModel.cpp" />
     <ClCompile Include="VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="suzi_smooth.h" />
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="tree.h" />
+    <ClInclude Include="TreeModel.h" />
     <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,16 @@
 #pragma once
 #include <vector>
+#include <glm/glm.hpp>
 #include "DrawableObject.h"
 
 class Scene {
-private:
+protected:
     std::vector<DrawableObject> objects;
 
 public:
+    virtual ~Scene() = default;
+
     void addObject(const DrawableObject& object);
-    void render(const glm::mat4& projection); // Vykreslí všechny objekty ve scénì
+
+    virtual void render(const glm::mat4& projection) = 0;  // Pure virtual to ensure each Scene implements its own rendering
 };

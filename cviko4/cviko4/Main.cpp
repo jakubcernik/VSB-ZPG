@@ -7,11 +7,7 @@ int main() {
     const int windowHeight = 600;
     Application app(windowWidth, windowHeight);
 
-    std::string modelPath = "tree.h";
-    std::string vertexShaderPath = "vertex_shader.glsl";
-    std::string fragmentShaderPath = "fragment_shader.glsl";
-
-    ForestScene forestScene(modelPath, vertexShaderPath, fragmentShaderPath, 50);
+    ForestScene forestScene(50);
 
     app.setScene(&forestScene);
 

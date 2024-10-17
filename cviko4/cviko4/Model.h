@@ -2,19 +2,19 @@
 #include <string>
 
 class Model {
-private:
+protected:
     unsigned int vao;
     unsigned int vbo;
 
-    void loadModel(const std::string& path);
+    // Pure virtual functions to be implemented by each derived class
+    virtual void loadModel(const std::string& path) = 0;
 
 public:
-    Model(const std::string& path);
-    ~Model();
+    Model() : vao(0), vbo(0) {}
+    virtual ~Model();
+    virtual void draw() const = 0;
 
-    void draw() const;
-
-    // Zakázání kopírování kvuli pointerum
+    // Zakázání kopírování kvùli pointerùm
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
 

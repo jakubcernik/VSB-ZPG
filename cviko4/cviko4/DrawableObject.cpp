@@ -9,7 +9,7 @@ DrawableObject::DrawableObject(const Model& mdl, const Transformation& trans, Sh
     : model(&mdl), transformation(trans), shaderProgram(shaderProgram) {}
 
 
-void DrawableObject::draw(const glm::mat4& projection) {
+void DrawableObject::draw(const glm::mat4& projection) const {
     glm::mat4 modelMatrix = transformation.getModelMatrix();
 
     shaderProgram.use();
