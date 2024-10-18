@@ -1,5 +1,5 @@
 ﻿//Main.cpp
-#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Application.h"
 #include "ForestScene.h"
 
@@ -8,7 +8,7 @@ int main() {
     const int windowHeight = 600;
     Application app(windowWidth, windowHeight);
 
-    ForestScene forestScene(50);
+    ForestScene forestScene(100);   // 100 trees and 100 bushes
 
     app.setScene(&forestScene);
 

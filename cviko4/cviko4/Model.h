@@ -6,7 +6,6 @@ protected:
     unsigned int vao;
     unsigned int vbo;
 
-    // Pure virtual functions to be implemented by each derived class
     virtual void loadModel(const std::string& path) = 0;
 
 public:
@@ -14,7 +13,6 @@ public:
     virtual ~Model();
     virtual void draw() const = 0;
 
-    // Zakázání kopírování kvùli pointerùm
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
 

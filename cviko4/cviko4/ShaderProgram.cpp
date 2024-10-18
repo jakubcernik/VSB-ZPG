@@ -1,10 +1,12 @@
 //ShaderProgram.cpp
+
 #include "ShaderProgram.h"
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+using namespace std;
 
-ShaderProgram::ShaderProgram(const std::string& vertexShaderPath, const std::string& fragmentShaderPath) {
+ShaderProgram::ShaderProgram(const string& vertexShaderPath, const string& fragmentShaderPath) {
     programID = glCreateProgram();
 
     // Create shader objects
@@ -26,11 +28,11 @@ ShaderProgram::~ShaderProgram() {
 }
 
 void ShaderProgram::attachVertexShader(const VertexShader& vertexShader) {
-    glAttachShader(programID, vertexShader.getID()); // Attaching the vertex shader
+    glAttachShader(programID, vertexShader.getID());
 }
 
 void ShaderProgram::attachFragmentShader(const FragmentShader& fragmentShader) {
-    glAttachShader(programID, fragmentShader.getID()); // Attaching the fragment shader
+    glAttachShader(programID, fragmentShader.getID());
 }
 
 void ShaderProgram::linkProgram() {
@@ -41,7 +43,7 @@ void ShaderProgram::linkProgram() {
     if (!success) {
         char infoLog[512];
         glGetProgramInfoLog(programID, 512, nullptr, infoLog);
-        std::cerr << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+        printf("Shader program linking failed\n%s", infoLog);
     }
 }
 
@@ -53,6 +55,6 @@ unsigned int ShaderProgram::getProgramID() const {
     return programID;
 }
 
-void ShaderProgram::setUniform(const std::string& name, const glm::mat4& matrix) {
+void ShaderProgram::setUniform(const string& name, const glm::mat4& matrix) {
     glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 }

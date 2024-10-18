@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp> // Pro transformace, jako je translate a rotate
+#include <glm/gtc/matrix_transform.hpp>
 
 
 class Transformation {
@@ -13,6 +13,6 @@ public:
 
 private:
     glm::vec3 position;
-    glm::vec3 rotation; // Drží úhly rotace pro každou osu
+    glm::vec3 rotation;
     glm::vec3 scale;
 };

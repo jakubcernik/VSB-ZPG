@@ -11,9 +11,8 @@ public:
     virtual ~Shader();
 
     virtual void compileShader() = 0;
-    unsigned int getShaderID() const; // Retrieves shader ID
+    unsigned int getShaderID() const;
     virtual const char* getShaderType() const = 0;
 
-    // Adding the getID method for consistency with the other code
     unsigned int getID() const { return shaderID; }
 };

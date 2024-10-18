@@ -1,4 +1,5 @@
 //Transformation.cpp
+
 #include "Transformation.h"
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -20,12 +21,13 @@ void Transformation::setScale(const glm::vec3& newScale) {
 }
 
 glm::mat4 Transformation::getModelMatrix() const {
+
     glm::mat4 model = glm::translate(glm::mat4(1.0f), position);
 
-    // Aplikace rotací pro každou osu
-    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotace kolem osy X
-    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotace kolem osy Y
-    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotace kolem osy Z
+    // Rotations for every axis
+    model = glm::rotate(model, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
 
     model = glm::scale(model, scale);
     return model;

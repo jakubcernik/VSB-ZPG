@@ -1,37 +1,37 @@
 //BushModel.cpp
+
 #include "BushModel.h"
 #include <GL/glew.h>
 #include <iostream>
 #include "bushes.h"
+using namespace std;
 
 BushModel::BushModel(const std::string& modelPath) {
-    loadModel(modelPath);  // Pøedáme cestu k modelu
+    loadModel(modelPath);
 }
 
-BushModel::~BushModel() {
-    // Destruktor se postará o uvolnìní prostøedkù z tøídy `Model`
-}
+BushModel::~BushModel() {}
 
-void BushModel::loadModel(const std::string& path) {
+void BushModel::loadModel(const string& path) {
     glGenVertexArrays(1, &vao);
     glGenBuffers(1, &vbo);
 
     if (vao == 0 || vbo == 0) {
-        std::cerr << "Error generating OpenGL buffers!" << std::endl;
+        printf("Error generating OpenGL buffers!");
         return;
     }
 
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    // Naèítání dat pro pozice a normály
+    // Loading data for positions and normals
     glBufferData(GL_ARRAY_BUFFER, sizeof(bushes), bushes, GL_STATIC_DRAW);
 
-    // Pozice atributù
+    // Attributes positions
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    // Normála atribut
+    // Attributes normal
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 

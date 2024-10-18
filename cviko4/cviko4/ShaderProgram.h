@@ -16,6 +16,6 @@ public:
     void attachFragmentShader(const FragmentShader& fragmentShader); // For attaching fragment shader
     void setUniform(const std::string& name, const glm::mat4& matrix);
     void linkProgram();
-    void use(); // Restoring the use method
+    void use();
     unsigned int getProgramID() const;
 };

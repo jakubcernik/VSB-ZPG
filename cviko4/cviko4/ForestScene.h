@@ -10,14 +10,14 @@ class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
-    void render() override;
+    void render(const glm::mat4& projection, const glm::mat4& view);
 
 private:
     TreeModel treeModel;
     BushModel bushModel;
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
-    std::vector<DrawableObject> objects;  // Uchovávejte stromy v seznamu nebo vektoru
+    std::vector<DrawableObject> objects;
 
     void addObject(const DrawableObject& object);
 };
