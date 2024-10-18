@@ -1,3 +1,4 @@
+//Scene.cpp
 #include "Scene.h"
 
 void Scene::addObject(const DrawableObject& object) {

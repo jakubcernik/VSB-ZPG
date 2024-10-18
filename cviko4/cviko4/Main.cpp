@@ -1,4 +1,5 @@
-﻿#define GLM_ENABLE_EXPERIMENTAL
+﻿//Main.cpp
+#define GLM_ENABLE_EXPERIMENTAL
 #include "Application.h"
 #include "ForestScene.h"
 
