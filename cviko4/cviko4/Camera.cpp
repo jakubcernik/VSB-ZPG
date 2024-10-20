@@ -21,6 +21,8 @@ void Camera::processKeyboard(int direction, float deltaTime) {
         position -= right * velocity;
     if (direction == 3)
         position += right * velocity;
+
+    notify();
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset) {
@@ -36,6 +38,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset) {
         pitch = -89.0f;
 
     updateCameraVectors();
+    notify();
 }
 
 void Camera::updateCameraVectors() {
@@ -50,4 +53,21 @@ void Camera::updateCameraVectors() {
 
 glm::vec3 Camera::getPosition() const {
     return position;
+}
+
+void Camera::addObserver(Observer* observer) {
+    observers.push_back(observer);
+}
+
+void Camera::removeObserver(Observer* observer) {
+    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
+}
+
+void Camera::notify() const {
+    glm::mat4 view = getViewMatrix();
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f); // Mùžeš nahradit aktuální projekèní matici
+    for (Observer* observer : observers) {
+        observer->onNotify(view, projection);
+    }
+    printf("I notified that camera moved\n");
 }

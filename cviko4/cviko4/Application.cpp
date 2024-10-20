@@ -40,7 +40,7 @@ void Application::initWindow() {
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Window creation
-    window = glfwCreateWindow(width, height, "OpenGL Application", nullptr, nullptr);
+    window = glfwCreateWindow(width, height, "ZPG CER0548", nullptr, nullptr);
     if (!window) {
         cerr << "Failed to create GLFW window!" << endl;
         glfwTerminate();
@@ -92,6 +92,7 @@ void Application::run() {
 
         // Updating view matrix based on actual camera
         glm::mat4 view = camera.getViewMatrix();
+
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

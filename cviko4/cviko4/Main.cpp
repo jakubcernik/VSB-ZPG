@@ -10,6 +10,8 @@ int main() {
 
     ForestScene forestScene(100);   // 100 trees and 100 bushes
 
+    forestScene.setCamera(app.camera);
+
     app.setScene(&forestScene);
 
     app.run();

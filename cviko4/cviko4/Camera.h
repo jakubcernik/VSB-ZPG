@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "Observer.h"
+#include <vector>
 
 class Camera {
 public:
@@ -13,8 +15,12 @@ public:
 
     glm::vec3 getPosition() const;
 
+    void addObserver(Observer* observer);
+    void removeObserver(Observer* observer);
+
 private:
     void updateCameraVectors();
+    void notify() const;
 
     glm::vec3 position;
     glm::vec3 front;
@@ -27,4 +33,6 @@ private:
 
     float movementSpeed;
     float mouseSensitivity;
+
+    std::vector<Observer*> observers;
 };

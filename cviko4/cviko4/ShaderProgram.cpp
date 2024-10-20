@@ -58,3 +58,11 @@ unsigned int ShaderProgram::getProgramID() const {
 void ShaderProgram::setUniform(const string& name, const glm::mat4& matrix) {
     glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 }
+
+void ShaderProgram::onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
+    use();
+    setUniform("view", viewMatrix);
+    printf("view uniform set\n");
+    setUniform("projection", projectionMatrix);
+    printf("projection uniform set\n");
+}

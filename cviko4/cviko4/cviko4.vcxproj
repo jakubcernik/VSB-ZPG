@@ -158,6 +158,7 @@
     <ClInclude Include="gift.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />

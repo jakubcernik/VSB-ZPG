@@ -16,8 +16,8 @@ void DrawableObject::draw(const glm::mat4& projection, const glm::mat4& view) co
 
     shaderProgram.use();
 
-    shaderProgram.setUniform("projection", projection);
-    shaderProgram.setUniform("view", view);
+    //shaderProgram.setUniform("projection", projection);
+    //shaderProgram.setUniform("view", view);
     shaderProgram.setUniform("model", modelMatrix);
     
     shaderProgram.use();

@@ -1,10 +1,11 @@
 #pragma once
 #include "VertexShader.h"
 #include "FragmentShader.h"
+#include "Observer.h"
 #include <glm/glm.hpp>
 #include <string>
 
-class ShaderProgram {
+class ShaderProgram : public Observer {
 private:
     unsigned int programID;
 
@@ -18,4 +19,7 @@ public:
     void linkProgram();
     void use();
     unsigned int getProgramID() const;
+
+    void onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) override;
+
 };

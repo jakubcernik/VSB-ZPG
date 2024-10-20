@@ -4,6 +4,7 @@
 #include "Shader.h"  
 #include "DrawableObject.h"
 #include "Scene.h"
+#include "Camera.h"
 #include <vector>
 
 class ForestScene : public Scene {
@@ -11,6 +12,7 @@ public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view);
+    void setCamera(Camera& camera);
 
 private:
     TreeModel treeModel;
