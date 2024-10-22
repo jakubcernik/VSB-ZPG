@@ -1,6 +1,7 @@
 //Camera.cpp
 
 #include "Camera.h"
+#include <GLFW/glfw3.h>
 
 Camera::Camera(glm::vec3 startPosition, glm::vec3 startUp, float startYaw, float startPitch)
     : position(startPosition), worldUp(startUp), yaw(startYaw), pitch(startPitch), movementSpeed(7.5f), mouseSensitivity(0.1f) {
@@ -13,6 +14,11 @@ glm::mat4 Camera::getViewMatrix() const {
 
 void Camera::processKeyboard(int direction, float deltaTime) {
     float velocity = movementSpeed * deltaTime;
+
+    if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        velocity *= 2.0f;  // Shifting
+    }
+
     if (direction == 0)
         position += front * velocity;
     if (direction == 1)
@@ -21,11 +27,12 @@ void Camera::processKeyboard(int direction, float deltaTime) {
         position -= right * velocity;
     if (direction == 3)
         position += right * velocity;
-    if (direction == 4)
-        position += front * velocity * 2.0f;
 
     notify();
 }
+
+
+
 
 void Camera::processMouseMovement(float xoffset, float yoffset) {
     xoffset *= mouseSensitivity;

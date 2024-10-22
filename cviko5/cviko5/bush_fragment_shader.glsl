@@ -15,7 +15,7 @@ void main()
     // Zvýšení ambientní složky
     float ambientStrength = 0.3;  // Pùvodní hodnota mùže být nižší
     vec3 ambient = ambientStrength * lightColor;
-    vec3 objectColor = vec3(0.5f, 0.3f, 0.1f);
+    vec3 objectColor = vec3(0.1f, 0.5f, 0.1f);
     
     // Difúzní složka
     vec3 norm = normalize(Normal);

@@ -15,8 +15,12 @@ void ShaderProgram::use() {
     glUseProgram(programID); // Nastavení programu jako aktivního
 }
 
-void ShaderProgram::setUniform(const string& name, const glm::mat4& matrix) {
+void ShaderProgram::setUniform(const string& name, const glm::mat4& matrix) { // Support for vec3 for autumnColor
     glUniformMatrix4fv(glGetUniformLocation(programID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
+}
+
+void ShaderProgram::setUniform(const std::string& name, const glm::vec3& vector) {
+    glUniform3fv(glGetUniformLocation(programID, name.c_str()), 1, glm::value_ptr(vector));
 }
 
 // Nastavení uniformních promìnných pro osvìtlení

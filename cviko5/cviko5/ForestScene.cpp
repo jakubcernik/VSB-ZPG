@@ -24,6 +24,21 @@ glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, flo
     return glm::vec3(distX(engine), distY(engine), distZ(engine));
 }
 
+glm::vec3 generateAutumnColor() {
+    static default_random_engine engine{ random_device{}() };
+    uniform_real_distribution<float> redDistribution(0.7f, 1.0f);   // Vyšší základ pro èervenou složku (blíže k 1)
+    uniform_real_distribution<float> greenDistribution(0.6f, 1.0f); // Vyšší základ pro zelenou složku (blíže k 1)
+    uniform_real_distribution<float> blueDistribution(0.0f, 0.2f);  // Nižší hodnota pro modrou složku
+
+    float red = redDistribution(engine);
+    float green = greenDistribution(engine);
+    float blue = blueDistribution(engine);
+
+    return glm::vec3(red, green, blue);
+}
+
+
+
 
 ForestScene::ForestScene(int treeCount)
     : treeModel("tree.h"),
@@ -31,7 +46,7 @@ ForestScene::ForestScene(int treeCount)
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl") {
 
-    sceneLight = new Light(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.7f, 0.4f));  // Teplé svìtlo s èerveným/oranžovým nádechem
+    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f));  // Teplé svìtlo s èerveným/oranžovým nádechem
     sceneLight->addObserver(&treeShaderProgram);  // Shadery budou pozorovat svìtlo
     sceneLight->addObserver(&bushShaderProgram);
 
@@ -41,7 +56,7 @@ ForestScene::ForestScene(int treeCount)
 void ForestScene::createForest(int treeCount) {
     srand(static_cast<unsigned>(time(nullptr)));
 
-    float groundLevel = 0.0f;  // Height for trees and bushes
+    float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
         Transformation treeTransform, bushTransform;
@@ -52,7 +67,6 @@ void ForestScene::createForest(int treeCount) {
         treeTransform.translate(treeRandomPosition);
         bushTransform.translate(bushRandomPosition);
 
-        // Random rotation only around Y axis
         float randomRotationY = static_cast<float>(std::rand() % 360);
         treeTransform.rotate(0, randomRotationY, 0);
         bushTransform.rotate(0, randomRotationY, 0);
@@ -60,23 +74,42 @@ void ForestScene::createForest(int treeCount) {
         treeTransform.setScale(glm::vec3(generateRandomFloat(1.5, 3.0)));
         bushTransform.setScale(glm::vec3(generateRandomFloat(15.0, 25.0)));
 
-        // Creating objects and adding them into scene
-        DrawableObject tree(treeModel, treeTransform, treeShaderProgram);
-        DrawableObject bush(bushModel, bushTransform, bushShaderProgram);
+        glm::vec3 autumnColor = generateAutumnColor();  // Generování podzimní barvy
+
+        // Vytvoøení objektù stromu a keøe s jejich barvami
+        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
+        DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
+
         addObject(tree);
         addObject(bush);
     }
 }
+
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
     for (const auto& object : objects) {
-        treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, glm::vec3(0.3f, 0.8f, 0.2f)); // Barva stromu
+        if (object.isTree()) {
+            treeShaderProgram.use();
+            glm::vec3 autumnColor = object.getColor();  // Použít uloženou barvu
+            treeShaderProgram.setUniform("objectColor", autumnColor);
+            treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+        }
+        else {
+            bushShaderProgram.use();
+            glm::vec3 bushColor = object.getColor();  // Použít uloženou barvu
+            bushShaderProgram.setUniform("objectColor", bushColor);
+            bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
+        }
+
         object.draw(projection, view);
     }
 }
+
+
+
 
 
 void ForestScene::addObject(const DrawableObject& object) {
