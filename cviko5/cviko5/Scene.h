@@ -10,5 +10,6 @@ protected:
 public:
     virtual ~Scene() = default;
     void addObject(const DrawableObject& object);
-    virtual void render(const glm::mat4& projection, const glm::mat4& view) = 0;
+    virtual void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) = 0;
+    ;
 };

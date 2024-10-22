@@ -5,13 +5,14 @@
 #include "DrawableObject.h"
 #include "Scene.h"
 #include "Camera.h"
+#include "Light.h"
 #include <vector>
 
 class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
-    void render(const glm::mat4& projection, const glm::mat4& view);
+    void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setCamera(Camera& camera);
 
 private:
@@ -22,4 +23,6 @@ private:
     std::vector<DrawableObject> objects;
 
     void addObject(const DrawableObject& object);
+
+    Light* sceneLight;
 };

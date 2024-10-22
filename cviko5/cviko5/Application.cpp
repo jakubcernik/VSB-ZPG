@@ -64,9 +64,14 @@ void Application::initOpenGL() {
         exit(EXIT_FAILURE);
     }
 
-    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);  // Aktivuje hloubkový test
+    glDepthFunc(GL_LESS);     // Přiřadí hloubkový test, který povolí vykreslení objektů blíže ke kameře
+
 
     glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+
+    glDisable(GL_CULL_FACE);  // Turns off culling
+
 }
 
 void Application::setScene(Scene* scenePtr) {
@@ -74,7 +79,8 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 void Application::run() {
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 0.1f, 1000.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
+
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
@@ -97,8 +103,9 @@ void Application::run() {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         if (scene) {
-            scene->render(projection, view);
+            scene->render(projection, view, camera.getPosition());
         }
+
 
         glfwSwapBuffers(window);
 

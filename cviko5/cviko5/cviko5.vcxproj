@@ -157,6 +157,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Observable.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
     <ClInclude Include="Scene.h" />

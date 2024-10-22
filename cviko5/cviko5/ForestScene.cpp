@@ -2,6 +2,7 @@
 
 #include "ForestScene.h"
 #include "Transformation.h"
+#include "Light.h"
 #include <glm/glm.hpp>
 #include <cstdlib>
 #include <ctime>
@@ -25,12 +26,14 @@ glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, flo
 
 
 ForestScene::ForestScene(int treeCount)
-    : 
-    treeModel("tree.h"),
+    : treeModel("tree.h"),
     bushModel("bush.h"),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
-    bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl")
-{
+    bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl") {
+
+    sceneLight = new Light(glm::vec3(10.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.7f, 0.4f));  // Teplé svìtlo s èerveným/oranžovým nádechem
+    sceneLight->addObserver(&treeShaderProgram);  // Shadery budou pozorovat svìtlo
+    sceneLight->addObserver(&bushShaderProgram);
 
     createForest(treeCount);
 }
@@ -65,12 +68,16 @@ void ForestScene::createForest(int treeCount) {
     }
 }
 
+void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glm::vec3 lightPos = sceneLight->getPosition();
+    glm::vec3 lightColor = sceneLight->getColor();
 
-void ForestScene::render(const glm::mat4& projection, const glm::mat4& view) {
     for (const auto& object : objects) {
+        treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, glm::vec3(0.3f, 0.8f, 0.2f)); // Barva stromu
         object.draw(projection, view);
     }
 }
+
 
 void ForestScene::addObject(const DrawableObject& object) {
     objects.push_back(object);
