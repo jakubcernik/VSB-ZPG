@@ -33,6 +33,12 @@ void InputManager::processInput(GLFWwindow* window, Camera& camera, float deltaT
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, true);
     }
+
+    if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+    {
+        camera.processKeyboard(4, deltaTime);
+        printf("Shift\n");
+    }
 }
 
 void InputManager::processMouseMovement(double xpos, double ypos, Camera& camera) {

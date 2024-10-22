@@ -16,5 +16,5 @@ public:
     Model(const Model&) = delete;
     Model& operator=(const Model&) = delete;
 
-    static const unsigned int vertexCount = 92814;
+    static const unsigned int vertexCount;
 };

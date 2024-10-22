@@ -21,6 +21,8 @@ void Camera::processKeyboard(int direction, float deltaTime) {
         position -= right * velocity;
     if (direction == 3)
         position += right * velocity;
+    if (direction == 4)
+        position += front * velocity * 2.0f;
 
     notify();
 }
@@ -57,6 +59,7 @@ glm::vec3 Camera::getPosition() const {
 
 void Camera::addObserver(Observer* observer) {
     observers.push_back(observer);
+    notify();
 }
 
 void Camera::removeObserver(Observer* observer) {
@@ -65,7 +68,7 @@ void Camera::removeObserver(Observer* observer) {
 
 void Camera::notify() const {
     glm::mat4 view = getViewMatrix();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f); // Mùžeš nahradit aktuální projekèní matici
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
     for (Observer* observer : observers) {
         observer->onNotify(view, projection);
     }
