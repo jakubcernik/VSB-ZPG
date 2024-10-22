@@ -446,3 +446,4 @@ FodyWeavers.xsd
 # Výjimka pro složku libraries a všechny její podsložky
 !libraries/
 !libraries/**
+*.html
