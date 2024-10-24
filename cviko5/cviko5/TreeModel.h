@@ -1,13 +1,13 @@
 #pragma once
 #include "Model.h"
+#include "tree.h"
 
 class TreeModel : public Model {
+protected:
+    const float* getVertexData() const override;
+    unsigned int getVertexCount() const override;
+
 public:
-    TreeModel(const std::string& modelPath);
+    TreeModel();
     ~TreeModel();
-
-    void loadModel(const std::string& path) override;
-    void draw() const override;
-
-    static const unsigned int vertexCount = 92814;
 };

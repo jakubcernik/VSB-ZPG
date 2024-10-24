@@ -1,20 +1,20 @@
 #pragma once
 #include <string>
+#include <GL/glew.h>
 
 class Model {
 protected:
     unsigned int vao;
     unsigned int vbo;
 
-    virtual void loadModel(const std::string& path) = 0;
+    virtual const float* getVertexData() const = 0;
+    virtual unsigned int getVertexCount() const = 0;
+
+    void loadModel();
 
 public:
-    Model() : vao(0), vbo(0) {}
+    Model();
     virtual ~Model();
-    virtual void draw() const = 0;
 
-    Model(const Model&) = delete;
-    Model& operator=(const Model&) = delete;
-
-    static const unsigned int vertexCount;
+    virtual void draw() const;
 };

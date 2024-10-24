@@ -26,9 +26,9 @@ glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, flo
 
 glm::vec3 generateAutumnColor() {
     static default_random_engine engine{ random_device{}() };
-    uniform_real_distribution<float> redDistribution(0.7f, 1.0f);   // Vyšší základ pro èervenou složku (blíže k 1)
-    uniform_real_distribution<float> greenDistribution(0.6f, 1.0f); // Vyšší základ pro zelenou složku (blíže k 1)
-    uniform_real_distribution<float> blueDistribution(0.0f, 0.2f);  // Nižší hodnota pro modrou složku
+    uniform_real_distribution<float> redDistribution(0.7f, 1.0f);
+    uniform_real_distribution<float> greenDistribution(0.6f, 1.0f);
+    uniform_real_distribution<float> blueDistribution(0.0f, 0.2f);
 
     float red = redDistribution(engine);
     float green = greenDistribution(engine);
@@ -41,13 +41,13 @@ glm::vec3 generateAutumnColor() {
 
 
 ForestScene::ForestScene(int treeCount)
-    : treeModel("tree.h"),
-    bushModel("bush.h"),
+    : treeModel(),
+    bushModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl") {
 
-    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f));  // Teplé svìtlo s èerveným/oranžovým nádechem
-    sceneLight->addObserver(&treeShaderProgram);  // Shadery budou pozorovat svìtlo
+    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f));
+    sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
 
     createForest(treeCount);
@@ -74,9 +74,8 @@ void ForestScene::createForest(int treeCount) {
         treeTransform.setScale(glm::vec3(generateRandomFloat(1.5, 3.0)));
         bushTransform.setScale(glm::vec3(generateRandomFloat(15.0, 25.0)));
 
-        glm::vec3 autumnColor = generateAutumnColor();  // Generování podzimní barvy
+        glm::vec3 autumnColor = generateAutumnColor();
 
-        // Vytvoøení objektù stromu a keøe s jejich barvami
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
         DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
 
@@ -93,13 +92,13 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     for (const auto& object : objects) {
         if (object.isTree()) {
             treeShaderProgram.use();
-            glm::vec3 autumnColor = object.getColor();  // Použít uloženou barvu
+            glm::vec3 autumnColor = object.getColor();
             treeShaderProgram.setUniform("objectColor", autumnColor);
             treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
         }
         else {
             bushShaderProgram.use();
-            glm::vec3 bushColor = object.getColor();  // Použít uloženou barvu
+            glm::vec3 bushColor = object.getColor();
             bushShaderProgram.setUniform("objectColor", bushColor);
             bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
         }
@@ -107,10 +106,6 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         object.draw(projection, view);
     }
 }
-
-
-
-
 
 void ForestScene::addObject(const DrawableObject& object) {
     objects.push_back(object);

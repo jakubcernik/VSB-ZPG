@@ -1,13 +1,13 @@
 #pragma once
 #include "Model.h"
+#include "bushes.h"
 
 class BushModel : public Model {
+protected:
+    const float* getVertexData() const override;
+    unsigned int getVertexCount() const override;
+
 public:
-    BushModel(const std::string& modelPath);
+    BushModel();
     ~BushModel();
-
-    void loadModel(const std::string& path) override;
-    void draw() const override;
-
-    static const unsigned int vertexCount = 8730;
 };

@@ -64,11 +64,11 @@ void Application::initOpenGL() {
         exit(EXIT_FAILURE);
     }
 
-    glEnable(GL_DEPTH_TEST);  // Aktivuje hloubkový test
-    glDepthFunc(GL_LESS);     // Přiřadí hloubkový test, který povolí vykreslení objektů blíže ke kameře
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
 
 
-    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+    glClearColor(0.63f, 0.81f, 0.82f, 1.0f);
 
     glDisable(GL_CULL_FACE);  // Turns off culling
 
@@ -106,7 +106,6 @@ void Application::run() {
             scene->render(projection, view, camera.getPosition());
         }
 
-
         glfwSwapBuffers(window);
 
         GLenum err;
@@ -115,7 +114,3 @@ void Application::run() {
         }
     }
 }
-
-
-
-
