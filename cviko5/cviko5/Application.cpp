@@ -9,7 +9,7 @@
 using namespace std;
 
 Application::Application(int width, int height)
-    : width(width), height(height), window(nullptr), scene(nullptr),
+    : width(width), height(height), window(nullptr), activeScene(nullptr),
     camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
     initGLFW();
     initWindow();
@@ -75,35 +75,31 @@ void Application::initOpenGL() {
 }
 
 void Application::setScene(Scene* scenePtr) {
-    scene = scenePtr;
+    activeScene = scenePtr;
 }
 
-void Application::run() {
+void Application::run(Scene& forestScene, Scene& sphereScene) {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
-
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
     while (!glfwWindowShouldClose(window)) {
-
         float currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
         glfwPollEvents();
 
-        // Inputs
-        inputManager.processInput(window, camera, deltaTime);
+        // Input processing
+        inputManager.processInput(window, camera, deltaTime, activeScene, forestScene, sphereScene);
 
-        // Updating view matrix based on actual camera
         glm::mat4 view = camera.getViewMatrix();
 
-
+        // Render current scene
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        if (scene) {
-            scene->render(projection, view, camera.getPosition());
+        if (activeScene) {
+            activeScene->render(projection, view, camera.getPosition());
         }
 
         glfwSwapBuffers(window);

@@ -1,23 +1,23 @@
 #pragma once
 #include "Model.h"
-#include "bushes.h"
+#include "sphere.h"
 
-class BushModel : public Model {
+class SphereModel : public Model {
 protected:
     const float* getVertexData() const {
-        return bushes;
+        return sphere;
     }
 
     unsigned int getVertexCount() const {
-        return 8730;
+        return 2880;
     }
 
 public:
-    BushModel() {
+    SphereModel() {
         loadModel();
     }
 
-    ~BushModel() {
+    ~SphereModel() {
         glDeleteBuffers(1, &vbo);
         glDeleteVertexArrays(1, &vao);
     }

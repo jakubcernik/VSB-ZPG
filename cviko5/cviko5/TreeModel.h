@@ -4,10 +4,21 @@
 
 class TreeModel : public Model {
 protected:
-    const float* getVertexData() const override;
-    unsigned int getVertexCount() const override;
+    const float* getVertexData() const {
+        return tree;
+    }
+
+    unsigned int getVertexCount() const {
+        return 92814;
+    }
 
 public:
-    TreeModel();
-    ~TreeModel();
+    TreeModel() {
+        loadModel();
+    }
+
+    ~TreeModel() {
+        glDeleteBuffers(1, &vbo);
+        glDeleteVertexArrays(1, &vao);
+    }
 };

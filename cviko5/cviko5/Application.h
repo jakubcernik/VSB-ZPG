@@ -8,7 +8,7 @@
 class Application {
 private:
     GLFWwindow* window;
-    Scene* scene;
+    Scene* activeScene;
     int width;
     int height;
 
@@ -20,7 +20,7 @@ private:
 public:
     Application(int width, int height);
     ~Application();
-    void run();
+    void run(Scene& forestScene, Scene& sphereScene);
     void setScene(Scene* scenePtr);
     Camera camera;
     InputManager inputManager;
