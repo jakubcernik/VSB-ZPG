@@ -63,7 +63,8 @@ void Application::initOpenGL() {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-    glClearColor(0.63f, 0.81f, 0.82f, 1.0f);
+    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+
     glDisable(GL_CULL_FACE);
 }
 

@@ -13,6 +13,10 @@ glm::mat4 Camera::getViewMatrix() const {
 void Camera::processKeyboard(int direction, float deltaTime) {
     float velocity = movementSpeed * deltaTime;
 
+    if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+        velocity *= 2.0f;  // Shifting
+    }
+
     if (direction == 0)
         position += front * velocity;
     if (direction == 1)
