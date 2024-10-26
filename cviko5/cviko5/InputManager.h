@@ -9,7 +9,7 @@ class InputManager {
 public:
     InputManager();
 
-    void processInput(GLFWwindow* window, Camera& camera, float deltaTime, Scene*& activeScene, Scene& forestScene, Scene& sphereScene);
+    void processInput(GLFWwindow* window, Camera& camera, float deltaTime);
     void processMouseMovement(double xpos, double ypos, Camera& camera);
 
 private:

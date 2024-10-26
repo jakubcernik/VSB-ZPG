@@ -13,6 +13,7 @@ public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
+    Camera& getCamera() override;
     void setCamera(Camera& camera);
 
 private:
@@ -24,5 +25,6 @@ private:
 
     void addObject(const DrawableObject& object);
 
+    Camera camera;
     Light* sceneLight;
 };

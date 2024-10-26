@@ -1,8 +1,8 @@
 ﻿#pragma once
 #define GLM_ENABLE_EXPERIMENTAL
 #include "Scene.h"
-#include <GLFW/glfw3.h>
 #include "Camera.h"
+#include <GLFW/glfw3.h>
 #include "InputManager.h"
 
 class Application {
@@ -20,8 +20,8 @@ private:
 public:
     Application(int width, int height);
     ~Application();
+    Scene* getActiveScene() const { return activeScene; }
     void run(Scene& forestScene, Scene& sphereScene);
     void setScene(Scene* scenePtr);
-    Camera camera;
     InputManager inputManager;
 };

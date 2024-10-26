@@ -37,18 +37,18 @@ glm::vec3 generateAutumnColor() {
     return glm::vec3(red, green, blue);
 }
 
-
-
-
 ForestScene::ForestScene(int treeCount)
     : treeModel(),
     bushModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
-    bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl") {
+    bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
+    camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
     sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f));
     sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
+    camera.addObserver(&treeShaderProgram);
+    camera.addObserver(&bushShaderProgram);
 
     createForest(treeCount);
 }
@@ -109,6 +109,10 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
 void ForestScene::addObject(const DrawableObject& object) {
     objects.push_back(object);
+}
+
+Camera& ForestScene::getCamera(){
+    return camera;
 }
 
 void ForestScene::setCamera(Camera& camera) {

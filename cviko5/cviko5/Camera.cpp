@@ -1,5 +1,3 @@
-//Camera.cpp
-
 #include "Camera.h"
 #include <GLFW/glfw3.h>
 
@@ -15,10 +13,6 @@ glm::mat4 Camera::getViewMatrix() const {
 void Camera::processKeyboard(int direction, float deltaTime) {
     float velocity = movementSpeed * deltaTime;
 
-    if (glfwGetKey(glfwGetCurrentContext(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-        velocity *= 2.0f;  // Shifting
-    }
-
     if (direction == 0)
         position += front * velocity;
     if (direction == 1)
@@ -28,11 +22,8 @@ void Camera::processKeyboard(int direction, float deltaTime) {
     if (direction == 3)
         position += right * velocity;
 
-    notify();
+    updateCameraVectors(); // Aktualizace smìru kamery pouze jednou
 }
-
-
-
 
 void Camera::processMouseMovement(float xoffset, float yoffset) {
     xoffset *= mouseSensitivity;
@@ -46,8 +37,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset) {
     if (pitch < -89.0f)
         pitch = -89.0f;
 
-    updateCameraVectors();
-    notify();
+    updateCameraVectors(); // Aktualizace smìru kamery pouze jednou
 }
 
 void Camera::updateCameraVectors() {
@@ -58,6 +48,8 @@ void Camera::updateCameraVectors() {
     this->front = glm::normalize(front);
     right = glm::normalize(glm::cross(front, worldUp));
     up = glm::normalize(glm::cross(right, front));
+
+    notify();  // Notifikace o pohybu kamery
 }
 
 glm::vec3 Camera::getPosition() const {

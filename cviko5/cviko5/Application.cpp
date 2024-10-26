@@ -1,6 +1,4 @@
-﻿//Application.cpp
-
-#include <GL/glew.h>
+﻿#include <GL/glew.h>
 #include "Application.h"
 #include <iostream>
 #include <glm/glm.hpp>
@@ -9,8 +7,7 @@
 using namespace std;
 
 Application::Application(int width, int height)
-    : width(width), height(height), window(nullptr), activeScene(nullptr),
-    camera(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
+    : width(width), height(height), window(nullptr), activeScene(nullptr) {
     initGLFW();
     initWindow();
     initOpenGL();
@@ -30,16 +27,18 @@ void Application::initGLFW() {
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
-    app->inputManager.processMouseMovement(xpos, ypos, app->camera);
+    if (app->getActiveScene()) {
+        Camera& activeCamera = app->getActiveScene()->getCamera();
+        app->inputManager.processMouseMovement(xpos, ypos, activeCamera);
+    }
 }
 
+
 void Application::initWindow() {
-    // Setting OpenGL context v3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // Window creation
     window = glfwCreateWindow(width, height, "ZPG CER0548", nullptr, nullptr);
     if (!window) {
         cerr << "Failed to create GLFW window!" << endl;
@@ -50,28 +49,22 @@ void Application::initWindow() {
 
     glfwSetWindowUserPointer(window, this);
 
-    // Mouse callback
     glfwSetCursorPosCallback(window, mouse_callback);
-
-    // Locked cursor into window
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Application::initOpenGL() {
     glewExperimental = GL_TRUE;
     if (glewInit() != GLEW_OK) {
-        std::cerr << "Failed to initialize GLEW!" << std::endl;
+        cerr << "Failed to initialize GLEW!" << endl;
         exit(EXIT_FAILURE);
     }
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
-
     glClearColor(0.63f, 0.81f, 0.82f, 1.0f);
-
-    glDisable(GL_CULL_FACE);  // Turns off culling
-
+    glDisable(GL_CULL_FACE);
 }
 
 void Application::setScene(Scene* scenePtr) {
@@ -80,6 +73,8 @@ void Application::setScene(Scene* scenePtr) {
 
 void Application::run(Scene& forestScene, Scene& sphereScene) {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
+
+    activeScene = &forestScene;  // Používáme atribut třídy
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
@@ -91,22 +86,26 @@ void Application::run(Scene& forestScene, Scene& sphereScene) {
 
         glfwPollEvents();
 
-        // Input processing
-        inputManager.processInput(window, camera, deltaTime, activeScene, forestScene, sphereScene);
-
-        glm::mat4 view = camera.getViewMatrix();
-
-        // Render current scene
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        if (activeScene) {
-            activeScene->render(projection, view, camera.getPosition());
+        if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
+            activeScene = &forestScene;
         }
+        else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
+            activeScene = &sphereScene;
+        }
+
+        Camera& activeCamera = activeScene->getCamera();
+        inputManager.processInput(window, activeCamera, deltaTime);
+
+        glm::mat4 view = activeCamera.getViewMatrix();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        activeScene->render(projection, view, activeCamera.getPosition());
 
         glfwSwapBuffers(window);
-
-        GLenum err;
-        while ((err = glGetError()) != GL_NO_ERROR) {
-            std::cerr << "OpenGL error: " << err << std::endl;
-        }
     }
 }
+
+
+
+
+

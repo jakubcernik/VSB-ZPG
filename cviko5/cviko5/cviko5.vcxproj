@@ -175,6 +175,8 @@
   <ItemGroup>
     <None Include="bush_fragment_shader.glsl" />
     <None Include="bush_vertex_shader.glsl" />
+    <None Include="sphere_fragment_shader.glsl" />
+    <None Include="sphere_vertex_shader.glsl" />
     <None Include="tree_fragment_shader.glsl" />
     <None Include="tree_vertex_shader.glsl" />
   </ItemGroup>
