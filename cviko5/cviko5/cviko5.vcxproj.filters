@@ -57,7 +57,7 @@
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Scene1.cpp">
+    <ClCompile Include="SphereScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -134,7 +134,7 @@
     <ClInclude Include="SphereModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Scene1.h">
+    <ClInclude Include="SphereScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

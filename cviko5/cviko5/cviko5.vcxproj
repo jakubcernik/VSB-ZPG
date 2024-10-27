@@ -139,7 +139,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Scene1.cpp" />
+    <ClCompile Include="SphereScene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
@@ -160,7 +160,7 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Scene1.h" />
+    <ClInclude Include="SphereScene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />

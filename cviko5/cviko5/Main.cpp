@@ -2,7 +2,7 @@
 
 #include "Application.h"
 #include "ForestScene.h"
-#include "Scene1.h"
+#include "SphereScene.h"
 
 int main() {
     const int windowWidth = 800;
@@ -10,11 +10,11 @@ int main() {
     Application app(windowWidth, windowHeight);
 
     ForestScene forestScene(100);   // 100 trees and 100 bushes
-    Scene1 scene1;
+    SphereScene sphereScene;
 
     app.setScene(&forestScene);
 
-    app.run(forestScene, scene1);
+    app.run(forestScene, sphereScene);
 
     return 0;
 }

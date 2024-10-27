@@ -1,8 +1,8 @@
-#include "Scene1.h"
+#include "SphereScene.h"
 #include "Transformation.h"
 #include "Light.h"
 
-Scene1::Scene1()
+SphereScene::SphereScene()
     : shaderProgram("sphere_vertex_shader.glsl", "sphere_fragment_shader.glsl"),
     camera(glm::vec3(0.0f, 15.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, -90.0f) { // Positioned above looking down
 
@@ -28,7 +28,7 @@ Scene1::Scene1()
     camera.addObserver(&shaderProgram);
 }
 
-void Scene1::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glClearColor(0.3f, 0.0f, 0.3f, 1.0f);
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
@@ -40,10 +40,10 @@ void Scene1::render(const glm::mat4& projection, const glm::mat4& view, const gl
     }
 }
 
-Camera& Scene1::getCamera() {
+Camera& SphereScene::getCamera() {
     return camera;
 }
 
-void Scene1::setCamera(Camera& camera) {
+void SphereScene::setCamera(Camera& camera) {
     camera.addObserver(&shaderProgram);
 }
