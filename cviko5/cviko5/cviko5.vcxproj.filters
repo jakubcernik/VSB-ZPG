@@ -60,6 +60,9 @@
     <ClCompile Include="SphereScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderShowcaseScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -137,6 +140,9 @@
     <ClInclude Include="SphereScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ShaderShowcaseScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bush_fragment_shader.glsl" />
@@ -145,5 +151,13 @@
     <None Include="tree_vertex_shader.glsl" />
     <None Include="sphere_vertex_shader.glsl" />
     <None Include="sphere_fragment_shader.glsl" />
+    <None Include="constant_vertex.glsl" />
+    <None Include="constant_fragment.glsl" />
+    <None Include="phong_vertex.glsl" />
+    <None Include="phong_fragment.glsl" />
+    <None Include="lambert_vertex.glsl" />
+    <None Include="lambert_fragment.glsl" />
+    <None Include="blinn_vertex.glsl" />
+    <None Include="blinn_fragment.glsl" />
   </ItemGroup>
 </Project>

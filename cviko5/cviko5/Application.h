@@ -21,7 +21,7 @@ public:
     Application(int width, int height);
     ~Application();
     Scene* getActiveScene() const { return activeScene; }
-    void run(Scene& forestScene, Scene& sphereScene);
+    void run(Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene);
     void setScene(Scene* scenePtr);
     InputManager inputManager;
 };

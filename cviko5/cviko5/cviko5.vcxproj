@@ -139,6 +139,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="ShaderShowcaseScene.cpp" />
     <ClCompile Include="SphereScene.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="ShaderShowcaseScene.h" />
     <ClInclude Include="SphereScene.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
@@ -173,8 +175,16 @@
     <ClInclude Include="TreeModel.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="blinn_fragment.glsl" />
+    <None Include="blinn_vertex.glsl" />
     <None Include="bush_fragment_shader.glsl" />
     <None Include="bush_vertex_shader.glsl" />
+    <None Include="constant_fragment.glsl" />
+    <None Include="constant_vertex.glsl" />
+    <None Include="lambert_fragment.glsl" />
+    <None Include="lambert_vertex.glsl" />
+    <None Include="phong_fragment.glsl" />
+    <None Include="phong_vertex.glsl" />
     <None Include="sphere_fragment_shader.glsl" />
     <None Include="sphere_vertex_shader.glsl" />
     <None Include="tree_fragment_shader.glsl" />

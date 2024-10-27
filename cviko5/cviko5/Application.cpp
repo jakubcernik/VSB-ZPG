@@ -70,10 +70,10 @@ void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
 }
 
-void Application::run(Scene& forestScene, Scene& sphereScene) {
+void Application::run(Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
-    activeScene = &forestScene;  // Používáme atribut třídy
+    activeScene = &forestScene;  // Default to the ForestScene
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
@@ -85,24 +85,32 @@ void Application::run(Scene& forestScene, Scene& sphereScene) {
 
         glfwPollEvents();
 
+        // Scene switching with keys 1, 2, and 3
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             activeScene = &forestScene;
         }
         else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
             activeScene = &sphereScene;
         }
+        else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
+            activeScene = &shaderShowcaseScene;
+        }
 
+        // Camera and input handling
         Camera& activeCamera = activeScene->getCamera();
         inputManager.processInput(window, activeCamera, deltaTime);
 
+        // Get the view matrix from the active camera
         glm::mat4 view = activeCamera.getViewMatrix();
 
+        // Render the active scene
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         activeScene->render(projection, view, activeCamera.getPosition());
 
         glfwSwapBuffers(window);
     }
 }
+
 
 
 
