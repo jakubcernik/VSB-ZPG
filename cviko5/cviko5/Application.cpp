@@ -88,12 +88,15 @@ void Application::run(Scene& forestScene, Scene& sphereScene, Scene& shaderShowc
         // Scene switching with keys 1, 2, and 3
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {
             activeScene = &forestScene;
+            glfwSetWindowTitle(window, "Forest Scene");
         }
         else if (glfwGetKey(window, GLFW_KEY_2) == GLFW_PRESS) {
             activeScene = &sphereScene;
+            glfwSetWindowTitle(window, "Spheres with light");
         }
         else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             activeScene = &shaderShowcaseScene;
+            glfwSetWindowTitle(window, "Shader Showcase Scene");
         }
 
         // Camera and input handling
