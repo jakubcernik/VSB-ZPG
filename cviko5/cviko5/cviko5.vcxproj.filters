@@ -16,6 +16,9 @@
     <Filter Include="Models">
       <UniqueIdentifier>{ccffae78-db86-4fee-84b1-2cbb7015d691}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{0e5f57ca-7a0a-4d2a-97c6-c82167e59946}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -61,6 +64,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderShowcaseScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TriangleScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,21 +149,58 @@
     <ClInclude Include="ShaderShowcaseScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TriangleScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bush_fragment_shader.glsl" />
-    <None Include="bush_vertex_shader.glsl" />
-    <None Include="tree_fragment_shader.glsl" />
-    <None Include="tree_vertex_shader.glsl" />
-    <None Include="sphere_vertex_shader.glsl" />
-    <None Include="sphere_fragment_shader.glsl" />
-    <None Include="constant_vertex.glsl" />
-    <None Include="constant_fragment.glsl" />
-    <None Include="phong_vertex.glsl" />
-    <None Include="phong_fragment.glsl" />
-    <None Include="lambert_vertex.glsl" />
-    <None Include="lambert_fragment.glsl" />
-    <None Include="blinn_vertex.glsl" />
-    <None Include="blinn_fragment.glsl" />
+    <None Include="blinn_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="blinn_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bush_fragment_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="bush_vertex_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="constant_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="constant_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="lambert_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="lambert_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="phong_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="phong_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="sphere_fragment_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="sphere_vertex_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="tree_fragment_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="tree_vertex_shader.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="triangle_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="triangle_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

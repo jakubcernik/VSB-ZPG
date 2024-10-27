@@ -1,4 +1,5 @@
 ﻿#include "Application.h"
+#include "TriangleScene.h"
 #include "ForestScene.h"
 #include "SphereScene.h"
 #include "ShaderShowcaseScene.h"  // Include the new scene
@@ -8,14 +9,15 @@ int main() {
     const int windowHeight = 600;
     Application app(windowWidth, windowHeight);
 
+    TriangleScene triangleScene;
     ForestScene forestScene(100);  // Initialize ForestScene
     SphereScene sphereScene;       // Initialize SphereScene
     ShaderShowcaseScene shaderShowcaseScene; // Initialize ShaderShowcaseScene
 
-    app.setScene(&forestScene);
+    app.setScene(&triangleScene);
 
     // Run the application with access to all three scenes
-    app.run(forestScene, sphereScene, shaderShowcaseScene);
+    app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene);
 
     return 0;
 }

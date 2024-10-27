@@ -145,6 +145,7 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Transformation.cpp" />
+    <ClCompile Include="TriangleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Transformation.h" />
     <ClInclude Include="tree.h" />
     <ClInclude Include="TreeModel.h" />
+    <ClInclude Include="TriangleScene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="blinn_fragment.glsl" />
@@ -189,6 +191,8 @@
     <None Include="sphere_vertex_shader.glsl" />
     <None Include="tree_fragment_shader.glsl" />
     <None Include="tree_vertex_shader.glsl" />
+    <None Include="triangle_fragment.glsl" />
+    <None Include="triangle_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -70,10 +70,10 @@ void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
 }
 
-void Application::run(Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
+void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
-    activeScene = &forestScene;  // Default to the ForestScene
+    activeScene = &triangleScene;  // Default to the ForestScene
 
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
