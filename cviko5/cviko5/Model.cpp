@@ -20,7 +20,7 @@ void Model::loadModel() {
     glBindVertexArray(vao);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    // Load vertex data (positions, normals, etc.)
+    // Load vertex data (positions, normals)
     glBufferData(GL_ARRAY_BUFFER, getVertexCount() * 6 * sizeof(float), getVertexData(), GL_STATIC_DRAW);
 
     // Set vertex attribute pointers

@@ -26,7 +26,7 @@ void Camera::processKeyboard(int direction, float deltaTime) {
     if (direction == 3)
         position += right * velocity;
 
-    updateCameraVectors(); // Aktualizace smìru kamery pouze jednou
+    updateCameraVectors();
 }
 
 void Camera::processMouseMovement(float xoffset, float yoffset) {
@@ -41,7 +41,7 @@ void Camera::processMouseMovement(float xoffset, float yoffset) {
     if (pitch < -89.0f)
         pitch = -89.0f;
 
-    updateCameraVectors(); // Aktualizace smìru kamery pouze jednou
+    updateCameraVectors();
 }
 
 void Camera::updateCameraVectors() {
@@ -53,7 +53,7 @@ void Camera::updateCameraVectors() {
     right = glm::normalize(glm::cross(front, worldUp));
     up = glm::normalize(glm::cross(right, front));
 
-    notify();  // Notifikace o pohybu kamery
+    notify();
 }
 
 glm::vec3 Camera::getPosition() const {

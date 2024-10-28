@@ -1,4 +1,5 @@
 // ShaderShowcaseScene.h
+
 #pragma once
 
 #include "Scene.h"
@@ -11,18 +12,16 @@
 #include "SphereModel.h"
 
 class ShaderShowcaseScene : public Scene {
+
 public:
     ShaderShowcaseScene();
     ~ShaderShowcaseScene();
 
-    // Renders the scene
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) override;
 
-    // Accessor for the camera
     Camera& getCamera() override;
 
 private:
-    // Creates rows of objects with different shaders for comparison
     void createShaderShowcase();
 
     // Helper function to add an object with a specified shader at a position
@@ -32,13 +31,11 @@ private:
     BushModel bushModel;
     SphereModel sphereModel;
 
-    // Shaders for different shading techniques
     ShaderProgram constantShader;
     ShaderProgram lambertShader;
     ShaderProgram phongShader;
     ShaderProgram blinnShader;
 
-    // Scene light and camera
     Light* sceneLight;
     Camera camera;
 };

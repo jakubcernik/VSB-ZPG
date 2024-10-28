@@ -1,8 +1,10 @@
 #pragma once
+
 #include "Model.h"
 #include "sphere.h"
 
 class SphereModel : public Model {
+
 protected:
     const float* getVertexData() const {
         return sphere;

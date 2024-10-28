@@ -1,9 +1,11 @@
 #pragma once
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 
 class Transformation {
+
 public:
     Transformation();
     void translate(const glm::vec3& deltaPosition);

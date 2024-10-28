@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Scene.h"
 #include "Light.h"
 #include "Camera.h"
@@ -7,6 +8,7 @@
 #include "DrawableObject.h"
 
 class SphereScene : public Scene {
+
 public:
     SphereScene();
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) override;

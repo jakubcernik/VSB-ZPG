@@ -2,21 +2,21 @@
 #include "TriangleScene.h"
 #include "ForestScene.h"
 #include "SphereScene.h"
-#include "ShaderShowcaseScene.h"  // Include the new scene
+#include "ShaderShowcaseScene.h"
 
 int main() {
     const int windowWidth = 800;
     const int windowHeight = 600;
     Application app(windowWidth, windowHeight);
 
+    // Scenes initialization
     TriangleScene triangleScene;
-    ForestScene forestScene(100);  // Initialize ForestScene
-    SphereScene sphereScene;       // Initialize SphereScene
-    ShaderShowcaseScene shaderShowcaseScene; // Initialize ShaderShowcaseScene
+    ForestScene forestScene(100);
+    SphereScene sphereScene;
+    ShaderShowcaseScene shaderShowcaseScene;
 
     app.setScene(&triangleScene);
 
-    // Run the application with access to all three scenes
     app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene);
 
     return 0;

@@ -41,7 +41,7 @@ void TriangleScene::render(const glm::mat4& projection, const glm::mat4& view, c
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shaderProgramID);  // Use the shader program directly
+    glUseProgram(shaderProgramID);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);

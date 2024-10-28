@@ -4,6 +4,7 @@
 #include <vector>
 
 class Observable {
+
 public:
     void addObserver(Observer* observer) {
         observers.push_back(observer);

@@ -4,6 +4,7 @@
 
 
 class Model {
+
 protected:
     unsigned int vao;
     unsigned int vbo;

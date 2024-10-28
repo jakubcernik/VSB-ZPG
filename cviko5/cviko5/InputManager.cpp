@@ -51,7 +51,7 @@ void InputManager::processMouseMovement(double xpos, double ypos, Camera& camera
     }
 
     float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // Y osa je obrácená
+    float yoffset = lastY - ypos; // Y axis is reversed
     lastX = xpos;
     lastY = ypos;
 

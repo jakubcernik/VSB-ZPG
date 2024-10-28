@@ -1,4 +1,5 @@
 #pragma once
+
 #include <vector>
 #include <glm/glm.hpp>
 #include "DrawableObject.h"
@@ -6,6 +7,7 @@
 class Camera;
 
 class Scene {
+
 protected:
     std::vector<DrawableObject> objects;
 
