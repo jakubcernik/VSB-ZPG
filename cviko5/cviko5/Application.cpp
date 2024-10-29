@@ -50,7 +50,7 @@ void Application::initWindow() {
     glfwSetWindowUserPointer(window, this);
 
     glfwSetCursorPosCallback(window, mouse_callback);
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Application::initOpenGL() {
@@ -70,7 +70,15 @@ void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
 }
 
+void Application::screenLocker(GLFWwindow* window, bool isLocked) {
+    if (isLocked == true) {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    }
+    else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
 void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
+    bool isLocked = true;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
     activeScene = &triangleScene;  // Default is triangle scene

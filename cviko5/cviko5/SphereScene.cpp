@@ -20,7 +20,7 @@ SphereScene::SphereScene()
         spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.2f, 0.2f, 0.8f));
     }
 
-    sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f)); // Light slightly above the center
+    sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f)); // Light slightly above the center
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
 }
