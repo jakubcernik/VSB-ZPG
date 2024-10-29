@@ -3,9 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 ShaderProgram::ShaderProgram(const string& vertexShaderPath, const string& fragmentShaderPath) {
-    ShaderLoader shaderLoader;
-    programID = shaderLoader.loadShader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
-    // Toto je hnus, lepsi je aby ShaderProgram dedil z ShaderLoaderu, tak bude mi t pristup k tomu ID, toto to obchazi.
+    programID = loadShader(vertexShaderPath.c_str(), fragmentShaderPath.c_str());
 }
 
 ShaderProgram::~ShaderProgram() {

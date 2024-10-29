@@ -16,6 +16,6 @@ public:
     Camera& getCamera() override;
 
 private:
-    unsigned int shaderProgramID;
+    ShaderProgram triangleShaderProgram;
     unsigned int VAO, VBO;
 };

@@ -9,9 +9,8 @@ float points[] = {
    -0.5f, -0.5f, 0.0f
 };
 
-TriangleScene::TriangleScene() {
-    ShaderLoader shaderLoader;
-    shaderProgramID = shaderLoader.loadShader("triangle_vertex.glsl", "triangle_fragment.glsl");
+TriangleScene::TriangleScene()
+    : triangleShaderProgram("triangle_vertex.glsl", "triangle_fragment.glsl"){
     initialize();
 }
 
@@ -41,7 +40,7 @@ void TriangleScene::render(const glm::mat4& projection, const glm::mat4& view, c
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shaderProgramID);
+    triangleShaderProgram.use();
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);

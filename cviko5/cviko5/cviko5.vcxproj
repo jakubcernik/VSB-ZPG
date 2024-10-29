@@ -185,6 +185,8 @@
     <None Include="constant_vertex.glsl" />
     <None Include="lambert_fragment.glsl" />
     <None Include="lambert_vertex.glsl" />
+    <None Include="light_fragment.glsl" />
+    <None Include="light_vertex.glsl" />
     <None Include="phong_fragment.glsl" />
     <None Include="phong_vertex.glsl" />
     <None Include="sphere_fragment_shader.glsl" />

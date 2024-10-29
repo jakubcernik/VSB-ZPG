@@ -4,6 +4,7 @@
 
 SphereScene::SphereScene()
     : shaderProgram("sphere_vertex_shader.glsl", "sphere_fragment_shader.glsl"),
+    lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 2.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) { // Positioned horizontally looking forward
 
     float offset = 2.0f;
@@ -20,12 +21,14 @@ SphereScene::SphereScene()
         spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.2f, 0.2f, 0.8f));
     }
 
-    sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f)); // Light slightly above the center
+    sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2); // Light slightly above the center
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
 }
 
 void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     glClearColor(0.3f, 0.0f, 0.3f, 1.0f);
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
@@ -33,8 +36,9 @@ void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, con
     shaderProgram.use();
     for (const auto& sphere : spheres) {
         shaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, sphere.getColor());
-        sphere.draw(projection, view);
+        sphere.draw();
     }
+    sceneLight->draw(projection, view);
 }
 
 Camera& SphereScene::getCamera() {

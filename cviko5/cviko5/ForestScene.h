@@ -21,6 +21,7 @@ private:
     BushModel bushModel;
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
+    ShaderProgram lightShaderProgram;
     std::vector<DrawableObject> objects;
 
     void addObject(const DrawableObject& object);

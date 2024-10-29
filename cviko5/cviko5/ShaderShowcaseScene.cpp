@@ -9,12 +9,13 @@ ShaderShowcaseScene::ShaderShowcaseScene()
     lambertShader("lambert_vertex.glsl", "lambert_fragment.glsl"),
     phongShader("phong_vertex.glsl", "phong_fragment.glsl"),
     blinnShader("blinn_vertex.glsl", "blinn_fragment.glsl"),
+    lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 1.0f, 10.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f),
     treeModel(),
     bushModel(),
     sphereModel()
 {
-    sceneLight = new Light(glm::vec3(2.5f, 10.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+    sceneLight = new Light(glm::vec3(2.5f, 10.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), lightShaderProgram);
 
 
     sceneLight->addObserver(&constantShader);
@@ -70,50 +71,30 @@ void ShaderShowcaseScene::addObjectWithShader(const Model& model, const glm::vec
 
 
 void ShaderShowcaseScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
-    glm::vec3 uniformColor = glm::vec3(0.5f, 0.8f, 0.3f); // Same color for all objects
+    glm::vec3 uniformColor = glm::vec3(0.5f, 0.8f, 0.3f); // Stejná barva pro všechny objekty
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    constantShader.use();
-    constantShader.setUniform("objectColor", uniformColor);
-    objects[0].draw(projection, view);
+    // 3 rows of objects, 4 shaders
+    ShaderProgram* shaders[] = { &constantShader, &lambertShader, &phongShader, &blinnShader };
 
-    // Render with the Lambert shader
-    lambertShader.use();
-    lambertShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-    objects[1].draw(projection, view);
+    for (int row = 0; row < 3; ++row) {
+        for (int i = 0; i < 4; ++i) {
+            int index = row * 4 + i; // index in objects array
 
-    // Render with the Phong shader
-    phongShader.use();
-    phongShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-    objects[2].draw(projection, view);
+            shaders[i]->use();
+            shaders[i]->setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
 
-    // Render with the Blinn shader
-    blinnShader.use();
-    blinnShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-    objects[3].draw(projection, view);
- 
-    for (int i = 4; i < objects.size(); i += 4) {
-        constantShader.use();
-        constantShader.setUniform("objectColor", uniformColor);
-        objects[i].draw(projection, view);
-
-        lambertShader.use();
-        lambertShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-        objects[i + 1].draw(projection, view);
-
-        phongShader.use();
-        phongShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-        objects[i + 2].draw(projection, view);
-
-        blinnShader.use();
-        blinnShader.setLightingUniforms(lightPos, viewPos, lightColor, uniformColor);
-        objects[i + 3].draw(projection, view);
+            objects[index].draw();
+        }
     }
+    sceneLight->draw(projection, view);
 }
+
 
 
 Camera& ShaderShowcaseScene::getCamera() {

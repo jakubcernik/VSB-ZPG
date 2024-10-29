@@ -18,6 +18,7 @@ public:
 private:
     SphereModel sphereModel;
     ShaderProgram shaderProgram;
+    ShaderProgram lightShaderProgram;
     std::vector<DrawableObject> spheres;
     
     Camera camera;

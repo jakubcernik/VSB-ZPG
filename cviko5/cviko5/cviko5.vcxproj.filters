@@ -202,5 +202,11 @@
     <None Include="triangle_vertex.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="light_fragment.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="light_vertex.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

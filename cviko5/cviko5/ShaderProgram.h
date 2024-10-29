@@ -2,8 +2,9 @@
 #include "Observer.h"
 #include <glm/glm.hpp>
 #include <string>
+#include "ShaderLoader.h"
 
-class ShaderProgram : public Observer {
+class ShaderProgram : public Observer, public ShaderLoader {
 
 private:
     unsigned int programID;

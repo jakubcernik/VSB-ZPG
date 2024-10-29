@@ -35,6 +35,7 @@ private:
     ShaderProgram lambertShader;
     ShaderProgram phongShader;
     ShaderProgram blinnShader;
+    ShaderProgram lightShaderProgram;
 
     Light* sceneLight;
     Camera camera;

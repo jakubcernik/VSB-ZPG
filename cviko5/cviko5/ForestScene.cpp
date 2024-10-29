@@ -42,9 +42,10 @@ ForestScene::ForestScene(int treeCount)
     bushModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
+    lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
-    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f));
+    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram);
     sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
     camera.addObserver(&treeShaderProgram);
@@ -86,6 +87,8 @@ void ForestScene::createForest(int treeCount) {
 
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
@@ -105,7 +108,8 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
             bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
         }
 
-        object.draw(projection, view);
+        object.draw();
+        sceneLight->draw(projection, view);
     }
 }
 

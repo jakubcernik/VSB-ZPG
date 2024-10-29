@@ -1,9 +1,10 @@
 // Light.cpp
 
 #include "Light.h"
+#include "Transformation.h"
 
-Light::Light(const glm::vec3& position, const glm::vec3& color)
-    : position(position), color(color) {}
+Light::Light(const glm::vec3& position, const glm::vec3& color, ShaderProgram& lightShader, float scale)
+    : position(position), color(color), lightShader(lightShader), scale(scale) {}
 
 void Light::setPosition(const glm::vec3& newPosition) {
     position = newPosition;
@@ -21,4 +22,15 @@ const glm::vec3& Light::getPosition() const {
 
 const glm::vec3& Light::getColor() const {
     return color;
+}
+
+void Light::draw(const glm::mat4& projection, const glm::mat4& view) const {
+    Transformation transform;
+    transform.translate(position);
+    transform.setScale(glm::vec3(scale));
+
+    glm::mat4 modelMatrix = transform.getModelMatrix();
+    lightShader.use();
+    lightShader.setUniform("mvp", projection * view * modelMatrix);
+    lightModel.draw();
 }
