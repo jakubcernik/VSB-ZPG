@@ -7,7 +7,7 @@
 using namespace std;
 
 Application::Application(int width, int height)
-    : width(width), height(height), window(nullptr), activeScene(nullptr) {
+    : width(width), height(height), window(nullptr), activeScene(nullptr), lockedStatus(true){
     initGLFW();
     initWindow();
     initOpenGL();
@@ -70,15 +70,24 @@ void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
 }
 
-void Application::screenLocker(GLFWwindow* window, bool isLocked) {
-    if (isLocked == true) {
+void Application::screenLocker(GLFWwindow* window) {
+    if (!lockedStatus) {
+        int windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        glfwSetCursorPos(window, windowWidth / 2.0, windowHeight / 2.0);
+
+        lockedStatus = true;
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     }
-    else glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    else {
+        lockedStatus = false;
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
 }
 
+
 void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
-    bool isLocked = true;
+    bool isTabPressed = false;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
     activeScene = &triangleScene;  // Default is triangle scene
@@ -105,6 +114,17 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
         else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             activeScene = &shaderShowcaseScene;
             glfwSetWindowTitle(window, "Shader Showcase Scene");
+        }
+
+        // Check if Tab is pressed and toggle lock status only once per press
+        if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
+            if (!isTabPressed) {
+                screenLocker(window); // toggle cursor lock
+                isTabPressed = true;
+            }
+        }
+        else {
+            isTabPressed = false; // reset when Tab is released
         }
 
         Camera& activeCamera = activeScene->getCamera();

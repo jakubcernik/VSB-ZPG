@@ -11,6 +11,7 @@ private:
     Scene* activeScene;
     int width;
     int height;
+    bool lockedStatus;
 
     void initGLFW();
     void initWindow();
@@ -23,5 +24,6 @@ public:
     Scene* getActiveScene() const { return activeScene; }
     void run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene);
     void setScene(Scene* scenePtr);
+    void screenLocker(GLFWwindow* window);
     InputManager inputManager;
 };
