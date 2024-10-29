@@ -50,7 +50,7 @@ void Application::initWindow() {
     glfwSetWindowUserPointer(window, this);
 
     glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
 void Application::initOpenGL() {
