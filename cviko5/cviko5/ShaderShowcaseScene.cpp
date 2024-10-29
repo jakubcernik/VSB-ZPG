@@ -27,6 +27,7 @@ ShaderShowcaseScene::ShaderShowcaseScene()
     camera.addObserver(&lambertShader);
     camera.addObserver(&phongShader);
     camera.addObserver(&blinnShader);
+    camera.addObserver(&lightShaderProgram);
 
     createShaderShowcase();
 }
@@ -71,11 +72,12 @@ void ShaderShowcaseScene::addObjectWithShader(const Model& model, const glm::vec
 
 
 void ShaderShowcaseScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
-    glm::vec3 uniformColor = glm::vec3(0.5f, 0.8f, 0.3f); // Stejná barva pro všechny objekty
+    glm::vec3 uniformColor = glm::vec3(0.5f, 0.8f, 0.3f); // Same color for all objects
 
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 
@@ -92,7 +94,7 @@ void ShaderShowcaseScene::render(const glm::mat4& projection, const glm::mat4& v
             objects[index].draw();
         }
     }
-    sceneLight->draw(projection, view);
+    sceneLight->draw();
 }
 
 

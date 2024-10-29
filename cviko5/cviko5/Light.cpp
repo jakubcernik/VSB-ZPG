@@ -24,13 +24,13 @@ const glm::vec3& Light::getColor() const {
     return color;
 }
 
-void Light::draw(const glm::mat4& projection, const glm::mat4& view) const {
+void Light::draw() const {
     Transformation transform;
     transform.translate(position);
     transform.setScale(glm::vec3(scale));
 
     glm::mat4 modelMatrix = transform.getModelMatrix();
     lightShader.use();
-    lightShader.setUniform("mvp", projection * view * modelMatrix);
+    lightShader.setUniform("model", modelMatrix);
     lightModel.draw();
 }

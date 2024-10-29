@@ -50,6 +50,7 @@ ForestScene::ForestScene(int treeCount)
     sceneLight->addObserver(&bushShaderProgram);
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
+    camera.addObserver(&lightShaderProgram);
 
     createForest(treeCount);
 }
@@ -87,6 +88,7 @@ void ForestScene::createForest(int treeCount) {
 
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     glm::vec3 lightPos = sceneLight->getPosition();
@@ -109,7 +111,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         }
 
         object.draw();
-        sceneLight->draw(projection, view);
+        sceneLight->draw();
     }
 }
 
@@ -124,4 +126,5 @@ Camera& ForestScene::getCamera(){
 void ForestScene::setCamera(Camera& camera) {
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
+    camera.addObserver(&lightShaderProgram);
 }

@@ -24,9 +24,11 @@ SphereScene::SphereScene()
     sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2); // Light slightly above the center
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
+    camera.addObserver(&lightShaderProgram);
 }
 
 void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glClearColor(0.3f, 0.0f, 0.3f, 1.0f);
@@ -38,7 +40,7 @@ void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, con
         shaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, sphere.getColor());
         sphere.draw();
     }
-    sceneLight->draw(projection, view);
+    sceneLight->draw();
 }
 
 Camera& SphereScene::getCamera() {
@@ -47,4 +49,5 @@ Camera& SphereScene::getCamera() {
 
 void SphereScene::setCamera(Camera& camera) {
     camera.addObserver(&shaderProgram);
+    camera.addObserver(&lightShaderProgram);
 }

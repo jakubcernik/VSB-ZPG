@@ -14,7 +14,7 @@ public:
     const glm::vec3& getPosition() const;
     const glm::vec3& getColor() const;
 
-    void draw(const glm::mat4& projection, const glm::mat4& view) const;
+    void draw() const;
 
 private:
     glm::vec3 position;
