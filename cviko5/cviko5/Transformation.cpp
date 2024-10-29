@@ -32,3 +32,5 @@ glm::mat4 Transformation::getModelMatrix() const {
     model = glm::scale(model, scale);
     return model;
 }
+
+// Transformation je kompozitni root slozka. Lepsi je mit tridu BasicTransformation(Virtual) ze ktere budou dedit Rotation, Scale, Translate a i Transformation.

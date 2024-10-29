@@ -11,7 +11,7 @@ int main() {
 
     // Scenes initialization
     TriangleScene triangleScene;
-    ForestScene forestScene(100);
+    ForestScene forestScene(70);
     SphereScene sphereScene;
     ShaderShowcaseScene shaderShowcaseScene;
 

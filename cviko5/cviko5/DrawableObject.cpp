@@ -16,7 +16,10 @@ void DrawableObject::draw(const glm::mat4& projection, const glm::mat4& view) co
     glm::mat4 modelMatrix = transformation.getModelMatrix();
 
     shaderProgram.use();
+    
     shaderProgram.setUniform("model", modelMatrix);
+    //setModelTransform(T) je lepsi poslat primo instanci transformace, az shaderProgram se rozhodne co s tim delat, zodpovednost 
+    
     shaderProgram.use();
 
     model->draw();
