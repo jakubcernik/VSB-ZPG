@@ -23,7 +23,6 @@ private:
     ShaderProgram bushShaderProgram;
     ShaderProgram lightShaderProgram;
 
-
     Camera camera;
     Light* sceneLight;
 };

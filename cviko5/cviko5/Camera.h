@@ -8,13 +8,12 @@
 class Camera : public Observable {
 public:
     Camera(glm::vec3 startPosition, glm::vec3 startUp, float startYaw, float startPitch);
-
+    
+    glm::vec3 getPosition() const;
     glm::mat4 getViewMatrix() const;
 
     void processKeyboard(int direction, float deltaTime);
     void processMouseMovement(float xoffset, float yoffset);
-
-    glm::vec3 getPosition() const;
 
     void addObserver(Observer* observer);
     void removeObserver(Observer* observer);
