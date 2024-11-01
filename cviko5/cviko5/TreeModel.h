@@ -5,7 +5,7 @@
 
 class TreeModel : public Model {
 
-protected:
+private:
     const float* getVertexData() const {
         return tree;
     }
@@ -19,8 +19,5 @@ public:
         loadModel();
     }
 
-    ~TreeModel() {
-        glDeleteBuffers(1, &vbo);
-        glDeleteVertexArrays(1, &vao);
-    }
+    ~TreeModel() {}
 };

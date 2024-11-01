@@ -3,7 +3,7 @@
 #include "Light.h"
 
 SphereScene::SphereScene()
-    : shaderProgram("sphere_vertex_shader.glsl", "sphere_fragment_shader.glsl"),
+    : shaderProgram("phong_vertex.glsl", "phong_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 2.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) { // Positioned horizontally looking forward
 
@@ -18,10 +18,10 @@ SphereScene::SphereScene()
     for (const auto& pos : spherePositions) {
         Transformation sphereTransform;
         sphereTransform.translate(pos);
-        spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.2f, 0.2f, 0.8f));
+        spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
     }
 
-    sceneLight = new Light(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2); // Light slightly above the center
+    sceneLight = new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2); // Light slightly above the center
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
     camera.addObserver(&lightShaderProgram);
@@ -31,7 +31,7 @@ void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glClearColor(0.3f, 0.0f, 0.3f, 1.0f);
+    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 

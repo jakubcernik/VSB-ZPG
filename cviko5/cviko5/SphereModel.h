@@ -5,7 +5,7 @@
 
 class SphereModel : public Model {
 
-protected:
+private:
     const float* getVertexData() const {
         return sphere;
     }
@@ -19,8 +19,5 @@ public:
         loadModel();
     }
 
-    ~SphereModel() {
-        glDeleteBuffers(1, &vbo);
-        glDeleteVertexArrays(1, &vao);
-    }
+    ~SphereModel() {}
 };
