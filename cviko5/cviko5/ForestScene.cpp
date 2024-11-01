@@ -115,9 +115,6 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     }
 }
 
-void ForestScene::addObject(const DrawableObject& object) {
-    objects.push_back(object);
-}
 
 Camera& ForestScene::getCamera(){
     return camera;

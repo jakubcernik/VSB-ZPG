@@ -22,9 +22,7 @@ private:
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
     ShaderProgram lightShaderProgram;
-    std::vector<DrawableObject> objects;
 
-    void addObject(const DrawableObject& object);
 
     Camera camera;
     Light* sceneLight;
