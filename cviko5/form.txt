@@ -35,3 +35,5 @@ Tímto způsobem lze použí metodu setUniform například jak na nastavení mod
 
 Vertex a fragment shadery prosím uložte do textových souboru a použijte přiložený ShaderLoader pro jejich načítání (Ano) (Kde a jak jste použili?)
 Shader Program dědí z Shader Loaderu, při inicializaci instance shader programu je v konstruktoru předána cesta k souboru, a díky dědění z Shader Loaderu je použita metoda pro načtení tohoto souboru. Veškeré konkrétní vertex i fragment shadery jsou uloženy jako .glsl
+
+https://www.youtube.com/watch?v=4BZAXAGt_OY
