@@ -1,0 +1,37 @@
+Přepínání scén za běhu (Ano) (Kde a jak)
+Přepínání scén mám implementováno přímo v Application. Nemám to v InputManager (moje obdoba Controlleru). Přímo v Application je to jednodušší než v InputManageru, kvůli odkazu na scénu. Zároveň je to jen pár řádků kódu a příjde mi to přehlednější přímo v Application.
+
+a) Základní scéna (Ano)
+
+b) Scéna s lesem (Ano)
+
+c) Scéna se čtyřmi kuličkami (Ano)
+
+d) Scéna pro demonstraci použití všech shaderů (Konstantní, Lambert, Phong a Blinn) (Ano)
+
+Světlo (Ano) (kde a jak máte naimplementováno, jak se updatuje změna světla)
+Světlo je deklarováno v Light.cpp. V každé scéně se přidá na určitou pozici. Light dědí z Observable a má metody addObserver a notifyObservers, což znamená, že na něj mohou reagovat Shader Programy. Kdykoliv je volána metoda setPosition nebo setColor ve třídě Light, dojde k zavolání notifyObservers, což spustí metodu onNotify ve všech připojených observerech. Shader programy používají metodu setLightingUniforms, kterou volám uvnitř render ve scéně, aby nastavila lightPos, pozici kamery (viewPos), lightColor a objectColor v jednotlivých shaderech, které následně renderují objekty scény.
+
+Základní třídy (ShaderProgram, DrowableObject, Camera, Controller) (Ano) (kdo zodpovídá za vykreslování, kde jsou uloženy modely, shadery atd.)
+V hlavním souboru main se inicializuje aplikace Application, kde jsou vytvořeny a inicializovány všechny scény. Každá scéna má vlastní render metodu, která je odpovědná za vykreslení objektů scény na obrazovku. V každé scéně jsou vytvořeny jednotlivé Drawable Objecty, které mají na počátku nějakou transformaci, ať už translate, scale, rotate. V render() je pro každý objekt použít správný Shader Program, nastaveny uniformy pro osvětlení a model je vykreslen pomocí draw. Jednotlivé modely jsou definovány hlavičkovými soubory, které obsahují vrcholy, normály... Jedlotlivé Shader Programy mají připojeny .glsl soubory. Díky Observeru jsou view a projection matice aplikovány pouze ve chvíli, kdy kamera notifyne shader programy, že se pohla. Pokud se nehýbe kamera, není třeba je aktualizovat a šetříme systémové prostředky. 
+
+
+Transformace (Composite pattern) (Ano/Ne) (Máte pro transformace základní třídy? Co a jak jste použili?)
+Nepoužívám Composite. Aktuálně mám veškerou logiku transformací ve třídě Transformation. Tam mám jednotlivé elementární transformace a vrácení celkové matice. V praxi například když vytvářím les, tak vytvořím instanci Transformation, vygeneruji náhodný vektor pro pozici, a následně pomocí treeTransform.translate(treeRandomPosition) provedu translaci na náhodně vygenerovanou pozici.
+
+Základy OOP
+
+a) Encapsulation (zapouzdření) (Ano) (Kde a jak?)
+Ve všech třídách jsou použity zásady zapouzdření. ID shaderů, vao, vbo, a veškeré proměnné, jsou privátní nebo protected. Public jsou vesměs jen metody které je třeba volat v jiných třídách. Dále jsou privátní např. instance kamery, světla a pole objektů.
+
+b) Inheritance (dědičnost) (Ano) (Kde a jak?)
+Všechny scény dědí ze základní Scene.h. Dále dědí Shader Program z Shader Loaderu, kde při načátání souborů shaderů používám metody Shader Loaderu. Jinak konkrétní modely dědí ze základního modelu, kde je např. metoda draw jako virtual, aby byla vynuceně implementována v každém modelu...
+
+c) Polymorphism (polymorfismus neboli mnohotvárnost) (Ano) (Kde a jak?)
+V Shader Programu:
+    void setUniform(const std::string& name, const glm::mat4& matrix);
+    void setUniform(const std::string& name, const glm::vec3& vector);
+Tímto způsobem lze použí metodu setUniform například jak na nastavení modelové matice, což je mat4 tak i např pro nastavení barvy, což je vec3. Jedna metoda má více použití.
+
+Vertex a fragment shadery prosím uložte do textových souboru a použijte přiložený ShaderLoader pro jejich načítání (Ano) (Kde a jak jste použili?)
+Shader Program dědí z Shader Loaderu, při inicializaci instance shader programu je v konstruktoru předána cesta k souboru, a díky dědění z Shader Loaderu je použita metoda pro načtení tohoto souboru. Veškeré konkrétní vertex i fragment shadery jsou uloženy jako .glsl
