@@ -71,7 +71,7 @@ void Camera::removeObserver(Observer* observer) {
 
 void Camera::notify() const {
     glm::mat4 view = getViewMatrix();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
     for (Observer* observer : observers) {
         observer->onNotify(view, projection);
     }

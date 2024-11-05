@@ -169,6 +169,7 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SphereModel.h" />
+    <ClInclude Include="SuziModel.h" />
     <ClInclude Include="suzi_flat.h" />
     <ClInclude Include="suzi_smooth.h" />
     <ClInclude Include="Transformation.h" />

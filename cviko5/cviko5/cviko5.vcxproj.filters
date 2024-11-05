@@ -152,6 +152,9 @@
     <ClInclude Include="TriangleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SuziModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="blinn_fragment.glsl">
