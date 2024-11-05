@@ -1,14 +1,14 @@
 #version 330 core
 
-layout (location = 0) in vec3 aPos;       // Pozice vrcholu
-layout (location = 1) in vec3 aNormal;    // Normála vrcholu
+layout (location = 0) in vec3 aPos;
+layout (location = 1) in vec3 aNormal;
 
-out vec3 FragPos;         // Pozice fragmentu ve svìtovém prostoru
-out vec3 Normal;          // Normála fragmentu ve svìtovém prostoru
+out vec3 FragPos; 
+out vec3 Normal;
 
-uniform mat4 model;       // Modelová matice
-uniform mat4 view;        // Pohledová matice
-uniform mat4 projection;  // Projekèní matice
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
