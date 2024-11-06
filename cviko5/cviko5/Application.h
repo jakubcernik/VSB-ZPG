@@ -22,7 +22,7 @@ public:
     Application(int width, int height);
     ~Application();
     Scene* getActiveScene() const { return activeScene; }
-    void run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene);
+    void run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight);
     void setScene(Scene* scenePtr);
     void screenLocker(GLFWwindow* window);
     InputManager inputManager;

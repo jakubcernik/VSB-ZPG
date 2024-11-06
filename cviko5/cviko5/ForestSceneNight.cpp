@@ -1,6 +1,6 @@
-//ForestScene.cpp
+//ForestSceneNight.cpp
 
-#include "ForestScene.h"
+#include "ForestSceneNight.h"
 #include "Transformation.h"
 #include "Light.h"
 #include <glm/glm.hpp>
@@ -10,13 +10,13 @@
 using namespace std;
 
 inline float generateRandomFloat(float min, float max) {
-    static default_random_engine engine{random_device{}() };
+    static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distribution(min, max);
     return distribution(engine);
 }
 
 inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
-    static default_random_engine engine{random_device{}() };
+    static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distX(minX, maxX);
     uniform_real_distribution<float> distY(minY, maxY);
     uniform_real_distribution<float> distZ(minZ, maxZ);
@@ -37,7 +37,7 @@ inline glm::vec3 generateAutumnColor() {
     return glm::vec3(red, green, blue);
 }
 
-ForestScene::ForestScene(int treeCount)
+ForestSceneNight::ForestSceneNight(int treeCount)
     : treeModel(),
     bushModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
@@ -45,7 +45,7 @@ ForestScene::ForestScene(int treeCount)
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
-    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram);
+    sceneLight = new Light(glm::vec3(50.0f, 150.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 3.0f);
     sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
     camera.addObserver(&treeShaderProgram);
@@ -55,7 +55,7 @@ ForestScene::ForestScene(int treeCount)
     createForest(treeCount);
 }
 
-void ForestScene::createForest(int treeCount) {
+void ForestSceneNight::createForest(int treeCount) {
     srand(static_cast<unsigned>(time(nullptr)));
 
     float groundLevel = 0.0f;
@@ -87,14 +87,14 @@ void ForestScene::createForest(int treeCount) {
 }
 
 
-void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
-    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+    glClearColor(0.05f, 0.05f, 0.2f, 1.0f);
 
     for (const auto& object : objects) {
         if (object.isTree()) {
@@ -116,11 +116,11 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 }
 
 
-Camera& ForestScene::getCamera(){
+Camera& ForestSceneNight::getCamera() {
     return camera;
 }
 
-void ForestScene::setCamera(Camera& camera) {
+void ForestSceneNight::setCamera(Camera& camera) {
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);

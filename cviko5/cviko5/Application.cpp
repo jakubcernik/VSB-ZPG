@@ -86,7 +86,7 @@ void Application::screenLocker(GLFWwindow* window) {
 }
 
 
-void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene) {
+void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight) {
     bool isTabPressed = false;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
@@ -114,6 +114,10 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
         else if (glfwGetKey(window, GLFW_KEY_3) == GLFW_PRESS) {
             activeScene = &shaderShowcaseScene;
             glfwSetWindowTitle(window, "Shader Showcase Scene");
+        }
+        else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
+            activeScene = &forestSceneNight;
+            glfwSetWindowTitle(window, "Forest Scene at night");
         }
 
         // Check if Tab is pressed and toggle lock status only once per press

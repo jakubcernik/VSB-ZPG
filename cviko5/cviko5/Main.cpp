@@ -1,6 +1,7 @@
 ﻿#include "Application.h"
 #include "TriangleScene.h"
 #include "ForestScene.h"
+#include "ForestSceneNight.h"
 #include "SphereScene.h"
 #include "ShaderShowcaseScene.h"
 
@@ -11,13 +12,14 @@ int main() {
 
     // Scenes initialization
     TriangleScene triangleScene;
-    ForestScene forestScene(70);
+    ForestScene forestScene(100);
     SphereScene sphereScene;
     ShaderShowcaseScene shaderShowcaseScene;
+    ForestSceneNight forestSceneNight(100);
 
     app.setScene(&triangleScene);
 
-    app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene);
+    app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene, forestSceneNight);
 
     return 0;
 }
