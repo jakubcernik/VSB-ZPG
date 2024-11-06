@@ -16,6 +16,7 @@ public:
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     Camera& getCamera() override;
     void setCamera(Camera& camera);
+    void updateFireflies(float deltaTime);
 
 private:
     TreeModel treeModel;
@@ -26,4 +27,5 @@ private:
 
     Camera camera;
     Light* sceneLight;
+    std::vector<Light*> fireflies;
 };

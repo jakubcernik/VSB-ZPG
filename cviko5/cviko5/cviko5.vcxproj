@@ -183,6 +183,8 @@
     <None Include="blinn_fragment.glsl" />
     <None Include="blinn_vertex.glsl" />
     <None Include="bush_fragment_shader.glsl" />
+    <None Include="bush_night_fragment.glsl" />
+    <None Include="bush_night_vertex.glsl" />
     <None Include="bush_vertex_shader.glsl" />
     <None Include="constant_fragment.glsl" />
     <None Include="constant_vertex.glsl" />
@@ -195,6 +197,8 @@
     <None Include="sphere_fragment_shader.glsl" />
     <None Include="sphere_vertex_shader.glsl" />
     <None Include="tree_fragment_shader.glsl" />
+    <None Include="tree_night_fragment.glsl" />
+    <None Include="tree_night_vertex.glsl" />
     <None Include="tree_vertex_shader.glsl" />
     <None Include="triangle_fragment.glsl" />
     <None Include="triangle_vertex.glsl" />

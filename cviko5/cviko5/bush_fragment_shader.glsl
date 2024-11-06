@@ -30,11 +30,7 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Exponent can be changed
     vec3 specular = specularStrength * spec * lightColor;
     
-    // Light attenuation
-    float distance = length(lightPos - FragPos);
-    float attenuation = 1.0 / (distance * distance);
-    
     // Result
-    vec3 result = (ambient + diffuse + specular) * objectColor * attenuation * 10000;
+    vec3 result = (ambient + diffuse + specular) * objectColor;
     FragColor = vec4(result, 1.0);
 }

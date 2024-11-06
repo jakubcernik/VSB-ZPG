@@ -40,8 +40,8 @@ inline glm::vec3 generateAutumnColor() {
 ForestSceneNight::ForestSceneNight(int treeCount)
     : treeModel(),
     bushModel(),
-    treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
-    bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
+    treeShaderProgram("tree_night_vertex.glsl", "tree_night_fragment.glsl"),
+    bushShaderProgram("bush_night_vertex.glsl", "bush_night_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
@@ -53,6 +53,13 @@ ForestSceneNight::ForestSceneNight(int treeCount)
     camera.addObserver(&lightShaderProgram);
 
     createForest(treeCount);
+
+    // Vytvoøení svìtlušek
+    for (int i = 0; i < 10; ++i) {
+        glm::vec3 fireflyPosition = generateRandomVec3(-100.0f, 100.0f, 0.0f, 20.0f, -100.0f, 100.0f);
+        Light* firefly = new Light(fireflyPosition, glm::vec3(1.0f, 1.0f, 0.0f), lightShaderProgram, 0.5f);
+        fireflies.push_back(firefly);
+    }
 }
 
 void ForestSceneNight::createForest(int treeCount) {
@@ -86,6 +93,13 @@ void ForestSceneNight::createForest(int treeCount) {
     }
 }
 
+void ForestSceneNight::updateFireflies(float deltaTime) {
+    for (auto& firefly : fireflies) {
+        glm::vec3 position = firefly->getPosition();
+        position += generateRandomVec3(-2.0f, 2.0f, 0.0f, 0.0f, -2.0f, 2.0f) * deltaTime;
+        firefly->setPosition(position);
+    }
+}
 
 void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
@@ -95,6 +109,23 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
     glm::vec3 lightColor = sceneLight->getColor();
 
     glClearColor(0.05f, 0.05f, 0.2f, 1.0f);
+
+    // Aktualizace a vykreslení svìtlušek
+    updateFireflies(0.016f); // Pøedpokládáme, že deltaTime je 16 ms (60 FPS)
+
+    // Pøedání svìtlušek do shaderu
+    treeShaderProgram.use();
+    treeShaderProgram.setUniform("numLights", static_cast<int>(fireflies.size() + 1));
+    treeShaderProgram.setUniform("lights[0].position", lightPos);
+    treeShaderProgram.setUniform("lights[0].color", lightColor);
+    treeShaderProgram.setUniform("lights[0].intensity", 3.0f);
+
+    for (size_t i = 0; i < fireflies.size(); ++i) {
+        treeShaderProgram.use();
+        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].position", fireflies[i]->getPosition());
+        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].color", fireflies[i]->getColor());
+        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].intensity", 0.5f);
+    }
 
     for (const auto& object : objects) {
         if (object.isTree()) {
@@ -113,7 +144,15 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
         object.draw();
         sceneLight->draw();
     }
+
+    for (const auto& firefly : fireflies) {
+        firefly->draw();
+    }
+
+    sceneLight->draw();
 }
+
+
 
 
 Camera& ForestSceneNight::getCamera() {
