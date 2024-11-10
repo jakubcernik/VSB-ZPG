@@ -6,7 +6,7 @@ SphereScene::SphereScene()
     : shaderProgram("phong_vertex.glsl", "phong_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     //Camera(startPosition, startUp, startYaw, startPitch);
-    camera(glm::vec3(0.0f, 2.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) { // Positioned horizontally looking forward
+    camera(glm::vec3(0.0f, 2.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
     float offset = 2.0f;
     glm::vec3 spherePositions[4] = {
@@ -22,7 +22,7 @@ SphereScene::SphereScene()
         spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
     }
 
-    sceneLight = new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2); // Light slightly above the center
+    sceneLight = new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2f);
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
     camera.addObserver(&lightShaderProgram);

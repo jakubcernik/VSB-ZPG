@@ -129,8 +129,8 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
     updateFireflies(0.016f); // 0.016f = 60 FPS
 
     // Pass fireflies to shader
-    std::vector<glm::vec3> lightPositions = { lightPos };
-    std::vector<glm::vec3> lightColors = { lightColor };
+    std::vector<glm::vec3> lightPositions;
+    std::vector<glm::vec3> lightColors;
 
     for (const auto& firefly : fireflies) {
         lightPositions.push_back(firefly->getPosition());
