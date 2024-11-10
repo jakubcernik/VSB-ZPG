@@ -45,15 +45,15 @@ void InputManager::processInput(GLFWwindow* window, Camera& activeCamera, float 
 
 void InputManager::processMouseMovement(double xpos, double ypos, Camera& camera) {
     if (firstMouse) {
-        lastX = xpos;
-        lastY = ypos;
+        lastX = static_cast<float>(xpos);
+        lastY = static_cast<float>(ypos);
         firstMouse = false;
     }
 
-    float xoffset = xpos - lastX;
-    float yoffset = lastY - ypos; // Y axis is reversed
-    lastX = xpos;
-    lastY = ypos;
+    float xoffset = static_cast<float>(xpos - lastX);
+    float yoffset = static_cast<float>(lastY - ypos); // Y axis is reversed
+    lastX = static_cast<float>(xpos);
+    lastY = static_cast<float>(ypos);
 
     camera.processMouseMovement(xoffset, yoffset);
 }
