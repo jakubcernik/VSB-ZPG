@@ -19,6 +19,21 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{0e5f57ca-7a0a-4d2a-97c6-c82167e59946}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\ForestScene">
+      <UniqueIdentifier>{23b32563-9c7d-4a5d-b0be-6c4bedc7fc66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ForestSceneNight">
+      <UniqueIdentifier>{8d90ecb4-deb7-4a13-8f2f-5463a77296a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Special lightning shaders">
+      <UniqueIdentifier>{c8e34e1a-c7f2-498d-b855-9656211c5cd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Others">
+      <UniqueIdentifier>{c79c4045-db9b-4136-b5c2-66f19cbcf1f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{8bcc9da9-fe35-4b0b-b9b4-f0b579d4c47f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -28,9 +43,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawableObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ForestScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -60,14 +72,20 @@
     <ClCompile Include="Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SphereScene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ForestScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ForestSceneNight.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="ShaderShowcaseScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="TriangleScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,61 +173,82 @@
     <ClInclude Include="SuziModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ForestSceneNight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="blinn_fragment.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="tree_night_fragment.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
     </None>
-    <None Include="blinn_vertex.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="tree_night_vertex.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
     </None>
-    <None Include="bush_fragment_shader.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="bush_night_vertex.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
     </None>
-    <None Include="bush_vertex_shader.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="constant_fragment.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="constant_vertex.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="lambert_fragment.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="lambert_vertex.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="phong_fragment.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="phong_vertex.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="sphere_fragment_shader.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="sphere_vertex_shader.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="tree_fragment_shader.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="bush_night_fragment.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
     </None>
     <None Include="tree_vertex_shader.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\ForestScene</Filter>
     </None>
-    <None Include="triangle_fragment.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="tree_fragment_shader.glsl">
+      <Filter>Shaders\ForestScene</Filter>
     </None>
-    <None Include="triangle_vertex.glsl">
-      <Filter>Shaders</Filter>
+    <None Include="bush_fragment_shader.glsl">
+      <Filter>Shaders\ForestScene</Filter>
+    </None>
+    <None Include="bush_vertex_shader.glsl">
+      <Filter>Shaders\ForestScene</Filter>
+    </None>
+    <None Include="firefly_fragment.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
+    </None>
+    <None Include="firefly_vertex.glsl">
+      <Filter>Shaders\ForestSceneNight</Filter>
+    </None>
+    <None Include="blinn_fragment.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="blinn_vertex.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="constant_fragment.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="constant_vertex.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="lambert_fragment.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="lambert_vertex.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="phong_fragment.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
+    <None Include="phong_vertex.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
     </None>
     <None Include="light_fragment.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Others</Filter>
     </None>
     <None Include="light_vertex.glsl">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\Others</Filter>
+    </None>
+    <None Include="sphere_fragment_shader.glsl">
+      <Filter>Shaders\Others</Filter>
+    </None>
+    <None Include="sphere_vertex_shader.glsl">
+      <Filter>Shaders\Others</Filter>
+    </None>
+    <None Include="triangle_fragment.glsl">
+      <Filter>Shaders\Others</Filter>
+    </None>
+    <None Include="triangle_vertex.glsl">
+      <Filter>Shaders\Others</Filter>
     </None>
   </ItemGroup>
 </Project>

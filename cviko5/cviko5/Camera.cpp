@@ -75,5 +75,5 @@ void Camera::notify() const {
     for (Observer* observer : observers) {
         observer->onNotify(view, projection);
     }
-    printf("I notified that camera moved\n");
+    //printf("I notified that camera moved\n");
 }

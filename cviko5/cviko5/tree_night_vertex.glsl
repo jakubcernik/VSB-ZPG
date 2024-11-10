@@ -1,19 +1,27 @@
 #version 330 core
 
-layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec3 aNormal;
+// Vertex attributes
+layout(location = 0) in vec3 vertexPosition;  // Model space
+layout(location = 1) in vec3 vertexNormal;    // Model space
 
-out vec3 FragPos;
-out vec3 Normal;
+uniform mat4 modelMatrix;       // Model space -> World space
+uniform mat4 viewMatrix;        // World space -> View (camera) space
+uniform mat4 projectionMatrix;  // View space -> Clip space
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
-uniform vec3 viewPos;
+// Outputs to fragment shader
+out vec3 fragWorldPosition;     // World space
+out vec3 fragWorldNormal;       // World space
 
 void main() {
-    FragPos = vec3(model * vec4(aPos, 1.0));
-    Normal = mat3(transpose(inverse(model))) * aNormal;
+    // Transform vertex position to world space
+    fragWorldPosition = vec3(modelMatrix * vec4(vertexPosition, 1.0));
     
-    gl_Position = projection * view * vec4(FragPos, 1.0);
+    // Calculate the normal matrix from the model matrix
+    mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
+    
+    // Transform and normalize the normal to world space
+    fragWorldNormal = normalize(normalMatrix * vertexNormal);
+
+    // Final position of the vertex in clip space
+    gl_Position = projectionMatrix * viewMatrix * vec4(fragWorldPosition, 1.0);
 }

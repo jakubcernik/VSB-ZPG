@@ -17,7 +17,7 @@ void DrawableObject::draw() const {
 
     shaderProgram.use();
     
-    shaderProgram.setUniform("model", modelMatrix);
+    shaderProgram.setUniform("modelMatrix", modelMatrix);
     //setModelTransform(T) je lepsi poslat primo instanci transformace, az shaderProgram se rozhodne co s tim delat, zodpovednost prechazi na shader
     
     shaderProgram.use();

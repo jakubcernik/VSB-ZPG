@@ -24,6 +24,7 @@ private:
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
     ShaderProgram lightShaderProgram;
+    ShaderProgram fireflyShaderProgram;
 
     Camera camera;
     Light* sceneLight;

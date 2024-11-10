@@ -51,14 +51,14 @@ void ShaderProgram::setMultipleLightingUniforms(const std::vector<glm::vec3>& li
     for (size_t i = 0; i < lightPositions.size(); ++i) {
         setUniform("lights[" + std::to_string(i) + "].position", lightPositions[i]);
         setUniform("lights[" + std::to_string(i) + "].color", lightColors[i]);
-        setUniform("lights[" + std::to_string(i) + "].intensity", 1.0f); // Adjust intensity as needed
+        setUniform("lights[" + std::to_string(i) + "].intensity", 50.0f); // Adjust intensity as needed
     }
 }
 
 void ShaderProgram::onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     use();
-    setUniform("view", viewMatrix);
-    printf("view uniform set\n");
-    setUniform("projection", projectionMatrix);
-    printf("projection uniform set\n");
+    setUniform("viewMatrix", viewMatrix);
+    //printf("view uniform set\n");
+    setUniform("projectionMatrix", projectionMatrix);
+    //printf("projection uniform set\n");
 }

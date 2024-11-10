@@ -31,6 +31,6 @@ void Light::draw() const {
 
     glm::mat4 modelMatrix = transform.getModelMatrix();
     lightShader.use();
-    lightShader.setUniform("model", modelMatrix);
+    lightShader.setUniform("modelMatrix", modelMatrix);
     lightModel.draw();
 }

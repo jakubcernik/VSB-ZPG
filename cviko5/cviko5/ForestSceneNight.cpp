@@ -43,6 +43,7 @@ ForestSceneNight::ForestSceneNight(int treeCount)
     treeShaderProgram("tree_night_vertex.glsl", "tree_night_fragment.glsl"),
     bushShaderProgram("bush_night_vertex.glsl", "bush_night_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
+    fireflyShaderProgram("firefly_vertex.glsl", "firefly_fragment.glsl"),
     camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
 
     sceneLight = new Light(glm::vec3(50.0f, 150.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 3.0f);
@@ -51,13 +52,14 @@ ForestSceneNight::ForestSceneNight(int treeCount)
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
+    camera.addObserver(&fireflyShaderProgram);
 
     createForest(treeCount);
 
     // Vytvoøení svìtlušek
     for (int i = 0; i < 10; ++i) {
         glm::vec3 fireflyPosition = generateRandomVec3(-100.0f, 100.0f, 0.0f, 20.0f, -100.0f, 100.0f);
-        Light* firefly = new Light(fireflyPosition, glm::vec3(1.0f, 1.0f, 0.0f), lightShaderProgram, 0.5f);
+        Light* firefly = new Light(fireflyPosition, glm::vec3(0.0f, 1.0f, 0.0f), fireflyShaderProgram, 0.2f);
         fireflies.push_back(firefly);
     }
 }
@@ -96,7 +98,7 @@ void ForestSceneNight::createForest(int treeCount) {
 void ForestSceneNight::updateFireflies(float deltaTime) {
     for (auto& firefly : fireflies) {
         glm::vec3 position = firefly->getPosition();
-        position += generateRandomVec3(-2.0f, 2.0f, 0.0f, 0.0f, -2.0f, 2.0f) * deltaTime;
+        position += generateRandomVec3(-5.0f, 5.0f, -3.0f, 3.0f, -5.0f, 5.0f) * deltaTime;
         firefly->setPosition(position);
     }
 }
