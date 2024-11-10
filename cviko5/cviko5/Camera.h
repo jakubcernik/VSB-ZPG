@@ -2,10 +2,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Observer.h"
-#include "Observable.h"
+#include "Subject.h"
 #include <vector>
 
-class Camera : public Observable {
+class Camera : public Subject {
 public:
     Camera(glm::vec3 startPosition, glm::vec3 startUp, float startYaw, float startPitch);
     

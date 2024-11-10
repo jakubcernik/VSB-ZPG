@@ -1,9 +1,9 @@
-// Observable.h
+// Subject.h
 #pragma once
 #include "Observer.h"
 #include <vector>
 
-class Observable {
+class Subject {
 
 public:
     void addObserver(Observer* observer) {

@@ -1,11 +1,11 @@
 // Light.h
 #pragma once
-#include "Observable.h"
+#include "Subject.h"
 #include "SphereModel.h"
 #include "ShaderProgram.h"
 #include <glm/glm.hpp>
 
-class Light : public Observable {
+class Light : public Subject {
 public:
     Light(const glm::vec3& position, const glm::vec3& color, ShaderProgram& lightShader, float scale = 1.0f);
     void setPosition(const glm::vec3& newPosition);
