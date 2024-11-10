@@ -47,6 +47,12 @@ ForestSceneNight::ForestSceneNight(int treeCount)
     //Camera(startPosition, startUp, startYaw, startPitch);
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f) {
 
+    initializeSceneLight();
+    createForest(treeCount);
+    initializeFireflies(10);
+}
+
+void ForestSceneNight::initializeSceneLight() {
     sceneLight = new Light(glm::vec3(50.0f, 150.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 10.0f);
     sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
@@ -54,11 +60,10 @@ ForestSceneNight::ForestSceneNight(int treeCount)
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
     camera.addObserver(&fireflyShaderProgram);
+}
 
-    createForest(treeCount);
-
-    // Vytvoøení svìtlušek
-    for (int i = 0; i < 10; ++i) {
+void ForestSceneNight::initializeFireflies(int count) {
+    for (int i = 0; i < count; ++i) {
         glm::vec3 fireflyPosition = generateRandomVec3(-100.0f, 100.0f, 0.0f, 20.0f, -100.0f, 100.0f);
         Light* firefly = new Light(fireflyPosition, glm::vec3(0.0f, 1.0f, 0.0f), fireflyShaderProgram, 0.2f);
         fireflies.push_back(firefly);
@@ -121,7 +126,7 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
     glClearColor(0.05f, 0.05f, 0.2f, 1.0f);
 
     // Update and render fireflies
-    updateFireflies(0.016f); // Assuming deltaTime is 16 ms (60 FPS)
+    updateFireflies(0.016f); // 0.016f = 60 FPS
 
     // Pass fireflies to shader
     std::vector<glm::vec3> lightPositions = { lightPos };
@@ -153,8 +158,6 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
 
     sceneLight->draw();
 }
-
-
 
 Camera& ForestSceneNight::getCamera() {
     return camera;

@@ -19,6 +19,9 @@ public:
     void updateFireflies(float deltaTime);
 
 private:
+    void initializeSceneLight();
+    void initializeFireflies(int count);
+
     TreeModel treeModel;
     BushModel bushModel;
     ShaderProgram treeShaderProgram;
