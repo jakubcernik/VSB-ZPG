@@ -18,8 +18,7 @@ uniform vec3 objectColor;
 uniform Light lights[MAX_LIGHTS];
 uniform int numLights;
 
-void main()
-{
+void main() {
     vec3 ambient = 0.1 * objectColor;
 
     vec3 result = ambient;
@@ -33,7 +32,7 @@ void main()
         float distance = length(lights[i].position - FragPos);
         float attenuation = 1.0 / (distance * distance);
 
-        result += diffuse * attenuation * 1000;
+        result += diffuse * attenuation * 100;
     }
 
     FragColor = vec4(result, 1.0);

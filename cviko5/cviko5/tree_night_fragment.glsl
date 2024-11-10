@@ -6,7 +6,7 @@ struct Light {
     float intensity;
 };
 
-#define MAX_LIGHTS 10
+#define MAX_LIGHTS 11
 
 in vec3 FragPos;
 in vec3 Normal;
@@ -18,8 +18,7 @@ uniform vec3 objectColor;
 uniform Light lights[MAX_LIGHTS];
 uniform int numLights;
 
-void main()
-{
+void main() {
     vec3 ambient = 0.1 * objectColor;
 
     vec3 result = ambient;
@@ -33,13 +32,8 @@ void main()
         float distance = length(lights[i].position - FragPos);
         float attenuation = 1.0 / (distance * distance);
 
-        result += diffuse * attenuation * 100000; // Debugging line
+        result += diffuse * attenuation * 100;
     }
 
-    // Debug output
-    if (result == ambient) {
-        FragColor = vec4(1.0, 0.0, 0.0, 1.0); // Red if no light is added
-    } else {
-        FragColor = vec4(result, 1.0);
-    }
+    FragColor = vec4(result, 1.0);
 }

@@ -110,39 +110,31 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
 
     glClearColor(0.05f, 0.05f, 0.2f, 1.0f);
 
-    // Aktualizace a vykreslení svìtlušek
-    updateFireflies(0.016f); // Pøedpokládáme, že deltaTime je 16 ms (60 FPS)
+    // Update and render fireflies
+    updateFireflies(0.016f); // Assuming deltaTime is 16 ms (60 FPS)
 
-    // Pøedání svìtlušek do shaderu
-    treeShaderProgram.use();
-    treeShaderProgram.setUniform("numLights", static_cast<int>(fireflies.size() + 1));
-    treeShaderProgram.setUniform("lights[0].position", lightPos);
-    treeShaderProgram.setUniform("lights[0].color", lightColor);
-    treeShaderProgram.setUniform("lights[0].intensity", 3.0f);
+    // Pass fireflies to shader
+    std::vector<glm::vec3> lightPositions = { lightPos };
+    std::vector<glm::vec3> lightColors = { lightColor };
 
-    for (size_t i = 0; i < fireflies.size(); ++i) {
-        treeShaderProgram.use();
-        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].position", fireflies[i]->getPosition());
-        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].color", fireflies[i]->getColor());
-        treeShaderProgram.setUniform("lights[" + std::to_string(i + 1) + "].intensity", 0.5f);
+    for (const auto& firefly : fireflies) {
+        lightPositions.push_back(firefly->getPosition());
+        lightColors.push_back(firefly->getColor());
     }
 
     for (const auto& object : objects) {
         if (object.isTree()) {
             treeShaderProgram.use();
             glm::vec3 autumnColor = object.getColor();
-            treeShaderProgram.setUniform("objectColor", autumnColor);
-            treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+            treeShaderProgram.setMultipleLightingUniforms(lightPositions, lightColors, viewPos, autumnColor);
         }
         else {
             bushShaderProgram.use();
             glm::vec3 bushColor = object.getColor();
-            bushShaderProgram.setUniform("objectColor", bushColor);
-            bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
+            bushShaderProgram.setMultipleLightingUniforms(lightPositions, lightColors, viewPos, bushColor);
         }
 
         object.draw();
-        sceneLight->draw();
     }
 
     for (const auto& firefly : fireflies) {
@@ -151,7 +143,6 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
 
     sceneLight->draw();
 }
-
 
 
 
