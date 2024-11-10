@@ -43,7 +43,8 @@ ForestScene::ForestScene(int treeCount)
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
-    camera(glm::vec3(0.0f, 1.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) {
+    //Camera(startPosition, startUp, startYaw, startPitch);
+    camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f) {
 
     sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram);
     sceneLight->addObserver(&treeShaderProgram);

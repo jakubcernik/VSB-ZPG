@@ -3,7 +3,6 @@
 struct Light {
     vec3 position;
     vec3 color;
-    float intensity;
 };
 
 #define MAX_LIGHTS 11
@@ -19,6 +18,7 @@ uniform Light lights[MAX_LIGHTS];
 uniform int numLights;
 
 void main() {
+    float lightSensitivity = 50;
     vec3 ambient = 0.1 * objectColor;
 
     vec3 result = ambient;
@@ -27,12 +27,12 @@ void main() {
     for (int i = 0; i < numLights; ++i) {
         vec3 lightDir = normalize(lights[i].position - fragWorldPosition);
         float diff = max(dot(norm, lightDir), 0.0);
-        vec3 diffuse = diff * lights[i].color * lights[i].intensity;
+        vec3 diffuse = diff * lights[i].color;
 
         float distance = length(lights[i].position - fragWorldPosition);
         float attenuation = 1.0 / (distance * distance);
 
-        result += diffuse * attenuation;
+        result += diffuse * attenuation * lightSensitivity;
     }
 
     FragColor = vec4(result, 1.0);

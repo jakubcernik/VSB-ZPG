@@ -51,7 +51,6 @@ void ShaderProgram::setMultipleLightingUniforms(const std::vector<glm::vec3>& li
     for (size_t i = 0; i < lightPositions.size(); ++i) {
         setUniform("lights[" + std::to_string(i) + "].position", lightPositions[i]);
         setUniform("lights[" + std::to_string(i) + "].color", lightColors[i]);
-        setUniform("lights[" + std::to_string(i) + "].intensity", 50.0f); // Adjust intensity as needed
     }
 }
 

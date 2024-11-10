@@ -5,6 +5,7 @@
 SphereScene::SphereScene()
     : shaderProgram("phong_vertex.glsl", "phong_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
+    //Camera(startPosition, startUp, startYaw, startPitch);
     camera(glm::vec3(0.0f, 2.0f, 8.0f), glm::vec3(0.0f, 1.0f, 0.0f), -90.0f, 0.0f) { // Positioned horizontally looking forward
 
     float offset = 2.0f;
