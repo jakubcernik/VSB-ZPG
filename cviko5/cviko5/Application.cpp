@@ -83,6 +83,7 @@ void Application::screenLocker(GLFWwindow* window) {
         lockedStatus = false;
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     }
+
 }
 
 
@@ -96,7 +97,7 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
     float lastFrame = 0.0f;
 
     while (!glfwWindowShouldClose(window)) {
-        float currentFrame = glfwGetTime();
+        float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 

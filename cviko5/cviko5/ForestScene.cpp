@@ -87,8 +87,6 @@ void ForestScene::createForest(int treeCount) {
     }
 
     // Add 5 trees side by side
-    
-
     for (int i = 0; i < 5; ++i) {
         Transformation treeTransform;
         treeTransform.translate(glm::vec3(i * 10.0f, groundLevel, 0.0f));
@@ -98,7 +96,6 @@ void ForestScene::createForest(int treeCount) {
         rotatingTrees.push_back(tree);
         //addObject(tree);
     }
-
 }
 
 

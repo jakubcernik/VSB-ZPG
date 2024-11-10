@@ -23,5 +23,4 @@ public:
     void use();
 
     void onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) override;
-
 };
