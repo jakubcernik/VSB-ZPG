@@ -25,4 +25,5 @@ private:
 
     Camera camera;
     Light* sceneLight;
+    vector<DrawableObject> rotatingTrees;
 };

@@ -85,6 +85,20 @@ void ForestScene::createForest(int treeCount) {
         addObject(tree);
         addObject(bush);
     }
+
+    // Add 5 trees side by side
+    
+
+    for (int i = 0; i < 5; ++i) {
+        Transformation treeTransform;
+        treeTransform.translate(glm::vec3(i * 10.0f, groundLevel, 0.0f));
+        treeTransform.setScale(glm::vec3(2.0f));
+        glm::vec3 autumnColor = generateAutumnColor();
+        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
+        rotatingTrees.push_back(tree);
+        //addObject(tree);
+    }
+
 }
 
 
@@ -96,6 +110,11 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glm::vec3 lightColor = sceneLight->getColor();
 
     glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+
+    for (auto& tree : rotatingTrees) {
+        tree.getTransform().rotate(0.0f, 1.0f, 0.0f);
+        tree.draw();
+    }
 
     for (const auto& object : objects) {
         if (object.isTree()) {

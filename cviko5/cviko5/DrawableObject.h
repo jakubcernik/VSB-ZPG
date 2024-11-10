@@ -17,4 +17,5 @@ public:
     void draw() const;
     bool isTree() const { return isTreeObject; }
     const glm::vec3& getColor() const { return color; }
+    Transformation& getTransform() { return transformation; }
 };
