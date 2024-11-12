@@ -106,7 +106,8 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
-    glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+    //glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
     for (auto& tree : rotatingTrees) {
         tree.getTransform().rotate(0.0f, 1.0f, 0.0f);
