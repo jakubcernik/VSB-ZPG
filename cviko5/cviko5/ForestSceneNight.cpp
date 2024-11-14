@@ -107,16 +107,9 @@ void ForestSceneNight::createForest(int treeCount) {
 
 void ForestSceneNight::updateFireflies(float deltaTime) {
     for (auto& firefly : fireflies) {
-        for (int i = 0; i < 100; ++i) {
-            glm::vec3 position = firefly->getPosition();
-            position += generateRandomVec3(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f) * deltaTime;
-            firefly->setPosition(position);
-        }
-        for (int i = 0; i < 100; ++i) {
-            glm::vec3 position = firefly->getPosition();
-            position += generateRandomVec3(0.0f, 0.0f, -1.0f, 1.0f, -1.0f, 1.0f) * deltaTime;
-            firefly->setPosition(position);
-        }
+        glm::vec3 position = firefly->getPosition();
+        position += generateRandomVec3(-3.0f, 3.0f, -3.0f, 3.0f, -3.0f, 3.0f) * deltaTime;
+        firefly->setPosition(position);
     }
 }
 
@@ -154,6 +147,13 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
         }
 
         object.draw();
+
+        if (object.isTree()) {
+			treeShaderProgram.free();
+		}
+		else {
+			bushShaderProgram.free();
+		}
     }
 
     for (const auto& firefly : fireflies) {

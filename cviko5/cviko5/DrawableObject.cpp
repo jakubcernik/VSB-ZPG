@@ -11,9 +11,6 @@ DrawableObject::DrawableObject(const Model& mdl, const Transformation& trans, Sh
 
 void DrawableObject::draw() const {
     glm::mat4 modelMatrix = transformation.apply(glm::mat4(1.0f));
-
-    shaderProgram.use();
     shaderProgram.setUniform("modelMatrix", modelMatrix);
-
     model->draw();
 }

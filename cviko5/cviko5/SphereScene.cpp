@@ -45,6 +45,7 @@ void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, con
         sphere.draw();
     }
     sceneLight->draw();
+    shaderProgram.free();
 }
 
 Camera& SphereScene::getCamera() {

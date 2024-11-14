@@ -1,3 +1,4 @@
+#define GLM_ENABLE_EXPERIMENTAL
 #pragma once
 #include "TreeModel.h"
 #include "BushModel.h"

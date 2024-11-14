@@ -44,6 +44,7 @@ void TriangleScene::render(const glm::mat4& projection, const glm::mat4& view, c
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);
+    triangleShaderProgram.free();
 }
 
 

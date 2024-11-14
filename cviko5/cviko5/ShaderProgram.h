@@ -21,6 +21,7 @@ public:
     void setLightingUniforms(const glm::vec3& lightPos, const glm::vec3& viewPos, const glm::vec3& lightColor, const glm::vec3& objectColor);
     void setMultipleLightingUniforms(const std::vector<glm::vec3>& lightPositions, const std::vector<glm::vec3>& lightColors, const glm::vec3& viewPos, const glm::vec3& objectColor);
     void use();
+    void free();
 
     void onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) override;
 };

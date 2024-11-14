@@ -7,9 +7,11 @@
 #include "Scale.h"
 #include "Light.h"
 #include <glm/glm.hpp>
+#include <glm/gtx/string_cast.hpp> // Include this header for glm::to_string
 #include <cstdlib>
 #include <ctime>
 #include <random>
+#include <iostream> // Include this header for std::cout
 using namespace std;
 
 inline float generateRandomFloat(float min, float max) {
@@ -109,33 +111,52 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
-    //glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
+    // Render rotating trees
     for (auto& tree : rotatingTrees) {
+        treeShaderProgram.use();
+        glm::vec3 autumnColor = tree.getColor();
+        treeShaderProgram.setUniform("objectColor", autumnColor);
+        treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+
+        // Apply rotation transformation
         std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
         treeTransform->addTransformation(std::make_shared<Rotation>(0.0f, 1.0f, 0.0f));
         tree.getTransform().addTransformation(treeTransform);
+
         tree.draw();
+        treeShaderProgram.free();
     }
 
+    // Render other objects
     for (const auto& object : objects) {
         if (object.isTree()) {
             treeShaderProgram.use();
             glm::vec3 autumnColor = object.getColor();
             treeShaderProgram.setUniform("objectColor", autumnColor);
             treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+            object.draw();
+            // Debugging output
+            // std::cout << "Drawing tree with color: " << glm::to_string(autumnColor) << std::endl;
+            treeShaderProgram.free();
         }
         else {
             bushShaderProgram.use();
             glm::vec3 bushColor = object.getColor();
             bushShaderProgram.setUniform("objectColor", bushColor);
             bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
+            object.draw();
+            // Debugging output
+            // std::cout << "Drawing bush with color: " << glm::to_string(bushColor) << std::endl;
+            bushShaderProgram.free();
         }
-
-        object.draw();
-        sceneLight->draw();
     }
+
+    // Draw the light source after all objects are drawn
+    sceneLight->draw();
+    // Debugging output
+    // std::cout << "Drawing light source at position: " << glm::to_string(lightPos) << std::endl;
 }
 
 Camera& ForestScene::getCamera() {

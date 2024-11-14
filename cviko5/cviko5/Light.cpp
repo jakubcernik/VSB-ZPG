@@ -35,5 +35,6 @@ void Light::draw() const {
     lightShader.use();
     lightShader.setUniform("modelMatrix", modelMatrix);
     lightModel.draw();
+    lightShader.free();
 }
 
