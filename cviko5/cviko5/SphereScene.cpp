@@ -1,5 +1,8 @@
+// SphereScene.cpp
+
 #include "SphereScene.h"
 #include "Transformation.h"
+#include "Translation.h"
 #include "Light.h"
 
 SphereScene::SphereScene()
@@ -17,9 +20,9 @@ SphereScene::SphereScene()
     };
 
     for (const auto& pos : spherePositions) {
-        Transformation sphereTransform;
-        sphereTransform.translate(pos);
-        spheres.emplace_back(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
+        std::shared_ptr<Transformation> sphereTransform = std::make_shared<Transformation>();
+        sphereTransform->addTransformation(std::make_shared<Translation>(pos));
+        spheres.emplace_back(sphereModel, *sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
     }
 
     sceneLight = new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2f);

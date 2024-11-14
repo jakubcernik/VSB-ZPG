@@ -1,20 +1,15 @@
+// Transformation.h
 #pragma once
+#include "BasicTransformation.h"
+#include <vector>
+#include <memory>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-
-class Transformation {
-
+class Transformation : public BasicTransformation {
 public:
-    Transformation();
-    void translate(const glm::vec3& deltaPosition);
-    void rotate(float angleX, float angleY, float angleZ);
-    void setScale(const glm::vec3& newScale);
-    glm::mat4 getModelMatrix() const;
+    void addTransformation(std::shared_ptr<BasicTransformation> transformation);
+
+    glm::mat4 apply(const glm::mat4& model) const override;
 
 private:
-    glm::vec3 position;
-    glm::vec3 rotation;
-    glm::vec3 scale;
+    std::vector<std::shared_ptr<BasicTransformation>> transformations;
 };

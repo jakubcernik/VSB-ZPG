@@ -1,7 +1,10 @@
-//ForestScene.cpp
+// ForestScene.cpp
 
 #include "ForestScene.h"
 #include "Transformation.h"
+#include "Translation.h"
+#include "Rotation.h"
+#include "Scale.h"
 #include "Light.h"
 #include <glm/glm.hpp>
 #include <cstdlib>
@@ -10,13 +13,13 @@
 using namespace std;
 
 inline float generateRandomFloat(float min, float max) {
-    static default_random_engine engine{random_device{}() };
+    static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distribution(min, max);
     return distribution(engine);
 }
 
 inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
-    static default_random_engine engine{random_device{}() };
+    static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distX(minX, maxX);
     uniform_real_distribution<float> distY(minY, maxY);
     uniform_real_distribution<float> distZ(minZ, maxZ);
@@ -62,25 +65,26 @@ void ForestScene::createForest(int treeCount) {
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
-        Transformation treeTransform, bushTransform;
+        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
+        std::shared_ptr<Transformation> bushTransform = std::make_shared<Transformation>();
 
         glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
         glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
 
-        treeTransform.translate(treeRandomPosition);
-        bushTransform.translate(bushRandomPosition);
+        treeTransform->addTransformation(std::make_shared<Translation>(treeRandomPosition));
+        bushTransform->addTransformation(std::make_shared<Translation>(bushRandomPosition));
 
         float randomRotationY = static_cast<float>(std::rand() % 360);
-        treeTransform.rotate(0, randomRotationY, 0);
-        bushTransform.rotate(0, randomRotationY, 0);
+        treeTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
+        bushTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
 
-        treeTransform.setScale(glm::vec3(generateRandomFloat(1.5, 3.0)));
-        bushTransform.setScale(glm::vec3(generateRandomFloat(15.0, 25.0)));
+        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(1.5, 3.0))));
+        bushTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(15.0, 25.0))));
 
         glm::vec3 autumnColor = generateAutumnColor();
 
-        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
-        DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
+        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
+        DrawableObject bush(bushModel, *bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
 
         addObject(tree);
         addObject(bush);
@@ -88,28 +92,29 @@ void ForestScene::createForest(int treeCount) {
 
     // Add 5 trees side by side
     for (int i = 0; i < 5; ++i) {
-        Transformation treeTransform;
-        treeTransform.translate(glm::vec3(i * 10.0f, groundLevel, 0.0f));
-        treeTransform.setScale(glm::vec3(2.0f));
+        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
+        treeTransform->addTransformation(std::make_shared<Translation>(glm::vec3(i * 10.0f, groundLevel, 0.0f)));
+        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(2.0f)));
         glm::vec3 autumnColor = generateAutumnColor();
-        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
+        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
         rotatingTrees.push_back(tree);
         //addObject(tree);
     }
 }
 
-
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
 
     glClearColor(0.53f, 0.81f, 0.92f, 1.0f);
 
     for (auto& tree : rotatingTrees) {
-        tree.getTransform().rotate(0.0f, 1.0f, 0.0f);
+        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
+        treeTransform->addTransformation(std::make_shared<Rotation>(0.0f, 1.0f, 0.0f));
+        tree.getTransform().addTransformation(treeTransform);
         tree.draw();
     }
 
@@ -132,8 +137,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     }
 }
 
-
-Camera& ForestScene::getCamera(){
+Camera& ForestScene::getCamera() {
     return camera;
 }
 

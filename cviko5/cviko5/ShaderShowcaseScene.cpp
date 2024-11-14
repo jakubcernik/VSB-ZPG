@@ -2,6 +2,8 @@
 
 #include "ShaderShowcaseScene.h"
 #include "Transformation.h"
+#include "Translation.h"
+#include "Scale.h"
 #include "Light.h"
 
 ShaderShowcaseScene::ShaderShowcaseScene()
@@ -18,7 +20,6 @@ ShaderShowcaseScene::ShaderShowcaseScene()
 {
     sceneLight = new Light(glm::vec3(2.5f, 10.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), lightShaderProgram);
 
-
     sceneLight->addObserver(&constantShader);
     sceneLight->addObserver(&lambertShader);
     sceneLight->addObserver(&phongShader);
@@ -33,20 +34,18 @@ ShaderShowcaseScene::ShaderShowcaseScene()
     createShaderShowcase();
 }
 
-
 ShaderShowcaseScene::~ShaderShowcaseScene() {
     delete sceneLight;
 }
-
 
 void ShaderShowcaseScene::createShaderShowcase() {
     float offset = -5.0f;
 
     // Trees
-    addObjectWithShader(treeModel, glm::vec3(-5.0f, 0.0f, offset), constantShader,0.4f);
-    addObjectWithShader(treeModel, glm::vec3(0.0f, 0.0f, offset), lambertShader,0.4f);
-    addObjectWithShader(treeModel, glm::vec3(5.0f, 0.0f, offset), phongShader,0.4f);
-    addObjectWithShader(treeModel, glm::vec3(10.0f, 0.0f, offset), blinnShader,0.4f);
+    addObjectWithShader(treeModel, glm::vec3(-5.0f, 0.0f, offset), constantShader, 0.4f);
+    addObjectWithShader(treeModel, glm::vec3(0.0f, 0.0f, offset), lambertShader, 0.4f);
+    addObjectWithShader(treeModel, glm::vec3(5.0f, 0.0f, offset), phongShader, 0.4f);
+    addObjectWithShader(treeModel, glm::vec3(10.0f, 0.0f, offset), blinnShader, 0.4f);
 
     // Bushes
     addObjectWithShader(bushModel, glm::vec3(-5.0f, -offset, offset), constantShader, 3.0f);
@@ -61,21 +60,18 @@ void ShaderShowcaseScene::createShaderShowcase() {
     addObjectWithShader(sphereModel, glm::vec3(10.0f, -2 * offset, offset), blinnShader, 1.0f);
 }
 
-
-
 void ShaderShowcaseScene::addObjectWithShader(const Model& model, const glm::vec3& position, ShaderProgram& shader, float scale) {
-    Transformation transform;
-    transform.translate(position);
-    transform.setScale(glm::vec3(scale));  // Scale to match the size of the objects
-    DrawableObject object(model, transform, shader, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    std::shared_ptr<Transformation> transform = std::make_shared<Transformation>();
+    transform->addTransformation(std::make_shared<Translation>(position));
+    transform->addTransformation(std::make_shared<Scale>(glm::vec3(scale)));  // Scale to match the size of the objects
+    DrawableObject object(model, *transform, shader, false, glm::vec3(1.0f, 1.0f, 1.0f));
     addObject(object);
 }
-
 
 void ShaderShowcaseScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
+
     glm::vec3 lightPos = sceneLight->getPosition();
     glm::vec3 lightColor = sceneLight->getColor();
     glm::vec3 uniformColor = glm::vec3(0.5f, 0.8f, 0.3f); // Same color for all objects
@@ -97,8 +93,6 @@ void ShaderShowcaseScene::render(const glm::mat4& projection, const glm::mat4& v
     }
     sceneLight->draw();
 }
-
-
 
 Camera& ShaderShowcaseScene::getCamera() {
     return camera;

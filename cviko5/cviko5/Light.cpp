@@ -2,6 +2,8 @@
 
 #include "Light.h"
 #include "Transformation.h"
+#include "Translation.h"
+#include "Scale.h"
 
 Light::Light(const glm::vec3& position, const glm::vec3& color, ShaderProgram& lightShader, float scale)
     : position(position), color(color), lightShader(lightShader), scale(scale) {}
@@ -25,12 +27,13 @@ const glm::vec3& Light::getColor() const {
 }
 
 void Light::draw() const {
-    Transformation transform;
-    transform.translate(position);
-    transform.setScale(glm::vec3(scale));
+    std::shared_ptr<Transformation> transform = std::make_shared<Transformation>();
+    transform->addTransformation(std::make_shared<Translation>(position));
+    transform->addTransformation(std::make_shared<Scale>(glm::vec3(scale)));
 
-    glm::mat4 modelMatrix = transform.getModelMatrix();
+    glm::mat4 modelMatrix = transform->apply(glm::mat4(1.0f));
     lightShader.use();
     lightShader.setUniform("modelMatrix", modelMatrix);
     lightModel.draw();
 }
+

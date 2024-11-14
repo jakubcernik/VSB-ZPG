@@ -1,7 +1,10 @@
-//ForestSceneNight.cpp
+// ForestSceneNight.cpp
 
 #include "ForestSceneNight.h"
 #include "Transformation.h"
+#include "Translation.h"
+#include "Rotation.h"
+#include "Scale.h"
 #include "Light.h"
 #include <glm/glm.hpp>
 #include <cstdlib>
@@ -76,25 +79,26 @@ void ForestSceneNight::createForest(int treeCount) {
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
-        Transformation treeTransform, bushTransform;
+        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
+        std::shared_ptr<Transformation> bushTransform = std::make_shared<Transformation>();
 
         glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
         glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
 
-        treeTransform.translate(treeRandomPosition);
-        bushTransform.translate(bushRandomPosition);
+        treeTransform->addTransformation(std::make_shared<Translation>(treeRandomPosition));
+        bushTransform->addTransformation(std::make_shared<Translation>(bushRandomPosition));
 
         float randomRotationY = static_cast<float>(std::rand() % 360);
-        treeTransform.rotate(0, randomRotationY, 0);
-        bushTransform.rotate(0, randomRotationY, 0);
+        treeTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
+        bushTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
 
-        treeTransform.setScale(glm::vec3(generateRandomFloat(1.5, 3.0)));
-        bushTransform.setScale(glm::vec3(generateRandomFloat(15.0, 25.0)));
+        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(1.5, 3.0))));
+        bushTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(15.0, 25.0))));
 
         glm::vec3 autumnColor = generateAutumnColor();
 
-        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
-        DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
+        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
+        DrawableObject bush(bushModel, *bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
 
         addObject(tree);
         addObject(bush);
@@ -103,11 +107,11 @@ void ForestSceneNight::createForest(int treeCount) {
 
 void ForestSceneNight::updateFireflies(float deltaTime) {
     for (auto& firefly : fireflies) {
-        for(int i = 0; i < 100; ++i) {
-			glm::vec3 position = firefly->getPosition();
-			position += generateRandomVec3(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f) * deltaTime;
-			firefly->setPosition(position);
-		}
+        for (int i = 0; i < 100; ++i) {
+            glm::vec3 position = firefly->getPosition();
+            position += generateRandomVec3(-1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f) * deltaTime;
+            firefly->setPosition(position);
+        }
         for (int i = 0; i < 100; ++i) {
             glm::vec3 position = firefly->getPosition();
             position += generateRandomVec3(0.0f, 0.0f, -1.0f, 1.0f, -1.0f, 1.0f) * deltaTime;
