@@ -140,8 +140,12 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Model.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
+=======
+    <ClCompile Include="Reflector.cpp" />
+>>>>>>> 05d1f55c0d59baba1d28efbe0bee4d4963b105e9
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderShowcaseScene.cpp" />
     <ClCompile Include="SphereScene.cpp" />

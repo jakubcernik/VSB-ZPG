@@ -28,8 +28,19 @@ void main()
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * lightColor;
+    
+    vec3 direction = vec3(1.0, 0.0, 0.0);
+    float angle = cos(radians(30.0));
+    vec3 result = (ambient + diffuse + specular) * objectColor;
+
+    float alpha = dot(lightDir, normalize(direction));
+    if (alpha > angle) { 
+        FragColor = vec4(result, 1.0); //in
+    } else {
+        FragColor = vec4(ambient * objectColor, 1.0); //out
+    }
 
     // Result
-    vec3 result = (ambient + diffuse + specular) * objectColor;
-    FragColor = vec4(result, 1.0);
+    //vec3 result = (ambient + diffuse + specular) * objectColor;
+    //FragColor = vec4(result, 1.0);
 }

@@ -29,7 +29,17 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32); // Exponent can be changed
     vec3 specular = specularStrength * spec * lightColor;
     
-    // Result
+    vec3 direction = vec3(1.0, 0.0, 0.0);
+    float angle = cos(radians(30.0));
     vec3 result = (ambient + diffuse + specular) * objectColor;
-    FragColor = vec4(result, 1.0);
+
+    float alpha = dot(lightDir, normalize(direction));
+    if (alpha > angle) { 
+        FragColor = vec4(result, 1.0); //in
+    } else {
+        FragColor = vec4(ambient * objectColor, 1.0); //out
+    }
+    // Result
+    //vec3 result = (ambient + diffuse + specular) * objectColor;
+    //FragColor = vec4(result, 1.0);
 }

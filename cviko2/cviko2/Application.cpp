@@ -9,6 +9,10 @@ static void error_callback(int error, const char* description)
     fflush(stderr);
 }
 
+
+
+
+
 Application::Application()
 {
     window = nullptr;
@@ -67,11 +71,11 @@ void Application::run()
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Použití èerveného shaderu pro ètverec (dùm)
+        // Pouï¿½itï¿½ ï¿½ervenï¿½ho shaderu pro ï¿½tverec (dï¿½m)
         shaders->useRedProgram();
         models->drawSquare();
 
-        // Použití modrého shaderu pro trojúhelník (støecha)
+        // Pouï¿½itï¿½ modrï¿½ho shaderu pro trojï¿½helnï¿½k (stï¿½echa)
         shaders->useBlueProgram();
         models->drawTriangle();
 
