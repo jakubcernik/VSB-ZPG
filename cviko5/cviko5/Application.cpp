@@ -25,9 +25,25 @@ void Application::initGLFW() {
     }
 }
 
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods) {
+    Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
+    if (button == GLFW_MOUSE_BUTTON_RIGHT) {
+        if (action == GLFW_PRESS) {
+            app->inputManager.setLockedStatus(true);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            app->inputManager.resetMousePosition();
+        }
+        else if (action == GLFW_RELEASE) {
+            app->inputManager.setLockedStatus(false);
+            glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            app->inputManager.resetMousePosition();
+        }
+    }
+}
+
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     Application* app = static_cast<Application*>(glfwGetWindowUserPointer(window));
-    if (app->getActiveScene()) {
+    if (app->inputManager.getLockedStatus() && app->getActiveScene()) {
         Camera& activeCamera = app->getActiveScene()->getCamera();
         app->inputManager.processMouseMovement(xpos, ypos, activeCamera);
     }
@@ -50,7 +66,7 @@ void Application::initWindow() {
     glfwSetWindowUserPointer(window, this);
 
     glfwSetCursorPosCallback(window, mouse_callback);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
 }
 
 void Application::initOpenGL() {
@@ -68,22 +84,6 @@ void Application::initOpenGL() {
 
 void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
-}
-
-void Application::screenLocker(GLFWwindow* window) {
-    if (!lockedStatus) {
-        int windowWidth, windowHeight;
-        glfwGetWindowSize(window, &windowWidth, &windowHeight);
-        glfwSetCursorPos(window, windowWidth / 2.0, windowHeight / 2.0);
-
-        lockedStatus = true;
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-    }
-    else {
-        lockedStatus = false;
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-    }
-
 }
 
 
@@ -119,17 +119,6 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
         else if (glfwGetKey(window, GLFW_KEY_4) == GLFW_PRESS) {
             activeScene = &forestSceneNight;
             glfwSetWindowTitle(window, "Forest Scene at night");
-        }
-
-        // Check if Tab is pressed and toggle lock status only once per press
-        if (glfwGetKey(window, GLFW_KEY_TAB) == GLFW_PRESS) {
-            if (!isTabPressed) {
-                screenLocker(window); // toggle cursor lock
-                isTabPressed = true;
-            }
-        }
-        else {
-            isTabPressed = false; // reset when Tab is released
         }
 
         Camera& activeCamera = activeScene->getCamera();

@@ -57,3 +57,15 @@ void InputManager::processMouseMovement(double xpos, double ypos, Camera& camera
 
     camera.processMouseMovement(xoffset, yoffset);
 }
+
+void InputManager::setLockedStatus(bool status) {
+    lockedStatus = status;
+}
+
+bool InputManager::getLockedStatus() const {
+    return lockedStatus;
+}
+
+void InputManager::resetMousePosition() {
+    firstMouse = true;
+}
