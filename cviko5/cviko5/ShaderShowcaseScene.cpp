@@ -18,7 +18,16 @@ ShaderShowcaseScene::ShaderShowcaseScene()
     bushModel(),
     sphereModel()
 {
-    sceneLight = new Light(glm::vec3(2.5f, 10.0f, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f), lightShaderProgram);
+    sceneLight = new Light(
+        glm::vec3(2.5f, 10.0f, 5.0f),  // position
+        glm::vec3(1.0f, -1.0f, 0.0f),  // direction
+        glm::vec3(1.0f, 1.0f, 1.0f),   // color
+        lightShaderProgram,            // lightShader
+        1.0f,                          // scale
+        12.5f,                         // cutOff
+        15.0f,                         // outerCutOff
+        1                              // type
+    );
 
     sceneLight->addObserver(&constantShader);
     sceneLight->addObserver(&lambertShader);

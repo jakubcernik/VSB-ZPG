@@ -14,6 +14,7 @@ public:
     ForestScene(int treeCount);
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
+    void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);
     Camera& getCamera() override;
     void setCamera(Camera& camera);
 
@@ -27,4 +28,5 @@ private:
     Camera camera;
     Light* sceneLight;
     vector<DrawableObject> rotatingTrees;
+    vector<Light> lights;
 };

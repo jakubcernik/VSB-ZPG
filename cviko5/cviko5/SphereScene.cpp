@@ -25,7 +25,17 @@ SphereScene::SphereScene()
         spheres.emplace_back(sphereModel, *sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
     }
 
-    sceneLight = new Light(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 0.0f, 1.0f), lightShaderProgram, 0.2f);
+    sceneLight = new Light(
+        glm::vec3(0.0f, 0.0f, 0.0f),  // position
+        glm::vec3(1.0f, 0.0f, 1.0f),  // direction
+        glm::vec3(1.0f, 1.0f, 1.0f),  // color
+        lightShaderProgram,           // lightShader
+        0.2f,                         // scale
+        12.5f,                        // cutOff
+        15.0f,                        // outerCutOff
+        1                             // type
+    );
+
     sceneLight->addObserver(&shaderProgram);
     camera.addObserver(&shaderProgram);
     camera.addObserver(&lightShaderProgram);

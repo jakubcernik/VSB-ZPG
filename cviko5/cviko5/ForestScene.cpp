@@ -1,5 +1,3 @@
-// ForestScene.cpp
-
 #include "ForestScene.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -7,11 +5,11 @@
 #include "Scale.h"
 #include "Light.h"
 #include <glm/glm.hpp>
-#include <glm/gtx/string_cast.hpp> // Include this header for glm::to_string
+#include <glm/gtx/string_cast.hpp>
 #include <cstdlib>
 #include <ctime>
 #include <random>
-#include <iostream> // Include this header for std::cout
+#include <iostream>
 using namespace std;
 
 inline float generateRandomFloat(float min, float max) {
@@ -48,12 +46,17 @@ ForestScene::ForestScene(int treeCount)
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
-    //Camera(startPosition, startUp, startYaw, startPitch);
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f) {
 
-    sceneLight = new Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram);
-    sceneLight->addObserver(&treeShaderProgram);
-    sceneLight->addObserver(&bushShaderProgram);
+    // Create multiple lights
+    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 1.0f, 12.5f, 15.0f, 1));
+    lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0.0f, 0));
+
+    for (auto& light : lights) {
+        light.addObserver(&treeShaderProgram);
+        light.addObserver(&bushShaderProgram);
+    }
+
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
@@ -100,16 +103,12 @@ void ForestScene::createForest(int treeCount) {
         glm::vec3 autumnColor = generateAutumnColor();
         DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
         rotatingTrees.push_back(tree);
-        //addObject(tree);
     }
 }
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glm::vec3 lightPos = sceneLight->getPosition();
-    glm::vec3 lightColor = sceneLight->getColor();
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -118,7 +117,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         treeShaderProgram.use();
         glm::vec3 autumnColor = tree.getColor();
         treeShaderProgram.setUniform("objectColor", autumnColor);
-        treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+        setLightingUniforms(treeShaderProgram, viewPos);
 
         // Apply rotation transformation
         std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
@@ -135,28 +134,40 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
             treeShaderProgram.use();
             glm::vec3 autumnColor = object.getColor();
             treeShaderProgram.setUniform("objectColor", autumnColor);
-            treeShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, autumnColor);
+            setLightingUniforms(treeShaderProgram, viewPos);
             object.draw();
-            // Debugging output
-            // std::cout << "Drawing tree with color: " << glm::to_string(autumnColor) << std::endl;
             treeShaderProgram.free();
         }
         else {
             bushShaderProgram.use();
             glm::vec3 bushColor = object.getColor();
             bushShaderProgram.setUniform("objectColor", bushColor);
-            bushShaderProgram.setLightingUniforms(lightPos, viewPos, lightColor, bushColor);
+            setLightingUniforms(bushShaderProgram, viewPos);
             object.draw();
-            // Debugging output
-            // std::cout << "Drawing bush with color: " << glm::to_string(bushColor) << std::endl;
             bushShaderProgram.free();
         }
     }
 
-    // Draw the light source after all objects are drawn
-    sceneLight->draw();
-    // Debugging output
-    // std::cout << "Drawing light source at position: " << glm::to_string(lightPos) << std::endl;
+    // Draw the light sources after all objects are drawn
+    for (auto& light : lights) {
+        light.draw();
+    }
+}
+
+void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
+    shader.use();
+    shader.setUniform("viewPos", viewPos);
+    shader.setUniform("numLights", static_cast<int>(lights.size()));
+
+    for (int i = 0; i < lights.size(); ++i) {
+        std::string baseName = "lights[" + std::to_string(i) + "]";
+        shader.setUniform((baseName + ".position").c_str(), lights[i].getPosition());
+        shader.setUniform((baseName + ".direction").c_str(), lights[i].getDirection());
+        shader.setUniform((baseName + ".color").c_str(), lights[i].getColor());
+        shader.setUniform((baseName + ".cutOff").c_str(), lights[i].getCutOff());
+        shader.setUniform((baseName + ".outerCutOff").c_str(), lights[i].getOuterCutOff());
+        shader.setUniform((baseName + ".type").c_str(), lights[i].getType());
+    }
 }
 
 Camera& ForestScene::getCamera() {

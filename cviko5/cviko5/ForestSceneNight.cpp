@@ -56,7 +56,17 @@ ForestSceneNight::ForestSceneNight(int treeCount)
 }
 
 void ForestSceneNight::initializeSceneLight() {
-    sceneLight = new Light(glm::vec3(50.0f, 150.0f, 10.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 10.0f);
+    sceneLight = new Light(
+        glm::vec3(50.0f, 150.0f, 10.0f),  // position
+        glm::vec3(1.0f, -1.0f, 0.0f),     // direction
+        glm::vec3(1.0f, 0.5f, 0.3f),      // color
+        lightShaderProgram,               // lightShader
+        10.0f,                            // scale
+        12.5f,                            // cutOff
+        15.0f,                            // outerCutOff
+        1                                 // type
+    );
+
     sceneLight->addObserver(&treeShaderProgram);
     sceneLight->addObserver(&bushShaderProgram);
     camera.addObserver(&treeShaderProgram);
@@ -68,7 +78,16 @@ void ForestSceneNight::initializeSceneLight() {
 void ForestSceneNight::initializeFireflies(int count) {
     for (int i = 0; i < count; ++i) {
         glm::vec3 fireflyPosition = generateRandomVec3(-100.0f, 100.0f, 0.0f, 20.0f, -100.0f, 100.0f);
-        Light* firefly = new Light(fireflyPosition, glm::vec3(0.0f, 1.0f, 0.0f), fireflyShaderProgram, 0.2f);
+        Light* firefly = new Light(
+            fireflyPosition,               // position
+            glm::vec3(0.0f, 1.0f, 0.0f),   // direction
+            glm::vec3(1.0f, 1.0f, 0.0f),   // color
+            fireflyShaderProgram,          // lightShader
+            0.2f,                          // scale
+            12.5f,                         // cutOff
+            15.0f,                         // outerCutOff
+            1                              // type
+        );
         fireflies.push_back(firefly);
     }
 }
