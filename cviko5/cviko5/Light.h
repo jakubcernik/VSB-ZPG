@@ -7,7 +7,7 @@
 
 class Light : public Subject {
 public:
-    Light(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, ShaderProgram& lightShader, float scale, float cutOff, float outerCutOff, int type);
+    Light(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, ShaderProgram& lightShader, float scale, float angle, int type);
     void setPosition(const glm::vec3& newPosition);
     void setColor(const glm::vec3& newColor);
 
@@ -15,8 +15,7 @@ public:
     const glm::vec3& getColor() const;
 
     glm::vec3 getDirection() const;
-    float getCutOff() const;
-    float getOuterCutOff() const;
+    float getAngle() const;
     int getType() const;
 
     void draw() const;
@@ -29,7 +28,6 @@ private:
     float scale;
 
     glm::vec3 direction;
-    float cutOff;
-    float outerCutOff;
+    float angle;
     int type;
 };

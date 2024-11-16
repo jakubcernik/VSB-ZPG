@@ -5,8 +5,8 @@
 #include "Translation.h"
 #include "Scale.h"
 
-Light::Light(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, ShaderProgram& lightShader, float scale, float cutOff, float outerCutOff, int type)
-    : position(position), direction(direction), color(color), lightShader(lightShader), scale(scale), cutOff(cutOff), outerCutOff(outerCutOff), type(type) {}
+Light::Light(const glm::vec3& position, const glm::vec3& direction, const glm::vec3& color, ShaderProgram& lightShader, float scale, float angle, int type)
+    : position(position), direction(direction), color(color), lightShader(lightShader), scale(scale), angle(angle), type(type) {}
 
 void Light::setPosition(const glm::vec3& newPosition) {
     position = newPosition;
@@ -30,12 +30,8 @@ glm::vec3 Light::getDirection() const {
     return direction;
 }
 
-float Light::getCutOff() const {
-    return cutOff;
-}
-
-float Light::getOuterCutOff() const {
-    return outerCutOff;
+float Light::getAngle() const {
+    return angle;
 }
 
 int Light::getType() const {

@@ -49,8 +49,9 @@ ForestScene::ForestScene(int treeCount)
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f) {
 
     // Create multiple lights
-    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 1.0f, 12.5f, 15.0f, 1));
-    lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0.0f, 0));
+    lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
+    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 2.0f, 15.0f, 1));
+
 
     for (auto& light : lights) {
         light.addObserver(&treeShaderProgram);
@@ -164,8 +165,7 @@ void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& vi
         shader.setUniform((baseName + ".position").c_str(), lights[i].getPosition());
         shader.setUniform((baseName + ".direction").c_str(), lights[i].getDirection());
         shader.setUniform((baseName + ".color").c_str(), lights[i].getColor());
-        shader.setUniform((baseName + ".cutOff").c_str(), lights[i].getCutOff());
-        shader.setUniform((baseName + ".outerCutOff").c_str(), lights[i].getOuterCutOff());
+        shader.setUniform((baseName + ".angle").c_str(), lights[i].getAngle());
         shader.setUniform((baseName + ".type").c_str(), lights[i].getType());
     }
 }

@@ -4,8 +4,7 @@ struct Light {
     vec3 position;
     vec3 direction;
     vec3 color;
-    float cutOff;
-    float outerCutOff;
+    float angle; // Cutoff angle in degrees
     int type; // 0 = point light, 1 = spotlight
 };
 
@@ -14,6 +13,8 @@ struct Light {
 uniform Light lights[MAX_LIGHTS];
 uniform int numLights;
 uniform vec3 viewPos;
+uniform vec3 objectColor;
+uniform float pointLightIntensity; // New uniform for point light intensity
 
 in vec3 fragWorldPosition;
 in vec3 fragWorldNormal;
@@ -25,37 +26,44 @@ void main() {
 
     for (int i = 0; i < numLights; i++) {
         vec3 lightDir;
-        float intensity;
+        float intensity = 1.0;
 
         if (lights[i].type == 0) {
             // Point light
             lightDir = normalize(lights[i].position - fragWorldPosition);
-            intensity = 1.0;
+            intensity = pointLightIntensity; // Use the new uniform for intensity
         } else if (lights[i].type == 1) {
             // Spotlight
             lightDir = normalize(lights[i].position - fragWorldPosition);
             float theta = dot(lightDir, normalize(-lights[i].direction));
-            float epsilon = lights[i].cutOff - lights[i].outerCutOff;
-            intensity = clamp((theta - lights[i].outerCutOff) / epsilon, 0.0, 1.0);
+            
+            // Convert angle from degrees to radians
+            float cutoff = cos(radians(lights[i].angle));
+            
+            // Calculate intensity based on cutoff angle
+            intensity = (theta - cutoff) / (1.0 - cutoff);
+
+            // If the fragment is outside the cutoff, set intensity to 0
+            if (theta < cutoff) {
+                intensity = 0.0;
+            }
         }
 
         // Ambient
-        float ambientStrength = 0.3;
-        vec3 ambient = ambientStrength * lights[i].color;
+        vec3 ambient = 0.1 * lights[i].color * objectColor;
 
         // Diffuse
         vec3 norm = normalize(fragWorldNormal);
         float diff = max(dot(norm, lightDir), 0.0);
-        vec3 diffuse = diff * lights[i].color;
+        vec3 diffuse = diff * lights[i].color * objectColor;
 
         // Specular
-        float specularStrength = 1.0;
         vec3 viewDir = normalize(viewPos - fragWorldPosition);
         vec3 reflectDir = reflect(-lightDir, norm);
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-        vec3 specular = specularStrength * spec * lights[i].color;
+        vec3 specular = 0.5 * spec * lights[i].color;
 
-        result += (ambient + intensity * (diffuse + specular));
+        result += ambient + intensity * (diffuse + specular);
     }
 
     FragColor = vec4(result, 1.0);

@@ -62,8 +62,7 @@ void ForestSceneNight::initializeSceneLight() {
         glm::vec3(1.0f, 0.5f, 0.3f),      // color
         lightShaderProgram,               // lightShader
         10.0f,                            // scale
-        12.5f,                            // cutOff
-        15.0f,                            // outerCutOff
+        12.5f,                            // angle
         1                                 // type
     );
 
@@ -84,8 +83,7 @@ void ForestSceneNight::initializeFireflies(int count) {
             glm::vec3(1.0f, 1.0f, 0.0f),   // color
             fireflyShaderProgram,          // lightShader
             0.2f,                          // scale
-            12.5f,                         // cutOff
-            15.0f,                         // outerCutOff
+            12.5f,                         // angle
             1                              // type
         );
         fireflies.push_back(firefly);

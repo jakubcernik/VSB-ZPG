@@ -24,8 +24,7 @@ ShaderShowcaseScene::ShaderShowcaseScene()
         glm::vec3(1.0f, 1.0f, 1.0f),   // color
         lightShaderProgram,            // lightShader
         1.0f,                          // scale
-        12.5f,                         // cutOff
-        15.0f,                         // outerCutOff
+        12.5f,                         // angle
         1                              // type
     );
 

@@ -31,8 +31,7 @@ SphereScene::SphereScene()
         glm::vec3(1.0f, 1.0f, 1.0f),  // color
         lightShaderProgram,           // lightShader
         0.2f,                         // scale
-        12.5f,                        // cutOff
-        15.0f,                        // outerCutOff
+        12.5f,                        // angle
         1                             // type
     );
 
