@@ -14,7 +14,6 @@ uniform Light lights[MAX_LIGHTS];
 uniform int numLights;
 uniform vec3 viewPos;
 uniform vec3 objectColor;
-uniform float pointLightIntensity; // New uniform for point light intensity
 
 in vec3 fragWorldPosition;
 in vec3 fragWorldNormal;
@@ -26,26 +25,23 @@ void main() {
 
     for (int i = 0; i < numLights; i++) {
         vec3 lightDir;
-        float intensity = 1.0;
+        float attenuation = 1.0;
 
         if (lights[i].type == 0) {
             // Point light
             lightDir = normalize(lights[i].position - fragWorldPosition);
-            intensity = pointLightIntensity; // Use the new uniform for intensity
+            float distance = length(lights[i].position - fragWorldPosition);
+            // Adjusted attenuation factors: constant = 1.0, linear = 0.045, quadratic = 0.0075
+            attenuation = 1.0 / (0.3 + 0.05 * distance + 0.0001 * (distance * distance));
+
         } else if (lights[i].type == 1) {
             // Spotlight
             lightDir = normalize(lights[i].position - fragWorldPosition);
             float theta = dot(lightDir, normalize(-lights[i].direction));
-            
-            // Convert angle from degrees to radians
             float cutoff = cos(radians(lights[i].angle));
             
-            // Calculate intensity based on cutoff angle
-            intensity = (theta - cutoff) / (1.0 - cutoff);
-
-            // If the fragment is outside the cutoff, set intensity to 0
             if (theta < cutoff) {
-                intensity = 0.0;
+                attenuation = 0.0;
             }
         }
 
@@ -63,8 +59,12 @@ void main() {
         float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
         vec3 specular = 0.5 * spec * lights[i].color;
 
-        result += ambient + intensity * (diffuse + specular);
+        result += ambient + (diffuse + specular) * attenuation;
     }
+
+    // Ensure the result color is within the valid range
+    result = clamp(result, 0.0, 1.0);
 
     FragColor = vec4(result, 1.0);
 }
+
