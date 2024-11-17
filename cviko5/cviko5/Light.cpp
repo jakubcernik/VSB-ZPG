@@ -13,6 +13,11 @@ void Light::setPosition(const glm::vec3& newPosition) {
     notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix
 }
 
+void Light::setDirection(const glm::vec3& newDirection) {
+	direction = newDirection;
+	notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix
+}
+
 void Light::setColor(const glm::vec3& newColor) {
     color = newColor;
     notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix

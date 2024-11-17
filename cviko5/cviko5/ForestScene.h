@@ -29,4 +29,5 @@ private:
     Light* sceneLight;
     vector<DrawableObject> rotatingTrees;
     vector<Light> lights;
+    Light flashlight;
 };

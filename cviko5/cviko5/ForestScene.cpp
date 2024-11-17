@@ -46,17 +46,20 @@ ForestScene::ForestScene(int treeCount)
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
-    camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f) {
+    camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
+    flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1) { // Set angle to 12.5 degrees
 
     // Create multiple lights
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
-    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.5f, 0.3f), lightShaderProgram, 2.0f, 15.0f, 1));
-
+    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
 
     for (auto& light : lights) {
         light.addObserver(&treeShaderProgram);
         light.addObserver(&bushShaderProgram);
     }
+
+    flashlight.addObserver(&treeShaderProgram);
+    flashlight.addObserver(&bushShaderProgram);
 
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
@@ -64,6 +67,7 @@ ForestScene::ForestScene(int treeCount)
 
     createForest(treeCount);
 }
+
 
 void ForestScene::createForest(int treeCount) {
     srand(static_cast<unsigned>(time(nullptr)));
@@ -153,12 +157,17 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     for (auto& light : lights) {
         light.draw();
     }
+
+    // Draw the flashlight
+    flashlight.draw();
 }
+
+
 
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
     shader.use();
     shader.setUniform("viewPos", viewPos);
-    shader.setUniform("numLights", static_cast<int>(lights.size()));
+    shader.setUniform("numLights", static_cast<int>(lights.size() + 1)); // +1 for the flashlight
 
     for (int i = 0; i < lights.size(); ++i) {
         std::string baseName = "lights[" + std::to_string(i) + "]";
@@ -168,7 +177,16 @@ void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& vi
         shader.setUniform((baseName + ".angle").c_str(), lights[i].getAngle());
         shader.setUniform((baseName + ".type").c_str(), lights[i].getType());
     }
+
+    // Set flashlight uniforms
+    std::string baseName = "lights[" + std::to_string(lights.size()) + "]";
+    shader.setUniform((baseName + ".position").c_str(), camera.getPosition());
+    shader.setUniform((baseName + ".direction").c_str(), camera.getFront());
+    shader.setUniform((baseName + ".color").c_str(), flashlight.getColor());
+    shader.setUniform((baseName + ".angle").c_str(), flashlight.getAngle());
+    shader.setUniform((baseName + ".type").c_str(), flashlight.getType());
 }
+
 
 Camera& ForestScene::getCamera() {
     return camera;

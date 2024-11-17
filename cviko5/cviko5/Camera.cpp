@@ -60,6 +60,10 @@ glm::vec3 Camera::getPosition() const {
     return position;
 }
 
+glm::vec3 Camera::getFront() const {
+    return front;
+}
+
 void Camera::addObserver(Observer* observer) {
     observers.push_back(observer);
     notify();

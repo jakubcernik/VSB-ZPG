@@ -21,6 +21,8 @@ public:
 private:
     void initializeSceneLight();
     void initializeFireflies(int count);
+    void initializeFlashlight();
+
 
     TreeModel treeModel;
     BushModel bushModel;
@@ -31,5 +33,6 @@ private:
 
     Camera camera;
     Light* sceneLight;
+    Light* flashlight;
     std::vector<Light*> fireflies;
 };

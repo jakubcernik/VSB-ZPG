@@ -31,12 +31,12 @@ void main() {
             // Point light
             lightDir = normalize(lights[i].position - fragWorldPosition);
             float distance = length(lights[i].position - fragWorldPosition);
-            // Adjusted attenuation factors: constant = 1.0, linear = 0.045, quadratic = 0.0075
-            attenuation = 1.0 / (0.3 + 0.05 * distance + 0.0001 * (distance * distance));
-
+            attenuation = 1.0 / (0.3 + 0.005 * distance + 0.0001 * (distance * distance));
         } else if (lights[i].type == 1) {
             // Spotlight
             lightDir = normalize(lights[i].position - fragWorldPosition);
+            float distance = length(lights[i].position - fragWorldPosition);
+            attenuation = 1.0 / (0.3 + 0.05 * distance + 0.0001 * (distance * distance));
             float theta = dot(lightDir, normalize(-lights[i].direction));
             float cutoff = cos(radians(lights[i].angle));
             
@@ -56,8 +56,8 @@ void main() {
         // Specular
         vec3 viewDir = normalize(viewPos - fragWorldPosition);
         vec3 reflectDir = reflect(-lightDir, norm);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-        vec3 specular = 0.5 * spec * lights[i].color;
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16); // Reduced shininess
+        vec3 specular = 0.3 * spec * lights[i].color * objectColor; // Adjusted specular to include object color
 
         result += ambient + (diffuse + specular) * attenuation;
     }
@@ -67,4 +67,3 @@ void main() {
 
     FragColor = vec4(result, 1.0);
 }
-

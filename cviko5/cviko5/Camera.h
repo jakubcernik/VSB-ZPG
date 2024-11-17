@@ -11,6 +11,7 @@ public:
     
     glm::vec3 getPosition() const;
     glm::mat4 getViewMatrix() const;
+    glm::vec3 getFront() const;
 
     void processKeyboard(int direction, float deltaTime);
     void processMouseMovement(float xoffset, float yoffset);
