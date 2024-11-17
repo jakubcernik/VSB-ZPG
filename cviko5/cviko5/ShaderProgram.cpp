@@ -58,6 +58,12 @@ void ShaderProgram::setMultipleLightingUniforms(const std::vector<glm::vec3>& li
     }
 }
 
+void ShaderProgram::setMaterialUniforms(const Material& material) {
+    setUniform("Ra", material.Ra);
+    setUniform("Rd", material.Rd);
+    setUniform("Rs", material.Rs);
+}
+
 void ShaderProgram::onNotify(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix) {
     use();
     setUniform("viewMatrix", viewMatrix);

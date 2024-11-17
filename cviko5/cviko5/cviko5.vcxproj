@@ -139,6 +139,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MaterialScene.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
@@ -164,6 +165,8 @@
     <ClInclude Include="gift.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialScene.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="Scale.h" />

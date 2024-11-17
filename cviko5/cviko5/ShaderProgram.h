@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "ShaderLoader.h"
+#include "Material.h"
 
 class ShaderProgram : public Observer, public ShaderLoader {
 
@@ -20,6 +21,7 @@ public:
     void setUniform(const std::string& name, int value);
     void setLightingUniforms(const glm::vec3& lightPos, const glm::vec3& viewPos, const glm::vec3& lightColor, const glm::vec3& objectColor);
     void setMultipleLightingUniforms(const std::vector<glm::vec3>& lightPositions, const std::vector<glm::vec3>& lightColors, const glm::vec3& viewPos, const glm::vec3& objectColor);
+    void setMaterialUniforms(const Material& material);
     void use();
     void free();
 
