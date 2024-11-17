@@ -59,7 +59,7 @@ void ForestSceneNight::initializeSceneLight() {
     sceneLight = new Light(
         glm::vec3(50.0f, 150.0f, 10.0f),  // position
         glm::vec3(1.0f, -1.0f, 0.0f),     // direction
-        glm::vec3(1.0f, 0.5f, 0.3f),      // color
+        glm::vec3(0.0f, 1.0f, 0.3f),      // color
         lightShaderProgram,               // lightShader
         10.0f,                            // scale
         12.5f,                            // angle
@@ -80,7 +80,7 @@ void ForestSceneNight::initializeFireflies(int count) {
         Light* firefly = new Light(
             fireflyPosition,               // position
             glm::vec3(0.0f, 1.0f, 0.0f),   // direction
-            glm::vec3(1.0f, 1.0f, 0.0f),   // color
+            glm::vec3(0.0f, 1.0f, 0.2f),   // color
             fireflyShaderProgram,          // lightShader
             0.2f,                          // scale
             12.5f,                         // angle
