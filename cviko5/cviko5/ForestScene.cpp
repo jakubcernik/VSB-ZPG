@@ -47,9 +47,8 @@ ForestScene::ForestScene(int treeCount)
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
-    flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1) { // Set angle to 12.5 degrees
+    flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1) {
 
-    // Create multiple lights
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
     lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
 

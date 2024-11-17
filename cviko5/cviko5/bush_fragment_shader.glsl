@@ -56,13 +56,12 @@ void main() {
         // Specular
         vec3 viewDir = normalize(viewPos - fragWorldPosition);
         vec3 reflectDir = reflect(-lightDir, norm);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16); // Reduced shininess
-        vec3 specular = 0.3 * spec * lights[i].color * objectColor; // Adjusted specular to include object color
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16);
+        vec3 specular = 0.3 * spec * lights[i].color * objectColor;
 
         result += ambient + (diffuse + specular) * attenuation;
     }
 
-    // Ensure the result color is within the valid range
     result = clamp(result, 0.0, 1.0);
 
     FragColor = vec4(result, 1.0);

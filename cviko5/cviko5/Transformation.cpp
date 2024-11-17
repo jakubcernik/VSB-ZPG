@@ -1,7 +1,6 @@
 // Transformation.cpp
 #include "Transformation.h"
 
-// Constructor and apply method are already defined in the header file
 void Transformation::addTransformation(std::shared_ptr<BasicTransformation> transformation) {
     transformations.push_back(transformation);
 }
