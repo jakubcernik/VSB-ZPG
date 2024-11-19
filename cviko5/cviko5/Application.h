@@ -22,7 +22,7 @@ public:
     Application(int width, int height);
     ~Application();
     Scene* getActiveScene() const { return activeScene; }
-    void run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight);
+    void run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight, Scene& materialScene);
     void setScene(Scene* scenePtr);
     InputManager inputManager;
 };

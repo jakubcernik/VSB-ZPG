@@ -206,6 +206,7 @@
     <None Include="light_fragment.glsl" />
     <None Include="light_vertex.glsl" />
     <None Include="phong_fragment.glsl" />
+    <None Include="phong_material_fragment.glsl" />
     <None Include="phong_vertex.glsl" />
     <None Include="sphere_fragment_shader.glsl" />
     <None Include="sphere_vertex_shader.glsl" />

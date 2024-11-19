@@ -276,5 +276,8 @@
     <None Include="triangle_vertex.glsl">
       <Filter>Shaders\Others</Filter>
     </None>
+    <None Include="phong_material_fragment.glsl">
+      <Filter>Shaders\Special lightning shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

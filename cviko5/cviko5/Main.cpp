@@ -4,6 +4,7 @@
 #include "ForestSceneNight.h"
 #include "SphereScene.h"
 #include "ShaderShowcaseScene.h"
+#include "MaterialScene.h"
 
 int main() {
     const int windowWidth = 800;
@@ -16,10 +17,11 @@ int main() {
     SphereScene sphereScene;
     ShaderShowcaseScene shaderShowcaseScene;
     ForestSceneNight forestSceneNight(100);
+    MaterialScene materialScene;
 
     app.setScene(&triangleScene);
 
-    app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene, forestSceneNight);
+    app.run(triangleScene, forestScene, sphereScene, shaderShowcaseScene, forestSceneNight, materialScene);
 
     return 0;
 }

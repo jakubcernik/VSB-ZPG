@@ -1,8 +1,9 @@
-/*
+
 #pragma once
 
 #include <vector>
 #include "Material.h"
+#include "Scene.h"
 #include "ShaderProgram.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -12,7 +13,7 @@
 #include "DrawableObject.h"
 #include "Camera.h"
 
-class MaterialScene {
+class MaterialScene : public Scene{
 public:
     MaterialScene();
     ~MaterialScene();
@@ -27,6 +28,5 @@ private:
     Camera camera;
     SphereModel sphereModel;
     std::vector<DrawableObject> objects;
+    std::vector<Material> materials;
 };
-
-*/

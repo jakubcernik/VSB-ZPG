@@ -87,7 +87,7 @@ void Application::setScene(Scene* scenePtr) {
 }
 
 
-void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight) {
+void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereScene, Scene& shaderShowcaseScene, Scene& forestSceneNight, Scene& materialScene) {
     bool isTabPressed = false;
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)width / (float)height, 1.0f, 1000.0f);
 
@@ -120,6 +120,10 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
             activeScene = &forestSceneNight;
             glfwSetWindowTitle(window, "Forest Scene at night");
         }
+		else if (glfwGetKey(window, GLFW_KEY_5) == GLFW_PRESS) {
+			activeScene = &materialScene;
+			glfwSetWindowTitle(window, "Material Showcase Scene");
+		}
 
         Camera& activeCamera = activeScene->getCamera();
         inputManager.processInput(window, activeCamera, deltaTime);
