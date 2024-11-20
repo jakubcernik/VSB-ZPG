@@ -8,6 +8,9 @@
 #include "Camera.h"
 #include "Light.h"
 #include <vector>
+#include <SOIL.h>
+#include "PlainModel.h"
+
 
 class ForestScene : public Scene {
 public:
@@ -21,9 +24,12 @@ public:
 private:
     TreeModel treeModel;
     BushModel bushModel;
+    PlainModel groundModel;
+    GLuint groundTexture;
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
     ShaderProgram lightShaderProgram;
+    ShaderProgram groundShaderProgram;
 
     Camera camera;
     Light* sceneLight;

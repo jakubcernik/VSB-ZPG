@@ -4,6 +4,7 @@
 #include "Rotation.h"
 #include "Scale.h"
 #include "Light.h"
+#include "PlainModel.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <cstdlib>
@@ -43,8 +44,10 @@ inline glm::vec3 generateAutumnColor() {
 ForestScene::ForestScene(int treeCount)
     : treeModel(),
     bushModel(),
+    groundModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
+    groundShaderProgram("ground_vertex.glsl", "ground_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1) {
@@ -65,8 +68,29 @@ ForestScene::ForestScene(int treeCount)
     camera.addObserver(&lightShaderProgram);
 
     createForest(treeCount);
-}
 
+    // Load ground texture
+    groundTexture = SOIL_load_OGL_texture(
+        "grass.jpg",
+        SOIL_LOAD_AUTO,
+        SOIL_CREATE_NEW_ID,
+        SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+    );
+
+    if (groundTexture == 0) {
+        std::cerr << "Failed to load texture: " << SOIL_last_result() << std::endl;
+        return;
+    }
+
+    // Bind the ground texture to the first texture unit
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
+
+    // Set the texture unit to the fragment shader
+    groundShaderProgram.use();
+    groundShaderProgram.setUniform("texture1", 0);
+    groundShaderProgram.free();
+}
 
 void ForestScene::createForest(int treeCount) {
     srand(static_cast<unsigned>(time(nullptr)));
@@ -116,21 +140,20 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-    // Render rotating trees
-    for (auto& tree : rotatingTrees) {
-        treeShaderProgram.use();
-        glm::vec3 autumnColor = tree.getColor();
-        treeShaderProgram.setUniform("objectColor", autumnColor);
-        setLightingUniforms(treeShaderProgram, viewPos);
+    // Bind ground texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
 
-        // Apply rotation transformation
-        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
-        treeTransform->addTransformation(std::make_shared<Rotation>(0.0f, 1.0f, 0.0f));
-        tree.getTransform().addTransformation(treeTransform);
+    // Render ground
+    groundShaderProgram.use(); // Use the ground shader program
+    groundShaderProgram.setUniform("texture1", 0);
+    groundShaderProgram.setUniform("projection", projection);
+    groundShaderProgram.setUniform("view", view);
+    groundShaderProgram.setUniform("model", glm::mat4(1.0f)); // Assuming the ground is not transformed
 
-        tree.draw();
-        treeShaderProgram.free();
-    }
+    glBindVertexArray(groundModel.getVAO());
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 
     // Render other objects
     for (const auto& object : objects) {
@@ -161,8 +184,6 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     flashlight.draw();
 }
 
-
-
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
     shader.use();
     shader.setUniform("viewPos", viewPos);
@@ -185,7 +206,6 @@ void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& vi
     shader.setUniform((baseName + ".angle").c_str(), flashlight.getAngle());
     shader.setUniform((baseName + ".type").c_str(), flashlight.getType());
 }
-
 
 Camera& ForestScene::getCamera() {
     return camera;

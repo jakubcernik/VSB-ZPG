@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\libraries\g-truc-glm-0af55cc;..\..\libraries\glew-2.1.0\include;..\..\libraries\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\libraries\soil\src;..\..\libraries\g-truc-glm-0af55cc;..\..\libraries\glew-2.1.0\include;..\..\libraries\glfw-3.4.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\libraries\soil;..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;soil.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -135,6 +135,9 @@
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="ForestScene.cpp" />
     <ClCompile Include="ForestSceneNight.cpp" />
+    <None Include="ground_fragment.glsl">
+      <FileType>Document</FileType>
+    </None>
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -171,6 +174,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
+    <ClInclude Include="PlainModel.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="Scene.h" />
@@ -178,6 +182,7 @@
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderShowcaseScene.h" />
+    <ClInclude Include="SOIL.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SphereModel.h" />
     <ClInclude Include="SphereScene.h" />
@@ -202,6 +207,7 @@
     <None Include="constant_vertex.glsl" />
     <None Include="firefly_fragment.glsl" />
     <None Include="firefly_vertex.glsl" />
+    <None Include="ground_vertex.glsl" />
     <None Include="lambert_fragment.glsl" />
     <None Include="lambert_vertex.glsl" />
     <None Include="light_fragment.glsl" />
@@ -217,6 +223,9 @@
     <None Include="tree_vertex_shader.glsl" />
     <None Include="triangle_fragment.glsl" />
     <None Include="triangle_vertex.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="grass.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
