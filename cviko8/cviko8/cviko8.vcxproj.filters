@@ -86,6 +86,9 @@
     <ClCompile Include="TriangleScene.cpp">
       <Filter>C files</Filter>
     </ClCompile>
+    <ClCompile Include="PlainModel.cpp">
+      <Filter>C files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -285,5 +288,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.jpg" />
+    <Image Include="grass.png" />
   </ItemGroup>
 </Project>

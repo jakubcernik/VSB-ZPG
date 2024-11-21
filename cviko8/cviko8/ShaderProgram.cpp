@@ -37,7 +37,13 @@ void ShaderProgram::setUniform(const std::string& name, float value) {
 
 void ShaderProgram::setUniform(const std::string& name, int value) {
     GLint location = glGetUniformLocation(programID, name.c_str());
-    glUniform1i(location, value);
+    if (location != -1) {
+        glUniform1i(location, value);
+    }
+    else {
+        // Handle the error, possibly by logging
+        fprintf(stderr, "Failed to get uniform location for %s\n", name.c_str());
+    }
 }
 
 void ShaderProgram::setLightingUniforms(const glm::vec3& lightPos, const glm::vec3& viewPos, const glm::vec3& lightColor, const glm::vec3& objectColor) {

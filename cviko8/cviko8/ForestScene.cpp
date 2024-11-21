@@ -11,6 +11,8 @@
 #include <ctime>
 #include <random>
 #include <iostream>
+#include <SOIL.h>
+
 using namespace std;
 
 inline float generateRandomFloat(float min, float max) {
@@ -69,27 +71,40 @@ ForestScene::ForestScene(int treeCount)
 
     createForest(treeCount);
 
-    // Load ground texture
-    groundTexture = SOIL_load_OGL_texture(
-        "grass.jpg",
-        SOIL_LOAD_AUTO,
-        SOIL_CREATE_NEW_ID,
-        SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
-    );
+    // Initialize OpenGL context (make sure this is done before any OpenGL calls)
 
-    if (groundTexture == 0) {
+    // Bind the first texture to the first texture unit
+    glActiveTexture(GL_TEXTURE0);
+
+    // Debug statement to check if the program reaches this point
+    std::cout << "Attempting to load texture 'grass.png'" << std::endl;
+
+    // Load the 2D texture
+    GLuint textureID = SOIL_load_OGL_texture("jedna.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+
+    // Check if the texture was loaded successfully
+    if (textureID == 0) {
         std::cerr << "Failed to load texture: " << SOIL_last_result() << std::endl;
+        // Handle the error appropriately, e.g., by exiting the function or using a default texture
         return;
     }
 
-    // Bind the ground texture to the first texture unit
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, groundTexture);
+    // Bind the texture
+    glBindTexture(GL_TEXTURE_2D, textureID);
 
-    // Set the texture unit to the fragment shader
+    // Set texture parameters (optional, but recommended)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    // Set texture unit to fragment shader
     groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
     groundShaderProgram.free();
+
+    // Store the texture ID for later use
+    groundTexture = textureID;
 }
 
 void ForestScene::createForest(int treeCount) {
@@ -135,25 +150,27 @@ void ForestScene::createForest(int treeCount) {
 }
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
+    // Enable depth testing
     glEnable(GL_DEPTH_TEST);
+
+    // Clear the color and depth buffers
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    // Set the clear color (background color)
+    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 
     // Bind ground texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
 
     // Render ground
-    groundShaderProgram.use(); // Use the ground shader program
+    groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
     groundShaderProgram.setUniform("projection", projection);
     groundShaderProgram.setUniform("view", view);
     groundShaderProgram.setUniform("model", glm::mat4(1.0f)); // Assuming the ground is not transformed
-
-    glBindVertexArray(groundModel.getVAO());
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
+    groundModel.render();
+    groundShaderProgram.free();
 
     // Render other objects
     for (const auto& object : objects) {
@@ -183,6 +200,8 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     // Draw the flashlight
     flashlight.draw();
 }
+
+
 
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
     shader.use();

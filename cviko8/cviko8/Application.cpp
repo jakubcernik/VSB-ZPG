@@ -51,10 +51,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 
 
 void Application::initWindow() {
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
     window = glfwCreateWindow(width, height, "ZPG CER0548", nullptr, nullptr);
     if (!window) {
         cerr << "Failed to create GLFW window!" << endl;
@@ -76,11 +72,22 @@ void Application::initOpenGL() {
         exit(EXIT_FAILURE);
     }
 
+    // Check the OpenGL version to ensure the context is properly initialized
+    const GLubyte* version = glGetString(GL_VERSION);
+    if (version) {
+        cout << "OpenGL version: " << version << endl;
+    }
+    else {
+        cerr << "Failed to initialize OpenGL context" << endl;
+        exit(EXIT_FAILURE);
+    }
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
     glDisable(GL_CULL_FACE);
 }
+
 
 void Application::setScene(Scene* scenePtr) {
     activeScene = scenePtr;
