@@ -84,6 +84,7 @@ void Application::initOpenGL() {
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
+    glClearDepth(1.0f);
 
     glDisable(GL_CULL_FACE);
 }

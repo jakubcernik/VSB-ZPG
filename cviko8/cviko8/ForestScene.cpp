@@ -57,59 +57,63 @@ ForestScene::ForestScene(int treeCount)
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
     lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
 
+    initializeObservers();
+    createForest(treeCount);
+
+    // Load ground texture
+    groundTexture = loadTexture("grass.png");
+    if (groundTexture == 0) {
+        // Handle texture loading error
+    }
+
+    // Configure ground shader
+    configureGroundShader();
+}
+
+void ForestScene::initializeObservers() {
     for (auto& light : lights) {
         light.addObserver(&treeShaderProgram);
         light.addObserver(&bushShaderProgram);
+        light.addObserver(&groundShaderProgram);
     }
-
     flashlight.addObserver(&treeShaderProgram);
     flashlight.addObserver(&bushShaderProgram);
+    flashlight.addObserver(&groundShaderProgram);
 
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
+    camera.addObserver(&groundShaderProgram);
+}
 
-    createForest(treeCount);
-
-    // Initialize OpenGL context (make sure this is done before any OpenGL calls)
-
-    // Bind the first texture to the first texture unit
-    glActiveTexture(GL_TEXTURE0);
-
-    // Debug statement to check if the program reaches this point
-    std::cout << "Attempting to load texture 'grass.png'" << std::endl;
-
-    // Load the 2D texture
-    GLuint textureID = SOIL_load_OGL_texture("jedna.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-
-    // Check if the texture was loaded successfully
-    if (textureID == 0) {
-        std::cerr << "Failed to load texture: " << SOIL_last_result() << std::endl;
-        // Handle the error appropriately, e.g., by exiting the function or using a default texture
-        return;
-    }
-
-    // Bind the texture
+GLuint ForestScene::loadTexture(const std::string& filename) {
+    GLuint textureID;
+    glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
-    // Set texture parameters (optional, but recommended)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    int width, height;
+    unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+    if (image) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else {
+        std::cerr << "Failed to load texture: " << filename << std::endl;
+    }
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-    // Set texture unit to fragment shader
+    return textureID;
+}
+
+
+void ForestScene::configureGroundShader() {
     groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
     groundShaderProgram.free();
-
-    // Store the texture ID for later use
-    groundTexture = textureID;
 }
 
 void ForestScene::createForest(int treeCount) {
-    srand(static_cast<unsigned>(time(nullptr)));
-
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
@@ -138,7 +142,6 @@ void ForestScene::createForest(int treeCount) {
         addObject(bush);
     }
 
-    // Add 5 trees side by side
     for (int i = 0; i < 5; ++i) {
         std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
         treeTransform->addTransformation(std::make_shared<Translation>(glm::vec3(i * 10.0f, groundLevel, 0.0f)));
@@ -150,63 +153,50 @@ void ForestScene::createForest(int treeCount) {
 }
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
-    // Enable depth testing
     glEnable(GL_DEPTH_TEST);
-
-    // Clear the color and depth buffers
+    glDepthFunc(GL_LESS);
+    glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set the clear color (background color)
-    glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
-
-    // Bind ground texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
 
-    // Render ground
     groundShaderProgram.use();
-    groundShaderProgram.setUniform("texture1", 0);
     groundShaderProgram.setUniform("projection", projection);
     groundShaderProgram.setUniform("view", view);
-    groundShaderProgram.setUniform("model", glm::mat4(1.0f)); // Assuming the ground is not transformed
-    groundModel.render();
+    groundShaderProgram.setUniform("model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
+    //setLightingUniforms(groundShaderProgram, viewPos);
+    groundModel.draw();
     groundShaderProgram.free();
 
-    // Render other objects
     for (const auto& object : objects) {
         if (object.isTree()) {
             treeShaderProgram.use();
-            glm::vec3 autumnColor = object.getColor();
-            treeShaderProgram.setUniform("objectColor", autumnColor);
+            treeShaderProgram.setUniform("objectColor", object.getColor());
             setLightingUniforms(treeShaderProgram, viewPos);
             object.draw();
             treeShaderProgram.free();
         }
         else {
             bushShaderProgram.use();
-            glm::vec3 bushColor = object.getColor();
-            bushShaderProgram.setUniform("objectColor", bushColor);
+            bushShaderProgram.setUniform("objectColor", object.getColor());
             setLightingUniforms(bushShaderProgram, viewPos);
             object.draw();
             bushShaderProgram.free();
         }
     }
 
-    // Draw the light sources after all objects are drawn
     for (auto& light : lights) {
         light.draw();
     }
 
-    // Draw the flashlight
     flashlight.draw();
 }
-
-
 
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
     shader.use();
     shader.setUniform("viewPos", viewPos);
-    shader.setUniform("numLights", static_cast<int>(lights.size() + 1)); // +1 for the flashlight
+    shader.setUniform("numLights", static_cast<int>(lights.size() + 1));
 
     for (int i = 0; i < lights.size(); ++i) {
         std::string baseName = "lights[" + std::to_string(i) + "]";
@@ -217,7 +207,6 @@ void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& vi
         shader.setUniform((baseName + ".type").c_str(), lights[i].getType());
     }
 
-    // Set flashlight uniforms
     std::string baseName = "lights[" + std::to_string(lights.size()) + "]";
     shader.setUniform((baseName + ".position").c_str(), camera.getPosition());
     shader.setUniform((baseName + ".direction").c_str(), camera.getFront());
@@ -234,4 +223,5 @@ void ForestScene::setCamera(Camera& camera) {
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
+    camera.addObserver(&groundShaderProgram);
 }

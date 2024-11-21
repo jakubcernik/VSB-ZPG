@@ -15,6 +15,9 @@
 class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
+    void initializeObservers();
+    GLuint loadTexture(const std::string& filename);
+    void configureGroundShader();
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);

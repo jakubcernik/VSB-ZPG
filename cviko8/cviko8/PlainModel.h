@@ -1,18 +1,24 @@
 #ifndef PLAINMODEL_H
 #define PLAINMODEL_H
 
+#include "Model.h"
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <vector>
+#include "plain.h"
 
-class PlainModel {
+class PlainModel : public Model {
 public:
     PlainModel();
     ~PlainModel();
-    void render();
+    void draw() const;
 private:
-    GLuint VAO, VBO, EBO;
-    void setupModel();
+    GLuint VAO, VBO;
+    void loadModel();
+    
+    const float* getVertexData() const { return plain; }
+
+    unsigned int getVertexCount() const { return 6; }
 };
 
 #endif // PLAINMODEL_H
