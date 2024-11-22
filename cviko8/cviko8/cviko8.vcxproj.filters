@@ -89,6 +89,9 @@
     <ClCompile Include="PlainModel.cpp">
       <Filter>C files</Filter>
     </ClCompile>
+    <ClCompile Include="SkyboxModel.cpp">
+      <Filter>C files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -205,6 +208,9 @@
     <ClInclude Include="skycube.h">
       <Filter>H files\Models</Filter>
     </ClInclude>
+    <ClInclude Include="SkyboxModel.h">
+      <Filter>H files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="blinn_fragment.glsl">
@@ -288,9 +294,16 @@
     <None Include="ground_fragment.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="skybox_vertex.glsl" />
+    <None Include="skybox_fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="grass.jpg" />
     <Image Include="grass.png" />
+    <Image Include="negx.jpg" />
+    <Image Include="negy.jpg" />
+    <Image Include="negz.jpg" />
+    <Image Include="posx.jpg" />
+    <Image Include="posy.jpg" />
+    <Image Include="posz.jpg" />
   </ItemGroup>
 </Project>

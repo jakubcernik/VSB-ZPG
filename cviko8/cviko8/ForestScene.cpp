@@ -12,6 +12,7 @@
 #include <random>
 #include <iostream>
 #include <SOIL.h>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -47,13 +48,17 @@ ForestScene::ForestScene(int treeCount)
     : treeModel(),
     bushModel(),
     groundModel(),
+    skyboxModel(),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     groundShaderProgram("ground_vertex.glsl", "ground_fragment.glsl"),
+    skyboxShaderProgram("skybox_vertex.glsl", "skybox_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
-    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)) {
+    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    skyboxObject(skyboxModel, Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f))
+{
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
     lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
@@ -61,8 +66,18 @@ ForestScene::ForestScene(int treeCount)
     initializeObservers();
     createForest(treeCount);
 
+    // Load skybox texture
+    skyboxTexture = loadSkyboxTexture({
+		"posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg"
+		});
+    if (skyboxTexture == 0) {
+		throw runtime_error("Failed to load skybox texture");
+	}
+
+    configureSkyboxShader();
+
     // Load ground texture
-    groundTexture = loadTexture("grass.png");
+    groundTexture = loadGroundTexture("grass.png");
     if (groundTexture == 0) {
         throw runtime_error("Failed to load ground texture");
     }
@@ -86,8 +101,9 @@ void ForestScene::initializeObservers() {
     camera.addObserver(&groundShaderProgram);
 }
 
-GLuint ForestScene::loadTexture(const std::string& filename) {
+GLuint ForestScene::loadGroundTexture(const std::string& filename) {
     GLuint textureID;
+    glActiveTexture(GL_TEXTURE0);
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
@@ -100,17 +116,74 @@ GLuint ForestScene::loadTexture(const std::string& filename) {
     else {
         std::cerr << "Failed to load texture: " << filename << std::endl;
     }
+    if (image == 0) {
+        std::cerr << "An error occurred while loading CubeMap." << std::endl;
+        std::cerr << "SOIL error: " << SOIL_last_result() << std::endl;
+        return 0;
+    }
+
     SOIL_free_image_data(image);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return textureID;
 }
 
+GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+    if (faces.size() != 6) {
+        std::cerr << "Error: Exactly 6 faces are required for a cubemap." << std::endl;
+        return 0;
+    }
+
+    int width, height, channels;
+    unsigned char* image;
+
+    for (GLuint i = 0; i < faces.size(); i++) {
+        image = SOIL_load_image(faces[i].c_str(), &width, &height, &channels, SOIL_LOAD_RGB);
+        if (image) {
+            glTexImage2D(
+                GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image
+            );
+            SOIL_free_image_data(image);
+        }
+        else {
+            std::cerr << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
+            std::cerr << "SOIL error: " << SOIL_last_result() << std::endl;
+            return 0;
+        }
+    }
+
+    // Set texture parameters
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+
+    return textureID;
+}
+
+
+
+
 void ForestScene::configureGroundShader() {
     groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
     groundShaderProgram.free();
 }
+
+void ForestScene::configureSkyboxShader() {
+    skyboxShaderProgram.use();
+    skyboxShaderProgram.setUniform("UISky", 0); // Texture unit 0
+    skyboxShaderProgram.free();
+}
+
 
 void ForestScene::createForest(int treeCount) {
     float groundLevel = 0.0f;
@@ -155,16 +228,14 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Bind ground texture
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, groundTexture);
-
     // Draw ground
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
     groundShaderProgram.use();
     setLightingUniforms(groundShaderProgram, viewPos);
     groundObject.draw();
     groundShaderProgram.free();
 
+    // Draw other objects
     for (const auto& object : objects) {
         if (object.isTree()) {
             treeShaderProgram.use();
@@ -182,12 +253,41 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         }
     }
 
+    // Draw lights
     for (auto& light : lights) {
         light.draw();
     }
 
     flashlight.draw();
+
+    // Draw the skybox last
+    glDepthFunc(GL_LEQUAL);
+    glDepthMask(GL_FALSE);
+
+
+    skyboxShaderProgram.use();
+
+    // Remove translation from the view matrix
+    glm::mat4 viewMatrix = glm::mat4(glm::mat3(view));
+
+    skyboxShaderProgram.setUniform("modelMatrix", glm::mat4(1.0f));
+    skyboxShaderProgram.setUniform("viewMatrix", viewMatrix);
+    skyboxShaderProgram.setUniform("projectionMatrix", projection);
+
+    // Bind the cubemap texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, skyboxTexture);
+
+    skyboxObject.draw();
+
+    skyboxShaderProgram.free();
+
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LESS);
 }
+
+
+
 
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {
     shader.use();
@@ -213,11 +313,4 @@ void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& vi
 
 Camera& ForestScene::getCamera() {
     return camera;
-}
-
-void ForestScene::setCamera(Camera& camera) {
-    camera.addObserver(&treeShaderProgram);
-    camera.addObserver(&bushShaderProgram);
-    camera.addObserver(&lightShaderProgram);
-    camera.addObserver(&groundShaderProgram);
 }

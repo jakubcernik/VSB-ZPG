@@ -154,6 +154,7 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderShowcaseScene.cpp" />
+    <ClCompile Include="SkyboxModel.cpp" />
     <ClCompile Include="SphereScene.cpp" />
     <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Translation.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderShowcaseScene.h" />
     <ClInclude Include="skycube.h" />
+    <ClInclude Include="SkyboxModel.h" />
     <ClInclude Include="SOIL.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SphereModel.h" />
@@ -218,6 +220,8 @@
     <None Include="phong_fragment.glsl" />
     <None Include="phong_material_fragment.glsl" />
     <None Include="phong_vertex.glsl" />
+    <None Include="skybox_fragment.glsl" />
+    <None Include="skybox_vertex.glsl" />
     <None Include="sphere_fragment_shader.glsl" />
     <None Include="sphere_vertex_shader.glsl" />
     <None Include="tree_fragment_shader.glsl" />
@@ -228,8 +232,13 @@
     <None Include="triangle_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="grass.jpg" />
     <Image Include="grass.png" />
+    <Image Include="negx.jpg" />
+    <Image Include="negy.jpg" />
+    <Image Include="negz.jpg" />
+    <Image Include="posx.jpg" />
+    <Image Include="posy.jpg" />
+    <Image Include="posz.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

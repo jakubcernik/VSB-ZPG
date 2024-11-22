@@ -1,5 +1,4 @@
-#ifndef PLAINMODEL_H
-#define PLAINMODEL_H
+#pragma once
 
 #include "Model.h"
 #include <GL/glew.h>
@@ -21,4 +20,3 @@ private:
     unsigned int getVertexCount() const { return 6; }
 };
 
-#endif // PLAINMODEL_H
