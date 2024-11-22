@@ -202,6 +202,9 @@
     <ClInclude Include="PlainModel.h">
       <Filter>H files</Filter>
     </ClInclude>
+    <ClInclude Include="skycube.h">
+      <Filter>H files\Models</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="blinn_fragment.glsl">

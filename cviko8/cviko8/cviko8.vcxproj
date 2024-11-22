@@ -184,6 +184,7 @@
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderShowcaseScene.h" />
+    <ClInclude Include="skycube.h" />
     <ClInclude Include="SOIL.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SphereModel.h" />
