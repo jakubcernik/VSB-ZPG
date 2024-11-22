@@ -53,10 +53,10 @@ ForestScene::ForestScene(int treeCount)
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
-    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)) { // Initialize groundObject
+    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)) {
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
-    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
+    lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
 
     initializeObservers();
     createForest(treeCount);
@@ -64,10 +64,9 @@ ForestScene::ForestScene(int treeCount)
     // Load ground texture
     groundTexture = loadTexture("grass.png");
     if (groundTexture == 0) {
-        // Handle texture loading error
+        throw runtime_error("Failed to load ground texture");
     }
 
-    // Configure ground shader
     configureGroundShader();
 }
 
@@ -160,14 +159,10 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
 
-    // Use ground shader program
+    // Draw ground
     groundShaderProgram.use();
-    groundShaderProgram.setUniform("projection", projection);
-    groundShaderProgram.setUniform("view", view);
-
-    // Draw ground object
+    setLightingUniforms(groundShaderProgram, viewPos);
     groundObject.draw();
-
     groundShaderProgram.free();
 
     for (const auto& object : objects) {

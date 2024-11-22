@@ -38,5 +38,5 @@ private:
     vector<DrawableObject> rotatingTrees;
     vector<Light> lights;
     Light flashlight;
-    DrawableObject groundObject; // Declare groundObject here
+    DrawableObject groundObject;
 };
