@@ -4,7 +4,7 @@ struct Light {
     vec3 position;
     vec3 direction;
     vec3 color;
-    float angle; // Cutoff angle in degrees
+    float angle;
     int type; // 0 = point light, 1 = spotlight
 };
 
@@ -24,6 +24,11 @@ out vec4 FragColor;
 
 void main() {
     vec3 textureColor = texture(texture1, TexCoord).rgb;
+    
+    textureColor.r *= 0.8;
+    textureColor.g *= 1.2;
+    textureColor.b *= 0.5;
+
     vec3 result = vec3(0.0);
 
     for (int i = 0; i < numLights; i++) {
@@ -34,38 +39,30 @@ void main() {
             // Point light
             lightDir = normalize(lights[i].position - fragWorldPosition);
             float distance = length(lights[i].position - fragWorldPosition);
-            attenuation = 1.0 / (0.3 + 0.005 * distance + 0.0001 * (distance * distance));
+            attenuation = 1.0 / (0.1 + 0.02 * distance + 0.001 * (distance * distance));
         } else if (lights[i].type == 1) {
             // Spotlight
             lightDir = normalize(lights[i].position - fragWorldPosition);
             float distance = length(lights[i].position - fragWorldPosition);
-            attenuation = 1.0 / (0.3 + 0.05 * distance + 0.0001 * (distance * distance));
+            attenuation = 1.0 / (0.01 + 0.004 * distance + 0.00002 * (distance * distance));
             float theta = dot(lightDir, normalize(-lights[i].direction));
+            float epsilon = 0.1; // Soft edges
             float cutoff = cos(radians(lights[i].angle));
-            
-            if (theta < cutoff) {
-                attenuation = 0.0;
-            }
+            float intensity = clamp((theta - cutoff) / epsilon, 0.0, 1.0);
+            attenuation *= intensity;
         }
 
         // Ambient
-        vec3 ambient = 0.1 * lights[i].color * textureColor;
+        vec3 ambient = 0.35 * lights[i].color * textureColor;
 
         // Diffuse
         vec3 norm = normalize(fragWorldNormal);
         float diff = max(dot(norm, lightDir), 0.0);
         vec3 diffuse = diff * lights[i].color * textureColor;
 
-        // Specular
-        vec3 viewDir = normalize(viewPos - fragWorldPosition);
-        vec3 reflectDir = reflect(-lightDir, norm);
-        float spec = pow(max(dot(viewDir, reflectDir), 0.0), 16); // Reduced shininess
-        vec3 specular = 0.3 * spec * lights[i].color * textureColor; // Adjusted specular to include texture color
-
-        result += ambient + (diffuse + specular) * attenuation;
+        result += ambient + diffuse  * attenuation;
     }
 
-    // Ensure the result color is within the valid range
     result = clamp(result, 0.0, 1.0);
 
     FragColor = vec4(result, 1.0);
