@@ -11,7 +11,6 @@
 #include <SOIL.h>
 #include "PlainModel.h"
 
-
 class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
@@ -39,4 +38,5 @@ private:
     vector<DrawableObject> rotatingTrees;
     vector<Light> lights;
     Light flashlight;
+    DrawableObject groundObject; // Declare groundObject here
 };

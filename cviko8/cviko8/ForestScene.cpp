@@ -52,7 +52,8 @@ ForestScene::ForestScene(int treeCount)
     groundShaderProgram("ground_vertex.glsl", "ground_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
-    flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1) {
+    flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
+    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)) { // Initialize groundObject
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
     lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
@@ -106,7 +107,6 @@ GLuint ForestScene::loadTexture(const std::string& filename) {
     return textureID;
 }
 
-
 void ForestScene::configureGroundShader() {
     groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
@@ -154,19 +154,20 @@ void ForestScene::createForest(int treeCount) {
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glClearDepth(1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // Bind ground texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
 
+    // Use ground shader program
     groundShaderProgram.use();
     groundShaderProgram.setUniform("projection", projection);
     groundShaderProgram.setUniform("view", view);
-    groundShaderProgram.setUniform("model", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -1.0f, 0.0f)));
-    //setLightingUniforms(groundShaderProgram, viewPos);
-    groundModel.draw();
+
+    // Draw ground object
+    groundObject.draw();
+
     groundShaderProgram.free();
 
     for (const auto& object : objects) {
