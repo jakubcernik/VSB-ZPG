@@ -57,7 +57,8 @@ ForestScene::ForestScene(int treeCount)
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
     groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    skyboxObject(skyboxModel, Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f))
+    skyboxObject(skyboxModel, Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    followSkybox(true)
 {
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
@@ -267,8 +268,9 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     skyboxShaderProgram.use();
 
-    // Remove translation from the view matrix
-    glm::mat4 viewMatrix = glm::mat4(glm::mat3(view));
+    // Remove translation from the view matrix if followSkybox is true
+    glm::mat4 viewMatrix = followSkybox ? glm::mat4(glm::mat3(view)) : view;
+
 
     skyboxShaderProgram.setUniform("modelMatrix", glm::mat4(1.0f));
     skyboxShaderProgram.setUniform("viewMatrix", viewMatrix);

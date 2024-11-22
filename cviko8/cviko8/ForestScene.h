@@ -24,7 +24,6 @@ public:
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);
     Camera& getCamera() override;
-    void setCamera(Camera& camera);
 
 private:
     TreeModel treeModel;
@@ -46,4 +45,6 @@ private:
     Light flashlight;
     DrawableObject groundObject;
     DrawableObject skyboxObject;
+
+    bool followSkybox;
 };
