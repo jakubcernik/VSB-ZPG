@@ -109,7 +109,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\libraries\soil\lib-vc2012\Platform_x64;..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;..\..\libraries\assimp\bin\x64\v140\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\libraries\soil\lib-vc2012\Platform_x64;..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;..\..\libraries\assimp\lib\x64\v140\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -141,6 +141,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialScene.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelObj.cpp" />
     <ClCompile Include="PlainModel.cpp" />
     <ClCompile Include="Reflector.cpp" />
     <ClCompile Include="Rotation.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialScene.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelObj.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="plain.h" />
     <ClInclude Include="PlainModel.h" />
@@ -210,6 +212,8 @@
     <None Include="firefly_vertex.glsl" />
     <None Include="ground_fragment.glsl" />
     <None Include="ground_vertex.glsl" />
+    <None Include="house_fragment.glsl" />
+    <None Include="house_vertex.glsl" />
     <None Include="lambert_fragment.glsl" />
     <None Include="lambert_vertex.glsl" />
     <None Include="light_fragment.glsl" />

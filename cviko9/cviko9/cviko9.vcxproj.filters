@@ -90,6 +90,9 @@
     <ClCompile Include="TriangleScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ModelObj.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -209,6 +212,9 @@
     <ClInclude Include="TriangleScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModelObj.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="blinn_fragment.glsl" />
@@ -240,6 +246,8 @@
     <None Include="tree_vertex_shader.glsl" />
     <None Include="triangle_fragment.glsl" />
     <None Include="triangle_vertex.glsl" />
+    <None Include="house_fragment.glsl" />
+    <None Include="house_vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png">

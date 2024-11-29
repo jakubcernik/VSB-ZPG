@@ -1,5 +1,5 @@
 C/C++ general: 		..\..\libraries\soil\include;..\..\libraries\g-truc-glm-0af55cc;..\..\libraries\glew-2.1.0\include;..\..\libraries\glfw-3.4.bin.WIN64\include;..\..\libraries\assimp\include;%(AdditionalIncludeDirectories)
 
-Linker general:		..\..\libraries\soil\lib-vc2012\Platform_x64;..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;..\..\libraries\assimp\bin\x64\v140\Release;%(AdditionalLibraryDirectories)
+Linker general:		..\..\libraries\soil\lib-vc2012\Platform_x64;..\..\libraries\glew-2.1.0\lib\Release\x64;..\..\libraries\glfw-3.4.bin.WIN64\lib-vc2019;..\..\libraries\assimp\lib\x64\v140\Release;%(AdditionalLibraryDirectories)
 
 Linker input:		opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)

@@ -11,6 +11,7 @@
 #include <SOIL.h>
 #include "PlainModel.h"
 #include "SkyboxModel.h"
+#include "ModelObj.h"
 
 class ForestScene : public Scene {
 public:
@@ -30,6 +31,7 @@ private:
     BushModel bushModel;
     PlainModel groundModel;
     SkyboxModel skyboxModel;
+    ModelObj houseModel;
     GLuint groundTexture;
     GLuint skyboxTexture;
     ShaderProgram treeShaderProgram;
@@ -37,6 +39,7 @@ private:
     ShaderProgram lightShaderProgram;
     ShaderProgram groundShaderProgram;
     ShaderProgram skyboxShaderProgram;
+    ShaderProgram houseShaderProgram;
 
     Camera camera;
     Light* sceneLight;
@@ -45,6 +48,7 @@ private:
     Light flashlight;
     DrawableObject groundObject;
     DrawableObject skyboxObject;
+    DrawableObject houseObject;
 
     bool followSkybox;
 };

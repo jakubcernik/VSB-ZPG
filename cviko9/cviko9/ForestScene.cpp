@@ -53,15 +53,18 @@ ForestScene::ForestScene(int treeCount)
     bushModel(),
     groundModel(),
     skyboxModel(),
+    houseModel("house.obj"),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     groundShaderProgram("ground_vertex.glsl", "ground_fragment.glsl"),
     skyboxShaderProgram("skybox_vertex.glsl", "skybox_fragment.glsl"),
     lightShaderProgram("light_vertex.glsl", "light_fragment.glsl"),
+    houseShaderProgram("house_vertex.glsl", "house_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
     groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
     skyboxObject(skyboxModel, Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    houseObject(houseModel, Transformation(), houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
     followSkybox(true)
 {
 
@@ -88,6 +91,12 @@ ForestScene::ForestScene(int treeCount)
     }
 
     configureGroundShader();
+
+    std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
+    houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(100)));
+    DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    //addObject(house);
+
 }
 
 void ForestScene::initializeObservers() {
@@ -257,6 +266,9 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
             bushShaderProgram.free();
         }
     }
+
+    houseShaderProgram.use();
+    house.draw();
 
     // Draw lights
     for (auto& light : lights) {
