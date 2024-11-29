@@ -6,7 +6,7 @@
 
 class Transformation : public BasicTransformation {
 public:
-    void addTransformation(std::shared_ptr<BasicTransformation> transformation);
+    Transformation& addTransformation(std::shared_ptr<BasicTransformation> transformation);
 
     glm::mat4 apply(const glm::mat4& model) const override;
 

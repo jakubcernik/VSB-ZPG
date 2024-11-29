@@ -95,7 +95,7 @@ ForestScene::ForestScene(int treeCount)
     std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
     houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(100)));
     DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
-    //addObject(house);
+    addObject(house);
 
 }
 
@@ -268,7 +268,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     }
 
     houseShaderProgram.use();
-    house.draw();
+    houseObject.draw();
 
     // Draw lights
     for (auto& light : lights) {
