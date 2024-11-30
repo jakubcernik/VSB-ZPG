@@ -93,7 +93,7 @@ ForestScene::ForestScene(int treeCount)
     configureGroundShader();
 
     std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
-    houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(100)));
+    houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(10.0f)));
     DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
     addObject(house);
 
@@ -108,11 +108,13 @@ void ForestScene::initializeObservers() {
     flashlight.addObserver(&treeShaderProgram);
     flashlight.addObserver(&bushShaderProgram);
     flashlight.addObserver(&groundShaderProgram);
+    flashlight.addObserver(&houseShaderProgram);
 
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
     camera.addObserver(&groundShaderProgram);
+    camera.addObserver(&houseShaderProgram);
 }
 
 GLuint ForestScene::loadGroundTexture(const std::string& filename) {
@@ -250,13 +252,21 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     groundShaderProgram.free();
 
     // Draw other objects
-    for (const auto& object : objects) {
+    for (size_t i = 0; i < objects.size(); ++i) {
+        const auto& object = objects[i];
+
         if (object.isTree()) {
             treeShaderProgram.use();
             treeShaderProgram.setUniform("objectColor", object.getColor());
             setLightingUniforms(treeShaderProgram, viewPos);
             object.draw();
             treeShaderProgram.free();
+        }
+        else if (i == objects.size() - 1) { // Pokud jde o poslední prvek (dùm)
+            houseShaderProgram.use();
+            setLightingUniforms(houseShaderProgram, viewPos);
+            object.draw();
+            houseShaderProgram.free();
         }
         else {
             bushShaderProgram.use();
@@ -267,8 +277,6 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         }
     }
 
-    houseShaderProgram.use();
-    houseObject.draw();
 
     // Draw lights
     for (auto& light : lights) {
