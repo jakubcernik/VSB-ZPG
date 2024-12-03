@@ -58,4 +58,5 @@ void main() {
     result = clamp(result, 0.0, 1.0);
 
     FragColor = vec4(result, 1.0);
+    FragColor = texture(1,
 }
