@@ -39,6 +39,9 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
             app->inputManager.resetMousePosition();
         }
     }
+    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+        printf("%d\n", GL_DEPTH_RANGE);
+    }
 }
 
 void mouse_callback(GLFWwindow* window, double xpos, double ypos) {

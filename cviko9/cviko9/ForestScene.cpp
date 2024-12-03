@@ -185,9 +185,6 @@ GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
     return textureID;
 }
 
-
-
-
 void ForestScene::configureGroundShader() {
     groundShaderProgram.use();
     groundShaderProgram.setUniform("texture1", 0);
@@ -264,6 +261,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         }
         else if (i == objects.size() - 1) { // Pokud jde o poslední prvek (dùm)
             houseShaderProgram.use();
+            houseModel.loadTexture("house.png");
             setLightingUniforms(houseShaderProgram, viewPos);
             object.draw();
             houseShaderProgram.free();

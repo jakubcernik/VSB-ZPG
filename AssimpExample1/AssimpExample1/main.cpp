@@ -186,7 +186,7 @@ int main(void)
     
     //Texture one in texture unit 0
     glActiveTexture(GL_TEXTURE0);
-    GLuint textureID1 = SOIL_load_OGL_texture("grass.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
+    GLuint textureID1 = SOIL_load_OGL_texture("house.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
     if (textureID1 == NULL) {
         std::cout << "An error occurred while loading texture." << std::endl;
         exit(EXIT_FAILURE);
@@ -201,7 +201,7 @@ int main(void)
     GLint idTU = glGetUniformLocation(shaderProgram, "textureUnitID");
     float angle = 0;
     //load("cube.obj");
-    load("login.obj");
+    load("house.obj");
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glBindVertexArray(VAO);
@@ -209,7 +209,7 @@ int main(void)
         glUniform1i(idTU, 0); // set TU 0
         M = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -0.3f, 0.0f));
         M = glm::rotate(M, angle, glm::vec3(0.0f, 1.0f, 0.0f));
-        M = glm::scale(M, glm::vec3(0.5f));
+        M = glm::scale(M, glm::vec3(0.05f));
         GLint idModelTransform = glGetUniformLocation(shaderProgram, "modelMatrix");
         glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &M[0][0]);
         //glDrawArrays(GL_TRIANGLES, 0, 6);
