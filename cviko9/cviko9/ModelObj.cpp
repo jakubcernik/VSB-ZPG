@@ -46,7 +46,11 @@ void ModelObj::loadModel(const std::string& filename) {
                 if (mesh->HasTextureCoords(0)) {
                     vertices[j].Texture[0] = mesh->mTextureCoords[0][j].x;
                     vertices[j].Texture[1] = mesh->mTextureCoords[0][j].y;
+                    std::cout << "Vertex " << j << " Texture Coords: ("
+                        << vertices[j].Texture[0] << ", "
+                        << vertices[j].Texture[1] << ")" << std::endl;
                 }
+
                 if (mesh->HasTangentsAndBitangents()) {
                     vertices[j].Tangent[0] = mesh->mTangents[j].x;
                     vertices[j].Tangent[1] = mesh->mTangents[j].y;
@@ -92,34 +96,8 @@ void ModelObj::loadModel(const std::string& filename) {
     }
 }
 
-void ModelObj::loadTexture(const std::string& filename) {
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
-    int width, height;
-    unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
-    if (image) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        SOIL_free_image_data(image);
-    }
-    else {
-        std::cerr << "Failed to load texture: " << filename << std::endl;
-    }
-
-    // Nastavení parametrù textury
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
 void ModelObj::draw() const {
-    glBindTexture(GL_TEXTURE_2D, textureID); // Navázání textury
     glBindVertexArray(vao);
     glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, nullptr);
     glBindVertexArray(0);
-    glBindTexture(GL_TEXTURE_2D, 0); // Odvázání textury
 }

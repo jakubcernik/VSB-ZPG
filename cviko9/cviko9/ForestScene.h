@@ -23,6 +23,7 @@ public:
     GLuint loadSkyboxTexture(const std::vector<std::string>& faces);
     void configureGroundShader();
     void configureSkyboxShader();
+    void configureHouseShader();
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);
@@ -39,6 +40,7 @@ private:
     ModelObj houseModel;
     GLuint groundTexture;
     GLuint skyboxTexture;
+    GLuint houseTexture;
     ShaderProgram treeShaderProgram;
     ShaderProgram bushShaderProgram;
     ShaderProgram lightShaderProgram;
@@ -54,7 +56,7 @@ private:
     Light flashlight;
     DrawableObject groundObject;
     DrawableObject skyboxObject;
-    DrawableObject houseObject;
+    DrawableObject* houseObject;
 
     bool followSkybox;
 };

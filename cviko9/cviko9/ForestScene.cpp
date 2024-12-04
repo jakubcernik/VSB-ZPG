@@ -66,7 +66,7 @@ ForestScene::ForestScene(int treeCount)
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
     groundObject(groundModel,new Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
     skyboxObject(skyboxModel,new Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    houseObject(houseModel,new Transformation(), houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    houseObject(nullptr),
     followSkybox(true)
 {
 
@@ -94,16 +94,29 @@ ForestScene::ForestScene(int treeCount)
 
     configureGroundShader();
 
-    //std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
-    //houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(10.0f)));
-    //DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
-    //addObject(house);
+    // Load house texture
+    houseTexture = loadGroundTexture("house.png");
+    if (houseTexture == 0) {
+        std::cerr << "Failed to load house texture: house.png" << std::endl;
+    }
+    else {
+        std::cout << "House texture loaded successfully, ID: " << houseTexture << std::endl;
+    }
 
-    //Transformation* houseTransform = new Transformation();
-    //houseTransform->addTransformation(new Scale(glm::vec3(0.5f)));
-    //DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
-    //addObject(house);
 
+    configureHouseShader();
+
+    // Create the house transformation
+    Transformation* houseTransform = new Transformation();
+    houseTransform->addTransformation(new Translation(glm::vec3(0.0f, 0.0f, 0.0f)));
+    houseTransform->addTransformation(new Scale(glm::vec3(10.0f)));
+
+    // Create the house object
+    houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+
+    // No need to add the house to the objects vector
+    // Store the house transformation for cleanup
+    transformations.push_back(houseTransform);
 }
 
 ForestScene::~ForestScene() {
@@ -116,6 +129,8 @@ ForestScene::~ForestScene() {
     for (float* angle : rotationAngles) {
         delete angle;
     }
+
+    delete houseObject;
 }
 
 void ForestScene::initializeObservers() {
@@ -123,6 +138,7 @@ void ForestScene::initializeObservers() {
         light.addObserver(&treeShaderProgram);
         light.addObserver(&bushShaderProgram);
         light.addObserver(&groundShaderProgram);
+        light.addObserver(&houseShaderProgram);
     }
     flashlight.addObserver(&treeShaderProgram);
     flashlight.addObserver(&bushShaderProgram);
@@ -216,6 +232,13 @@ void ForestScene::configureSkyboxShader() {
     skyboxShaderProgram.free();
 }
 
+void ForestScene::configureHouseShader(){
+	houseShaderProgram.use();
+	houseShaderProgram.setUniform("textureUnitID", 0);
+    std::cout << "Set textureUnitID to 0 in houseShaderProgram" << std::endl;
+	houseShaderProgram.free();
+}
+
 
 void ForestScene::createForest(int treeCount) {
     float groundLevel = 0.0f;
@@ -268,32 +291,16 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     groundObject.draw();
     groundShaderProgram.free();
 
-    // Draw other objects
-    for (size_t i = 0; i < objects.size(); ++i) {
-        const auto& object = objects[i];
-
-        if (object.isTree()) {
-            treeShaderProgram.use();
-            treeShaderProgram.setUniform("objectColor", object.getColor());
-            setLightingUniforms(treeShaderProgram, viewPos);
-            object.draw();
-            treeShaderProgram.free();
-        }
-        else if (i == objects.size() - 1) { // If it's the last element (house)
-            houseShaderProgram.use();
-            object.draw();
-            houseShaderProgram.free();
-        }
-        else {
-            bushShaderProgram.use();
-            bushShaderProgram.setUniform("objectColor", object.getColor());
-            setLightingUniforms(bushShaderProgram, viewPos);
-            object.draw();
-            bushShaderProgram.free();
-        }
+    // Draw other objects (trees and bushes)
+    for (const auto& object : objects) {
+        treeShaderProgram.use();
+        treeShaderProgram.setUniform("objectColor", object.getColor());
+        setLightingUniforms(treeShaderProgram, viewPos);
+        object.draw();
+        treeShaderProgram.free();
     }
 
-    // **Add this block to draw rotating trees**
+    // Draw rotating trees
     for (const auto& tree : rotatingTrees) {
         treeShaderProgram.use();
         treeShaderProgram.setUniform("objectColor", tree.getColor());
@@ -301,6 +308,19 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         tree.draw();
         treeShaderProgram.free();
     }
+
+    
+    // Draw the house
+    std::cout << "Binding house texture ID: " << houseTexture << std::endl;
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, houseTexture);
+
+    houseShaderProgram.use();
+    std::cout << "Setting uniform textureUnitID to 0" << std::endl;
+    houseShaderProgram.setUniform("textureUnitID", 0);
+    houseObject->draw();
+    houseShaderProgram.free();
+
 
     // Draw lights
     for (auto& light : lights) {
@@ -333,6 +353,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LESS);
 }
+
 
 
 void ForestScene::update(float deltaTime) {
