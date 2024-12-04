@@ -56,6 +56,7 @@ ForestScene::ForestScene(int treeCount)
     groundModel(),
     skyboxModel(),
     houseModel("house.obj"),
+    loginModel("login1.obj"),
     treeShaderProgram("tree_vertex_shader.glsl", "tree_fragment_shader.glsl"),
     bushShaderProgram("bush_vertex_shader.glsl", "bush_fragment_shader.glsl"),
     groundShaderProgram("ground_vertex.glsl", "ground_fragment.glsl"),
@@ -66,7 +67,8 @@ ForestScene::ForestScene(int treeCount)
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
     groundObject(groundModel, new Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
     skyboxObject(skyboxModel, new Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    houseObject(nullptr)
+    houseObject(nullptr),
+    loginObject(nullptr)
 {
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
@@ -108,8 +110,18 @@ ForestScene::ForestScene(int treeCount)
     houseTransform->addTransformation(new Translation(glm::vec3(0.0f, 0.0f, 0.0f)));
     houseTransform->addTransformation(new Scale(glm::vec3(5.0f)));
 
+    // Create the login transformation
+    float* angle = new float(0.0f);
+    rotationAngles.push_back(angle);
+
+    Transformation* loginTransform = new Transformation();
+    loginTransform->addTransformation(new Translation(glm::vec3(0.0f, 30.0f, 0.0f)));
+    loginTransform->addTransformation(new Scale(glm::vec3(5.0f)));
+    loginTransform->addDynamicRotation(angle, glm::vec3(1, 0, 0));
+
     // Create the house object
-    houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));\
+    loginObject = new DrawableObject(loginModel, loginTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 ForestScene::~ForestScene() {}
@@ -269,9 +281,10 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         treeShaderProgram.setUniform("objectColor", tree.getColor());
         setLightingUniforms(treeShaderProgram, viewPos);
         tree.draw();
-        update(0.016f); // Rotate 45 degrees per second
         treeShaderProgram.free();
     }
+
+    rotateDynamicly(0.016f); // Rotate 45 degrees per second
 
     
     // Draw the house
@@ -283,6 +296,15 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     std::cout << "Setting uniform textureUnitID to 0" << std::endl;
     houseShaderProgram.setUniform("textureUnitID", 0);
     houseObject->draw();
+    houseShaderProgram.free();
+
+    //Draw the login with ground texture
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, groundTexture);
+
+    houseShaderProgram.use();
+    houseShaderProgram.setUniform("textureUnitID", 0);
+    loginObject->draw();
     houseShaderProgram.free();
 
 
@@ -317,9 +339,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glDepthFunc(GL_LESS);
 }
 
-
-
-void ForestScene::update(float deltaTime) {
+void ForestScene::rotateDynamicly(float deltaTime) {
     for (float* angle : rotationAngles) {
         *angle += 45.0f * deltaTime; // Rotate 45 degrees per second
     }

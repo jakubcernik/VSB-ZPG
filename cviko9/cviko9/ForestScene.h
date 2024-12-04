@@ -26,7 +26,7 @@ public:
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);
     Camera& getCamera() override;
-    void update(float deltaTime);
+    void rotateDynamicly(float deltaTime);
 
 private:
     //std::vector<Transformation*> transformations;
@@ -36,6 +36,7 @@ private:
     PlainModel groundModel;
     SkyboxModel skyboxModel;
     ModelObj houseModel;
+    ModelObj loginModel;
     GLuint groundTexture;
     GLuint skyboxTexture;
     GLuint houseTexture;
@@ -55,6 +56,7 @@ private:
     DrawableObject groundObject;
     DrawableObject skyboxObject;
     DrawableObject* houseObject;
+    DrawableObject* loginObject;
 };
 
 
