@@ -19,6 +19,7 @@ public:
     void updateFireflies(float deltaTime);
 
 private:
+    std::vector<Transformation*> transformations;
     void initializeSceneLight();
     void initializeFireflies(int count);
     void initializeFlashlight();

@@ -25,12 +25,13 @@ MaterialScene::~MaterialScene() {
 }
 
 void MaterialScene::addObjectWithShader(const Model& model, const glm::vec3& position, ShaderProgram& shader, float scale, const Material& material) {
-    std::shared_ptr<Transformation> transform = std::make_shared<Transformation>();
-    transform->addTransformation(std::make_shared<Translation>(position));
-    transform->addTransformation(std::make_shared<Scale>(glm::vec3(scale)));
-    DrawableObject object(model, *transform, shader, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    Transformation* transform = new Transformation();
+    transform->addTransformation(new Translation(position));
+    transform->addTransformation(new Scale(glm::vec3(scale)));
+    DrawableObject object(model, transform, shader, false, glm::vec3(1.0f, 1.0f, 1.0f));
     objects.push_back(object);
     materials.push_back(material);
+
 }
 
 void MaterialScene::createMaterialShowcase() {

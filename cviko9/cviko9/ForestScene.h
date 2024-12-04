@@ -1,9 +1,10 @@
-#define GLM_ENABLE_EXPERIMENTAL
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
+#include "Model.h"
 #include "TreeModel.h"
 #include "BushModel.h"
-#include "Shader.h"  
-#include "DrawableObject.h"
+#include "Shader.h"
+#include "DrawableObject.h"  // Include the DrawableObject header
 #include "Scene.h"
 #include "Camera.h"
 #include "Light.h"
@@ -16,6 +17,7 @@
 class ForestScene : public Scene {
 public:
     ForestScene(int treeCount);
+    ~ForestScene();
     void initializeObservers();
     GLuint loadGroundTexture(const std::string& filename);
     GLuint loadSkyboxTexture(const std::vector<std::string>& faces);
@@ -25,8 +27,11 @@ public:
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     void setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos);
     Camera& getCamera() override;
+    void update(float deltaTime);
 
 private:
+    std::vector<Transformation*> transformations;
+
     TreeModel treeModel;
     BushModel bushModel;
     PlainModel groundModel;
@@ -43,8 +48,9 @@ private:
 
     Camera camera;
     Light* sceneLight;
-    vector<DrawableObject> rotatingTrees;
-    vector<Light> lights;
+    std::vector<DrawableObject> rotatingTrees;
+    std::vector<float*> rotationAngles;
+    std::vector<Light> lights;
     Light flashlight;
     DrawableObject groundObject;
     DrawableObject skyboxObject;

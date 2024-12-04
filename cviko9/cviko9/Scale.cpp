@@ -1,4 +1,3 @@
-// Scale.cpp
 #include "Scale.h"
 
 Scale::Scale(const glm::vec3& scale) : scale(scale) {}

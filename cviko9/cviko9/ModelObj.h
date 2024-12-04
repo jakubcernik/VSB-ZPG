@@ -4,7 +4,6 @@
 
 class ModelObj : public Model {
 private:
-	
 
 	GLuint textureID;
 

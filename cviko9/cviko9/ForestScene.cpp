@@ -1,3 +1,5 @@
+// ForestScene.cpp
+
 #include "ForestScene.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -62,9 +64,9 @@ ForestScene::ForestScene(int treeCount)
     houseShaderProgram("house_vertex.glsl", "house_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
-    groundObject(groundModel, Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    skyboxObject(skyboxModel, Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    houseObject(houseModel, Transformation(), houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    groundObject(groundModel,new Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    skyboxObject(skyboxModel,new Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    houseObject(houseModel,new Transformation(), houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
     followSkybox(true)
 {
 
@@ -92,11 +94,28 @@ ForestScene::ForestScene(int treeCount)
 
     configureGroundShader();
 
-    std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
-    houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(10.0f)));
-    DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
-    addObject(house);
+    //std::shared_ptr<Transformation> houseTransform = std::make_shared<Transformation>();
+    //houseTransform->addTransformation(std::make_shared<Scale>(glm::vec3(10.0f)));
+    //DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    //addObject(house);
 
+    //Transformation* houseTransform = new Transformation();
+    //houseTransform->addTransformation(new Scale(glm::vec3(0.5f)));
+    //DrawableObject house(houseModel, *houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    //addObject(house);
+
+}
+
+ForestScene::~ForestScene() {
+    // Delete transformations
+    for (auto* transform : transformations) {
+        delete transform;
+    }
+
+    // Delete rotation angles
+    for (float* angle : rotationAngles) {
+        delete angle;
+    }
 }
 
 void ForestScene::initializeObservers() {
@@ -202,40 +221,41 @@ void ForestScene::createForest(int treeCount) {
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
-        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
-        std::shared_ptr<Transformation> bushTransform = std::make_shared<Transformation>();
+        Transformation* treeTransform = new Transformation();
+        glm::vec3 treePosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
+        float randomRotationY = generateRandomFloat(0.0f, 360.0f);
+        glm::vec3 scaleValue = glm::vec3(generateRandomFloat(1.5f, 3.0f));
 
-        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
-        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
+        treeTransform->addTransformation(new Translation(treePosition));
+        treeTransform->addTransformation(new Rotation(0.0f, randomRotationY, 0.0f));
+        treeTransform->addTransformation(new Scale(scaleValue));
 
-        treeTransform->addTransformation(std::make_shared<Translation>(treeRandomPosition));
-        bushTransform->addTransformation(std::make_shared<Translation>(bushRandomPosition));
-
-        float randomRotationY = static_cast<float>(std::rand() % 360);
-        treeTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
-        bushTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
-
-        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(1.5, 3.0))));
-        bushTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(15.0, 25.0))));
-
-        glm::vec3 autumnColor = generateAutumnColor();
-
-        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
-        DrawableObject bush(bushModel, *bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
-
+        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         addObject(tree);
-        addObject(bush);
+
+        // Store the transformation for cleanup
+        transformations.push_back(treeTransform);
     }
 
+    // Create rotating trees
     for (int i = 0; i < 5; ++i) {
-        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
-        treeTransform->addTransformation(std::make_shared<Translation>(glm::vec3(i * 10.0f, groundLevel, 0.0f)));
-        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(2.0f)));
-        glm::vec3 autumnColor = generateAutumnColor();
-        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
+        float* angle = new float(0.0f);
+        rotationAngles.push_back(angle);
+
+        Transformation* treeTransform = new Transformation();
+        treeTransform->addTransformation(new Translation(glm::vec3(i * 10.0f, groundLevel, 0.0f)));
+        treeTransform->addDynamicRotation(angle, glm::vec3(0, 1, 0)); // Dynamic rotation
+        treeTransform->addTransformation(new Scale(glm::vec3(2.0f)));
+
+        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         rotatingTrees.push_back(tree);
+
+        // Store the transformation for cleanup
+        transformations.push_back(treeTransform);
     }
 }
+
+
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
@@ -259,10 +279,8 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
             object.draw();
             treeShaderProgram.free();
         }
-        else if (i == objects.size() - 1) { // Pokud jde o poslední prvek (dùm)
+        else if (i == objects.size() - 1) { // If it's the last element (house)
             houseShaderProgram.use();
-            setLightingUniforms(houseShaderProgram, viewPos);
-            object.load
             object.draw();
             houseShaderProgram.free();
         }
@@ -275,6 +293,14 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         }
     }
 
+    // **Add this block to draw rotating trees**
+    for (const auto& tree : rotatingTrees) {
+        treeShaderProgram.use();
+        treeShaderProgram.setUniform("objectColor", tree.getColor());
+        setLightingUniforms(treeShaderProgram, viewPos);
+        tree.draw();
+        treeShaderProgram.free();
+    }
 
     // Draw lights
     for (auto& light : lights) {
@@ -287,12 +313,10 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     glDepthFunc(GL_LEQUAL);
     glDepthMask(GL_FALSE);
 
-
     skyboxShaderProgram.use();
 
     // Remove translation from the view matrix if followSkybox is true
     glm::mat4 viewMatrix = followSkybox ? glm::mat4(glm::mat3(view)) : view;
-
 
     skyboxShaderProgram.setUniform("modelMatrix", glm::mat4(1.0f));
     skyboxShaderProgram.setUniform("viewMatrix", viewMatrix);
@@ -311,6 +335,11 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 }
 
 
+void ForestScene::update(float deltaTime) {
+    for (float* angle : rotationAngles) {
+        *angle += 45.0f * deltaTime; // Rotate 45 degrees per second
+    }
+}
 
 
 void ForestScene::setLightingUniforms(ShaderProgram& shader, const glm::vec3& viewPos) {

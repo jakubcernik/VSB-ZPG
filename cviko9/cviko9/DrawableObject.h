@@ -1,4 +1,3 @@
-// DrawableObject.h
 #pragma once
 #include "Model.h"
 #include "Transformation.h"
@@ -7,15 +6,15 @@
 class DrawableObject {
 private:
     const Model* model;
-    Transformation transformation;
+    Transformation* transformation;
     ShaderProgram& shaderProgram;
     bool isTreeObject;
     glm::vec3 color;
 
 public:
-    DrawableObject(const Model& mdl, const Transformation& trans, ShaderProgram& shaderProgram, bool isTreeObject, const glm::vec3& color);
+    DrawableObject(const Model& mdl, Transformation* trans, ShaderProgram& shaderProgram, bool isTreeObject, const glm::vec3& color);
     void draw() const;
     bool isTree() const { return isTreeObject; }
     const glm::vec3& getColor() const { return color; }
-    Transformation& getTransform() { return transformation; }
+    Transformation& getTransform() { return *transformation; }
 };

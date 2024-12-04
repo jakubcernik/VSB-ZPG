@@ -91,36 +91,44 @@ void ForestSceneNight::initializeFireflies(int count) {
 }
 
 void ForestSceneNight::createForest(int treeCount) {
-    srand(static_cast<unsigned>(time(nullptr)));
-
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
-        std::shared_ptr<Transformation> treeTransform = std::make_shared<Transformation>();
-        std::shared_ptr<Transformation> bushTransform = std::make_shared<Transformation>();
+        // Use raw pointers
+        Transformation* treeTransform = new Transformation();
+        Transformation* bushTransform = new Transformation();
 
-        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
-        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
+        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f,
+            groundLevel, groundLevel, -100.0f, 100.0f);
+        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f,
+            groundLevel, groundLevel, -100.0f, 100.0f);
 
-        treeTransform->addTransformation(std::make_shared<Translation>(treeRandomPosition));
-        bushTransform->addTransformation(std::make_shared<Translation>(bushRandomPosition));
+        // Add transformations using raw pointers
+        treeTransform->addTransformation(new Translation(treeRandomPosition));
+        bushTransform->addTransformation(new Translation(bushRandomPosition));
 
-        float randomRotationY = static_cast<float>(std::rand() % 360);
-        treeTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
-        bushTransform->addTransformation(std::make_shared<Rotation>(0, randomRotationY, 0));
+        float randomRotationY = generateRandomFloat(0.0f, 360.0f);
+        treeTransform->addTransformation(new Rotation(0.0f, randomRotationY, 0.0f));
+        bushTransform->addTransformation(new Rotation(0.0f, randomRotationY, 0.0f));
 
-        treeTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(1.5, 3.0))));
-        bushTransform->addTransformation(std::make_shared<Scale>(glm::vec3(generateRandomFloat(15.0, 25.0))));
+        treeTransform->addTransformation(new Scale(glm::vec3(generateRandomFloat(1.5f, 3.0f))));
+        bushTransform->addTransformation(new Scale(glm::vec3(generateRandomFloat(15.0f, 25.0f))));
 
         glm::vec3 autumnColor = generateAutumnColor();
 
-        DrawableObject tree(treeModel, *treeTransform, treeShaderProgram, true, autumnColor);
-        DrawableObject bush(bushModel, *bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
+        // Pass the Transformation pointers directly
+        DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
+        DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
 
         addObject(tree);
         addObject(bush);
+
+        // Store transformations for cleanup
+        transformations.push_back(treeTransform);
+        transformations.push_back(bushTransform);
     }
 }
+
 
 void ForestSceneNight::updateFireflies(float deltaTime) {
     for (auto& firefly : fireflies) {

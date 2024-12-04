@@ -44,14 +44,18 @@ int Light::getType() const {
 }
 
 void Light::draw() const {
-    std::shared_ptr<Transformation> transform = std::make_shared<Transformation>();
-    transform->addTransformation(std::make_shared<Translation>(position));
-    transform->addTransformation(std::make_shared<Scale>(glm::vec3(scale)));
+    Transformation transform;  // Create a Transformation object on the stack
 
-    glm::mat4 modelMatrix = transform->apply(glm::mat4(1.0f));
+    // Add transformations using raw pointers
+    transform.addTransformation(new Translation(position));
+    transform.addTransformation(new Scale(glm::vec3(scale)));
+
+    glm::mat4 modelMatrix = transform.apply(glm::mat4(1.0f));
     lightShader.use();
     lightShader.setUniform("modelMatrix", modelMatrix);
     lightModel.draw();
     lightShader.free();
+    // No need to delete 'transform', as it will be destroyed automatically when it goes out of scope
 }
+
 
