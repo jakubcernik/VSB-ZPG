@@ -102,6 +102,7 @@ ForestScene::ForestScene(int treeCount)
     else {
         std::cout << "House texture loaded successfully, ID: " << houseTexture << std::endl;
     }
+    houseTexture = SOIL_load_OGL_texture("house.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
 
     configureHouseShader();
@@ -109,7 +110,7 @@ ForestScene::ForestScene(int treeCount)
     // Create the house transformation
     Transformation* houseTransform = new Transformation();
     houseTransform->addTransformation(new Translation(glm::vec3(0.0f, 0.0f, 0.0f)));
-    houseTransform->addTransformation(new Scale(glm::vec3(10.0f)));
+    houseTransform->addTransformation(new Scale(glm::vec3(5.0f)));
 
     // Create the house object
     houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
