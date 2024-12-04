@@ -84,28 +84,25 @@ ForestScene::ForestScene(int treeCount)
 		throw runtime_error("Failed to load skybox texture");
 	}
 
-    configureSkyboxShader();
+    configureShader(groundShaderProgram, "texture1", 0);
 
     // Load ground texture
     groundTexture = loadGroundTexture("grass.png");
     if (groundTexture == 0) {
         throw runtime_error("Failed to load ground texture");
     }
+	else {
+		std::cout << "Ground texture loaded successfully, ID: " << groundTexture << std::endl;
+	}
 
-    configureGroundShader();
+    configureShader(skyboxShaderProgram, "UISky", 0);
 
     // Load house texture
-    houseTexture = loadGroundTexture("house.png");
-    if (houseTexture == 0) {
-        std::cerr << "Failed to load house texture: house.png" << std::endl;
-    }
-    else {
-        std::cout << "House texture loaded successfully, ID: " << houseTexture << std::endl;
-    }
     houseTexture = SOIL_load_OGL_texture("house.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
 
-    configureHouseShader();
+    configureShader(houseShaderProgram, "textureUnitID", 0);
+
 
     // Create the house transformation
     Transformation* houseTransform = new Transformation();
@@ -221,23 +218,10 @@ GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
     return textureID;
 }
 
-void ForestScene::configureGroundShader() {
-    groundShaderProgram.use();
-    groundShaderProgram.setUniform("texture1", 0);
-    groundShaderProgram.free();
-}
-
-void ForestScene::configureSkyboxShader() {
-    skyboxShaderProgram.use();
-    skyboxShaderProgram.setUniform("UISky", 0); // Texture unit 0
-    skyboxShaderProgram.free();
-}
-
-void ForestScene::configureHouseShader(){
-	houseShaderProgram.use();
-	houseShaderProgram.setUniform("textureUnitID", 0);
-    std::cout << "Set textureUnitID to 0 in houseShaderProgram" << std::endl;
-	houseShaderProgram.free();
+void ForestScene::configureShader(ShaderProgram& shader, const std::string& textureUniform, int textureUnit) {
+    shader.use();
+    shader.setUniform(textureUniform.c_str(), textureUnit);
+    shader.free();
 }
 
 
@@ -307,6 +291,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         treeShaderProgram.setUniform("objectColor", tree.getColor());
         setLightingUniforms(treeShaderProgram, viewPos);
         tree.draw();
+        update(0.016f); // Rotate 45 degrees per second
         treeShaderProgram.free();
     }
 
