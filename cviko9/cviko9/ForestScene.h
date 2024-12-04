@@ -29,7 +29,7 @@ public:
     void update(float deltaTime);
 
 private:
-    std::vector<Transformation*> transformations;
+    //std::vector<Transformation*> transformations;
 
     TreeModel treeModel;
     BushModel bushModel;
@@ -55,8 +55,6 @@ private:
     DrawableObject groundObject;
     DrawableObject skyboxObject;
     DrawableObject* houseObject;
-
-    bool followSkybox;
 };
 
 

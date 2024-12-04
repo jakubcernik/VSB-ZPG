@@ -40,7 +40,7 @@ inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float ma
 inline glm::vec3 generateAutumnColor() {
     static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> redDistribution(0.7f, 1.0f);
-    uniform_real_distribution<float> greenDistribution(0.6f, 1.0f);
+    uniform_real_distribution<float> greenDistribution(0.6f, 0.8f);
     uniform_real_distribution<float> blueDistribution(0.0f, 0.2f);
 
     float red = redDistribution(engine);
@@ -64,10 +64,9 @@ ForestScene::ForestScene(int treeCount)
     houseShaderProgram("house_vertex.glsl", "house_fragment.glsl"),
     camera(glm::vec3(0.0f, 50.0f, 5.0f), glm::vec3(0.0f, 1.0f, 0.0f), 0.0f, -45.0f),
     flashlight(camera.getPosition(), camera.getFront(), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 0.0f, 12.5f, 1),
-    groundObject(groundModel,new Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    skyboxObject(skyboxModel,new Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
-    houseObject(nullptr),
-    followSkybox(true)
+    groundObject(groundModel, new Transformation(), groundShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    skyboxObject(skyboxModel, new Transformation(), skyboxShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f)),
+    houseObject(nullptr)
 {
 
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
@@ -111,25 +110,9 @@ ForestScene::ForestScene(int treeCount)
 
     // Create the house object
     houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
-
-    // No need to add the house to the objects vector
-    // Store the house transformation for cleanup
-    transformations.push_back(houseTransform);
 }
 
-ForestScene::~ForestScene() {
-    // Delete transformations
-    for (auto* transform : transformations) {
-        delete transform;
-    }
-
-    // Delete rotation angles
-    for (float* angle : rotationAngles) {
-        delete angle;
-    }
-
-    delete houseObject;
-}
+ForestScene::~ForestScene() {}
 
 void ForestScene::initializeObservers() {
     for (auto& light : lights) {
@@ -240,9 +223,6 @@ void ForestScene::createForest(int treeCount) {
 
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         addObject(tree);
-
-        // Store the transformation for cleanup
-        transformations.push_back(treeTransform);
     }
 
     // Create rotating trees
@@ -252,14 +232,12 @@ void ForestScene::createForest(int treeCount) {
 
         Transformation* treeTransform = new Transformation();
         treeTransform->addTransformation(new Translation(glm::vec3(i * 10.0f, groundLevel, 0.0f)));
+        treeTransform->addTransformation(new Translation(glm::vec3(50.0f, 0.0f, 20.0f)));
         treeTransform->addDynamicRotation(angle, glm::vec3(0, 1, 0)); // Dynamic rotation
         treeTransform->addTransformation(new Scale(glm::vec3(2.0f)));
 
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         rotatingTrees.push_back(tree);
-
-        // Store the transformation for cleanup
-        transformations.push_back(treeTransform);
     }
 }
 
@@ -321,8 +299,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     skyboxShaderProgram.use();
 
-    // Remove translation from the view matrix if followSkybox is true
-    glm::mat4 viewMatrix = followSkybox ? glm::mat4(glm::mat3(view)) : view;
+    glm::mat4 viewMatrix = glm::mat4(glm::mat3(view));
 
     skyboxShaderProgram.setUniform("modelMatrix", glm::mat4(1.0f));
     skyboxShaderProgram.setUniform("viewMatrix", viewMatrix);
