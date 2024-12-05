@@ -7,5 +7,5 @@ uniform samplerCube UISky;
 
 void main()
 {
-    FragColor = texture(UISky, TexCoords);
+    FragColor = texture(UISky, TexCoords)*0.5;
 }

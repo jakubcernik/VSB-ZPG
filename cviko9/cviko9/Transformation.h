@@ -1,3 +1,4 @@
+//Transformation.h
 #pragma once
 #include <vector>
 #include <memory>
@@ -7,10 +8,6 @@ class Transformation : public BasicTransformation {
 public:
     Transformation();
     ~Transformation();
-
-    // Disable copy constructor and copy assignment
-    Transformation(const Transformation&) = delete;
-    Transformation& operator=(const Transformation&) = delete;
 
     Transformation& addTransformation(BasicTransformation* transformation);
 

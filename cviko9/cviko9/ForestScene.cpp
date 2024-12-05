@@ -22,13 +22,15 @@
 
 using namespace std;
 
-inline float generateRandomFloat(float min, float max) {
+inline float generateRandomFloat(float min, float max) 
+{
     static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distribution(min, max);
     return distribution(engine);
 }
 
-inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) {
+inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float maxY, float minZ, float maxZ) 
+{
     static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> distX(minX, maxX);
     uniform_real_distribution<float> distY(minY, maxY);
@@ -37,7 +39,8 @@ inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float ma
     return glm::vec3(distX(engine), distY(engine), distZ(engine));
 }
 
-inline glm::vec3 generateAutumnColor() {
+inline glm::vec3 generateAutumnColor() 
+{
     static default_random_engine engine{ random_device{}() };
     uniform_real_distribution<float> redDistribution(0.7f, 1.0f);
     uniform_real_distribution<float> greenDistribution(0.6f, 0.8f);
@@ -70,7 +73,7 @@ ForestScene::ForestScene(int treeCount)
     houseObject(nullptr),
     loginObject(nullptr)
 {
-
+    // Light( position, direction, color, shader, scale, angle, type)
     lights.push_back(Light(glm::vec3(-50.0f, 20.0f, 20.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 0.0f, 0));
     lights.push_back(Light(glm::vec3(50.0f, 10.0f, 10.0f), glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(0.3f, 0.5f, 1.0f), lightShaderProgram, 1.0f, 20.0f, 1));
 
@@ -81,8 +84,9 @@ ForestScene::ForestScene(int treeCount)
     skyboxTexture = loadSkyboxTexture({
 		"posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg"
 		});
-    if (skyboxTexture == 0) {
-		throw runtime_error("Failed to load skybox texture");
+    if (skyboxTexture == 0) 
+    {
+		printf("Failed to load skybox texture");
 	}
 
     configureShader(groundShaderProgram, "texture1", 0);
@@ -90,10 +94,10 @@ ForestScene::ForestScene(int treeCount)
     // Load ground texture
     groundTexture = loadGroundTexture("grass.png");
     if (groundTexture == 0) {
-        throw runtime_error("Failed to load ground texture");
-    }
+        printf("Failed to load ground texture");
+	}
 	else {
-		std::cout << "Ground texture loaded successfully, ID: " << groundTexture << std::endl;
+        printf("Failed to load ground texture");
 	}
 
     configureShader(skyboxShaderProgram, "UISky", 0);
@@ -104,24 +108,6 @@ ForestScene::ForestScene(int treeCount)
 
     configureShader(houseShaderProgram, "textureUnitID", 0);
 
-
-    // Create the house transformation
-    Transformation* houseTransform = new Transformation();
-    houseTransform->addTransformation(new Translation(glm::vec3(0.0f, 0.0f, 0.0f)));
-    houseTransform->addTransformation(new Scale(glm::vec3(5.0f)));
-
-    // Create the login transformation
-    float* angle = new float(0.0f);
-    rotationAngles.push_back(angle);
-
-    Transformation* loginTransform = new Transformation();
-    loginTransform->addTransformation(new Translation(glm::vec3(0.0f, 30.0f, 0.0f)));
-    loginTransform->addTransformation(new Scale(glm::vec3(5.0f)));
-    loginTransform->addDynamicRotation(angle, glm::vec3(1, 0, 0));
-
-    // Create the house object
-    houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));\
-    loginObject = new DrawableObject(loginModel, loginTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
 }
 
 ForestScene::~ForestScene() {}
@@ -177,11 +163,6 @@ GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-    if (faces.size() != 6) {
-        std::cerr << "Error: Exactly 6 faces are required for a cubemap." << std::endl;
-        return 0;
-    }
-
     int width, height, channels;
     unsigned char* image;
 
@@ -195,7 +176,6 @@ GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
             SOIL_free_image_data(image);
         }
         else {
-            std::cerr << "Cubemap texture failed to load at path: " << faces[i] << std::endl;
             std::cerr << "SOIL error: " << SOIL_last_result() << std::endl;
             return 0;
         }
@@ -225,7 +205,12 @@ void ForestScene::createForest(int treeCount) {
 
     for (int i = 0; i < treeCount; ++i) {
         Transformation* treeTransform = new Transformation();
-        glm::vec3 treePosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
+        glm::vec3 treePosition = generateRandomVec3(-150.0f, 150.0f, groundLevel, groundLevel, -150.0f, 150.0f);
+
+        while (treePosition.x > -30.0f && treePosition.x < 30.0f && treePosition.z > -75.0f && treePosition.z < 75.0f) {
+            treePosition = generateRandomVec3(-150.0f, 150.0f, groundLevel, groundLevel, -150.0f, 150.0f);
+        }
+
         float randomRotationY = generateRandomFloat(0.0f, 360.0f);
         glm::vec3 scaleValue = glm::vec3(generateRandomFloat(1.5f, 3.0f));
 
@@ -251,9 +236,24 @@ void ForestScene::createForest(int treeCount) {
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         rotatingTrees.push_back(tree);
     }
+
+    // House transformation
+    Transformation* houseTransform = new Transformation();
+    houseTransform->addTransformation(new Translation(glm::vec3(0.0f, 0.0f, 0.0f)));
+    houseTransform->addTransformation(new Scale(glm::vec3(5.0f)));
+
+    // Login transformation
+    float* loginAngle = new float(0.0f);
+    rotationAngles.push_back(loginAngle);
+
+    Transformation* loginTransform = new Transformation();
+    loginTransform->addTransformation(new Translation(glm::vec3(-5.0f, 10.0f, 0.0f)));
+    loginTransform->addDynamicRotation(loginAngle, glm::vec3(0, 1, 0));
+    loginTransform->addTransformation(new Scale(glm::vec3(5.0f)));
+
+    houseObject = new DrawableObject(houseModel, houseTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
+    loginObject = new DrawableObject(loginModel, loginTransform, houseShaderProgram, false, glm::vec3(1.0f, 1.0f, 1.0f));
 }
-
-
 
 void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {
     glEnable(GL_DEPTH_TEST);
@@ -266,7 +266,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     groundObject.draw();
     groundShaderProgram.free();
 
-    // Draw other objects (trees and bushes)
+    // Draw plants
     for (const auto& object : objects) {
         treeShaderProgram.use();
         treeShaderProgram.setUniform("objectColor", object.getColor());
@@ -288,12 +288,10 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     
     // Draw the house
-    std::cout << "Binding house texture ID: " << houseTexture << std::endl;
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, houseTexture);
 
     houseShaderProgram.use();
-    std::cout << "Setting uniform textureUnitID to 0" << std::endl;
     houseShaderProgram.setUniform("textureUnitID", 0);
     houseObject->draw();
     houseShaderProgram.free();
@@ -321,9 +319,8 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     skyboxShaderProgram.use();
 
-    glm::mat4 viewMatrix = glm::mat4(glm::mat3(view));
+    glm::mat4 viewMatrix = glm::mat4(glm::mat3(view)); // Remove translation from the view matrix
 
-    skyboxShaderProgram.setUniform("modelMatrix", glm::mat4(1.0f));
     skyboxShaderProgram.setUniform("viewMatrix", viewMatrix);
     skyboxShaderProgram.setUniform("projectionMatrix", projection);
 
