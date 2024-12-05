@@ -248,6 +248,7 @@
     <None Include="triangle_vertex.glsl" />
     <None Include="house_fragment.glsl" />
     <None Include="house_vertex.glsl" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png">

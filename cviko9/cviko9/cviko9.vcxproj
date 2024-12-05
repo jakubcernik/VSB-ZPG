@@ -206,6 +206,7 @@
     <None Include="bush_night_fragment.glsl" />
     <None Include="bush_night_vertex.glsl" />
     <None Include="bush_vertex_shader.glsl" />
+    <None Include="ClassDiagram.cd" />
     <None Include="constant_fragment.glsl" />
     <None Include="constant_vertex.glsl" />
     <None Include="firefly_fragment.glsl" />
