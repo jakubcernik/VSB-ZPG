@@ -13,6 +13,30 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Scenes">
+      <UniqueIdentifier>{666abe13-cbaa-4535-966f-b30909b290a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Models">
+      <UniqueIdentifier>{4db2802f-9856-4abd-afac-022561173612}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{56a5f326-e5a7-4e8f-812e-12feb7094657}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Transformations">
+      <UniqueIdentifier>{de0fd090-5c2a-4df4-a28f-ee4105c6ad60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scenes">
+      <UniqueIdentifier>{5c97311d-4e17-4db6-a768-b5a21dfb9125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Models">
+      <UniqueIdentifier>{4a77de25-e24c-45de-8e2d-317c8bc9aae2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Transformations">
+      <UniqueIdentifier>{c1551b61-4fab-4ca5-825a-37290239e42d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ShaderFiles">
+      <UniqueIdentifier>{aa18e89c-bfb6-4166-abc6-af5f10ab7651}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -22,12 +46,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawableObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ForestScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ForestSceneNight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputManager.cpp">
@@ -42,22 +60,7 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MaterialScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlainModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Reflector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rotation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scale.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
@@ -72,54 +75,57 @@
     <ClCompile Include="ShaderProgram.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderShowcaseScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SkyboxModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SphereScene.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ForestScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Transformation.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ForestSceneNight.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="Translation.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="MaterialScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderShowcaseScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="TriangleScene.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="SphereScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Models</Filter>
     </ClCompile>
     <ClCompile Include="ModelObj.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="PlainModel.cpp">
+      <Filter>Source Files\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotation.cpp">
+      <Filter>Source Files\Transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="Scale.cpp">
+      <Filter>Source Files\Transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="Transformation.cpp">
+      <Filter>Source Files\Transformations</Filter>
+    </ClCompile>
+    <ClCompile Include="Translation.cpp">
+      <Filter>Source Files\Transformations</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BasicTransformation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="bushes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BushModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrawableObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ForestScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ForestSceneNight.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gift.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InputManager.h">
@@ -131,25 +137,7 @@
     <ClInclude Include="Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="plain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PlainModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rotation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
@@ -164,91 +152,191 @@
     <ClInclude Include="ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderShowcaseScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SkyboxModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="skycube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SOIL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SphereScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="suzi_flat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="suzi_smooth.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SuziModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transformation.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="bushes.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="Translation.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="gift.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="plain.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="suzi_flat.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="skycube.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="suzi_smooth.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="tree.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="TreeModel.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Translation.h">
+      <Filter>Header Files\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="Transformation.h">
+      <Filter>Header Files\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotation.h">
+      <Filter>Header Files\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="Scale.h">
+      <Filter>Header Files\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicTransformation.h">
+      <Filter>Header Files\Transformations</Filter>
+    </ClInclude>
+    <ClInclude Include="ForestSceneNight.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ForestScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderShowcaseScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereScene.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="TriangleScene.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BushModel.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
     <ClInclude Include="ModelObj.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="PlainModel.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="SphereModel.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyboxModel.h">
+      <Filter>Header Files\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeModel.h">
+      <Filter>Header Files\Models</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="blinn_fragment.glsl" />
-    <None Include="blinn_vertex.glsl" />
-    <None Include="bush_fragment_shader.glsl" />
-    <None Include="bush_night_fragment.glsl" />
-    <None Include="bush_night_vertex.glsl" />
-    <None Include="bush_vertex_shader.glsl" />
-    <None Include="constant_fragment.glsl" />
-    <None Include="constant_vertex.glsl" />
-    <None Include="firefly_fragment.glsl" />
-    <None Include="firefly_vertex.glsl" />
-    <None Include="ground_fragment.glsl" />
-    <None Include="ground_vertex.glsl" />
-    <None Include="lambert_fragment.glsl" />
-    <None Include="lambert_vertex.glsl" />
-    <None Include="light_fragment.glsl" />
-    <None Include="light_vertex.glsl" />
-    <None Include="phong_fragment.glsl" />
-    <None Include="phong_material_fragment.glsl" />
-    <None Include="phong_vertex.glsl" />
-    <None Include="skybox_fragment.glsl" />
-    <None Include="skybox_vertex.glsl" />
-    <None Include="sphere_fragment_shader.glsl" />
-    <None Include="sphere_vertex_shader.glsl" />
-    <None Include="tree_fragment_shader.glsl" />
-    <None Include="tree_night_fragment.glsl" />
-    <None Include="tree_night_vertex.glsl" />
-    <None Include="tree_vertex_shader.glsl" />
-    <None Include="triangle_fragment.glsl" />
-    <None Include="triangle_vertex.glsl" />
-    <None Include="house_fragment.glsl" />
-    <None Include="house_vertex.glsl" />
-    <None Include="ClassDiagram.cd" />
+    <None Include="blinn_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="blinn_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="bush_fragment_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="bush_night_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="bush_night_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="bush_vertex_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="ClassDiagram.cd">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="constant_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="constant_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="firefly_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="firefly_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="ground_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="ground_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="house_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="house_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="lambert_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="lambert_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="light_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="light_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="phong_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="phong_material_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="phong_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="skybox_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="skybox_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="sphere_fragment_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="sphere_vertex_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="tree_fragment_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="tree_night_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="tree_night_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="tree_vertex_shader.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="triangle_fragment.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
+    <None Include="triangle_vertex.glsl">
+      <Filter>Source Files\ShaderFiles</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="grass.png">
