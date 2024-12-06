@@ -9,6 +9,6 @@ public:
     ~TreeModel() {}
 
 private:
-    const float* getVertexData() const { return tree; }
-    unsigned int getVertexCount() const { return 92814; }
+    const float* getVertexData() const override { return tree; }
+    unsigned int getVertexCount() const override { return 92814; }
 };

@@ -9,7 +9,7 @@ PlainModel::~PlainModel() {
     glDeleteBuffers(1, &VBO);
 }
 
-void PlainModel::loadModel() {
+void PlainModel::loadModel(){
     //vertex buffer object (VBO)
     //GLuint VBO = 0;
     glGenBuffers(1, &VBO); // generate the VBO

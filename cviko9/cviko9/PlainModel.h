@@ -7,16 +7,15 @@
 #include "plain.h"
 
 class PlainModel : public Model {
+private:
+    GLuint VAO, VBO;
+    const float* getVertexData() const { return plain; }
+    unsigned int getVertexCount() const { return 6; }
+
 public:
     PlainModel();
     ~PlainModel();
-    void draw() const;
-private:
-    GLuint VAO, VBO;
     void loadModel();
-    
-    const float* getVertexData() const { return plain; }
-
-    unsigned int getVertexCount() const { return 6; }
+    void draw() const;
 };
 

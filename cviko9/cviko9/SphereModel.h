@@ -9,7 +9,6 @@ public:
     ~SphereModel() {}
 
 private:
-    const float* getVertexData() const { return sphere; }
-
-    unsigned int getVertexCount() const { return 2880; }
+    const float* getVertexData() const override { return sphere; }
+    unsigned int getVertexCount() const override { return 2880; }
 };

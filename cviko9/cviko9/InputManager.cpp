@@ -3,32 +3,32 @@
 #include "InputManager.h"
 #include "Camera.h"
 
-InputManager::InputManager() : firstMouse(true), lastX(400), lastY(300) {}
+InputManager::InputManager() : firstMouse(true), lastX(400), lastY(300), lockedStatus(false) {}
 
 void InputManager::processInput(GLFWwindow* window, Camera& activeCamera, float deltaTime) {
     {
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
             activeCamera.processKeyboard(0, deltaTime);
-            printf("W\n");
+            //printf("W\n");
         }
 
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
             activeCamera.processKeyboard(1, deltaTime);
-            printf("S\n");
+            //printf("S\n");
         }
 
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
             activeCamera.processKeyboard(2, deltaTime);
-            printf("A\n");
+            //printf("A\n");
         }
 
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
             activeCamera.processKeyboard(3, deltaTime);
-            printf("D\n");
+            //printf("D\n");
         }
 
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
@@ -38,7 +38,7 @@ void InputManager::processInput(GLFWwindow* window, Camera& activeCamera, float 
         if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
         {
             activeCamera.processKeyboard(4, deltaTime);
-            printf("Shift\n");
+            //printf("Shift\n");
         }
     }
 }

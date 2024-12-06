@@ -12,7 +12,6 @@ public:
 private:
     GLuint VAO, VBO;
     const float* getVertexData() const { return skycube; }
-
     unsigned int getVertexCount() const { return 108; }
     void loadModel();
 };

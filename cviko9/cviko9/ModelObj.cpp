@@ -46,9 +46,6 @@ void ModelObj::loadModel(const std::string& filename) {
                 if (mesh->HasTextureCoords(0)) {
                     vertices[j].Texture[0] = mesh->mTextureCoords[0][j].x;
                     vertices[j].Texture[1] = mesh->mTextureCoords[0][j].y;
-                    std::cout << "Vertex " << j << " Texture Coords: ("
-                        << vertices[j].Texture[0] << ", "
-                        << vertices[j].Texture[1] << ")" << std::endl;
                 }
 
                 if (mesh->HasTangentsAndBitangents()) {
