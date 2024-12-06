@@ -42,8 +42,8 @@ inline glm::vec3 generateRandomVec3(float minX, float maxX, float minY, float ma
 inline glm::vec3 generateAutumnColor() 
 {
     static default_random_engine engine{ random_device{}() };
-    uniform_real_distribution<float> redDistribution(0.7f, 1.0f);
-    uniform_real_distribution<float> greenDistribution(0.6f, 0.8f);
+    uniform_real_distribution<float> redDistribution(0.5f, 1.0f);
+    uniform_real_distribution<float> greenDistribution(0.3f, 0.6f);
     uniform_real_distribution<float> blueDistribution(0.0f, 0.2f);
 
     float red = redDistribution(engine);

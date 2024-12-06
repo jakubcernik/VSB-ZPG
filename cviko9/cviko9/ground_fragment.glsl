@@ -25,9 +25,9 @@ out vec4 FragColor;
 void main() {
     vec3 textureColor = texture(texture1, TexCoord).rgb;
     
-    textureColor.r *= 0.8;
-    textureColor.g *= 1.2;
-    textureColor.b *= 0.5;
+    textureColor.r *= 1.2;
+    textureColor.g *= 0.8;
+    textureColor.b *= 0.2;
 
     vec3 result = vec3(0.0);
 

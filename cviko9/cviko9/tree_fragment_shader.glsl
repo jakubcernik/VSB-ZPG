@@ -8,7 +8,7 @@ struct Light {
     int type; // 0 = point light, 1 = spotlight
 };
 
-#define MAX_LIGHTS 10
+#define MAX_LIGHTS 3
 
 uniform Light lights[MAX_LIGHTS];
 uniform int numLights;

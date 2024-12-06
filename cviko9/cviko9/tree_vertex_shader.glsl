@@ -8,7 +8,6 @@ uniform mat4 modelMatrix;       // Model space -> World space
 uniform mat4 viewMatrix;        // World space -> View (camera) space
 uniform mat4 projectionMatrix;  // View space -> Clip space
 
-// Outputs to fragment shader
 out vec3 fragWorldPosition;     // World space
 out vec3 fragWorldNormal;       // World space
 
