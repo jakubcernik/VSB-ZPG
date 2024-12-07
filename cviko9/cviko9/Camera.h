@@ -17,7 +17,6 @@ public:
     void processMouseMovement(float xoffset, float yoffset);
 
     void addObserver(Observer* observer);
-    void removeObserver(Observer* observer);
 
 private:
     void updateCameraVectors();

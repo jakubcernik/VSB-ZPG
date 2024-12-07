@@ -97,7 +97,7 @@ ForestScene::ForestScene(int treeCount)
         printf("Failed to load ground texture");
 	}
 	else {
-        printf("Failed to load ground texture");
+        printf("Ground texture loaded!");
 	}
 
     configureShader(skyboxShaderProgram, "UISky", 0);
@@ -221,6 +221,25 @@ void ForestScene::createForest(int treeCount) {
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, generateAutumnColor());
         addObject(tree);
     }
+    for(int i = 0; i < 200; i++)
+	{
+		Transformation* bushTransform = new Transformation();
+		glm::vec3 bushPosition = generateRandomVec3(-150.0f, 150.0f, groundLevel, groundLevel, -150.0f, 150.0f);
+
+		while (bushPosition.x > -30.0f && bushPosition.x < 30.0f && bushPosition.z > -75.0f && bushPosition.z < 75.0f) {
+			bushPosition = generateRandomVec3(-150.0f, 150.0f, groundLevel, groundLevel, -150.0f, 150.0f);
+		}
+
+		float randomRotationY = generateRandomFloat(0.0f, 360.0f);
+		glm::vec3 scaleValue = glm::vec3(generateRandomFloat(10.0f, 15.0f));
+
+		bushTransform->addTransformation(new Translation(bushPosition));
+		bushTransform->addTransformation(new Rotation(0.0f, randomRotationY, 0.0f));
+		bushTransform->addTransformation(new Scale(scaleValue));
+
+		DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, generateAutumnColor());
+		addObject(bush);
+	}
 
     // Create rotating trees
     for (int i = 0; i < 5; ++i) {
@@ -268,11 +287,22 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     // Draw plants
     for (const auto& object : objects) {
-        treeShaderProgram.use();
-        treeShaderProgram.setUniform("objectColor", object.getColor());
-        setLightingUniforms(treeShaderProgram, viewPos);
-        object.draw();
-        treeShaderProgram.free();
+        if(object.isTree())
+		{
+			treeShaderProgram.use();
+			treeShaderProgram.setUniform("objectColor", object.getColor());
+			setLightingUniforms(treeShaderProgram, viewPos);
+			object.draw();
+			treeShaderProgram.free();
+		}
+		else
+		{
+			bushShaderProgram.use();
+			bushShaderProgram.setUniform("objectColor", object.getColor());
+			setLightingUniforms(bushShaderProgram, viewPos);
+			object.draw();
+			bushShaderProgram.free();
+		}
     }
 
     // Draw rotating trees

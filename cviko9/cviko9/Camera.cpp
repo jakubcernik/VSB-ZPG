@@ -69,10 +69,6 @@ void Camera::addObserver(Observer* observer) {
     notify();
 }
 
-void Camera::removeObserver(Observer* observer) {
-    observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
-}
-
 void Camera::notify() const {
     glm::mat4 view = getViewMatrix();
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
