@@ -185,7 +185,6 @@
     <ClInclude Include="ShaderShowcaseScene.h" />
     <ClInclude Include="SkyboxModel.h" />
     <ClInclude Include="skycube.h" />
-    <ClInclude Include="SOIL.h" />
     <ClInclude Include="sphere.h" />
     <ClInclude Include="SphereModel.h" />
     <ClInclude Include="SphereScene.h" />

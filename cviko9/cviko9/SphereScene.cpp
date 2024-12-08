@@ -40,9 +40,7 @@ SphereScene::SphereScene()
         1                             // type
     );
 
-    sceneLight->addObserver(&shaderProgram);
-    camera.addObserver(&shaderProgram);
-    camera.addObserver(&lightShaderProgram);
+    setCamera(camera);
 }
 
 void SphereScene::render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos) {

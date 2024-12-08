@@ -14,7 +14,6 @@ MaterialScene::MaterialScene()
         0                              // type
     );
 
-    sceneLight->addObserver(&phongShader);
     camera.addObserver(&phongShader);
 
     createMaterialShowcase();
@@ -59,7 +58,7 @@ void MaterialScene::render(const glm::mat4& projection, const glm::mat4& view, c
 
     for (size_t i = 0; i < objects.size(); ++i) {
         phongShader.setMaterialUniforms(materials[i]); // Material uniforms for each object
-        phongShader.setUniform("objectColor", glm::vec3(0.0f, 0.0f, 1.0f)); // blue
+        phongShader.setUniform("objectColor", glm::vec3(0.0f, 0.0f, 1.0f));
         objects[i].draw();
     }
 

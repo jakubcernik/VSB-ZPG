@@ -28,11 +28,6 @@ ShaderShowcaseScene::ShaderShowcaseScene()
         1                              // type
     );
 
-    sceneLight->addObserver(&constantShader);
-    sceneLight->addObserver(&lambertShader);
-    sceneLight->addObserver(&phongShader);
-    sceneLight->addObserver(&blinnShader);
-
     camera.addObserver(&constantShader);
     camera.addObserver(&lambertShader);
     camera.addObserver(&phongShader);

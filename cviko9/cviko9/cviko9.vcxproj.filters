@@ -152,9 +152,6 @@
     <ClInclude Include="ShaderProgram.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SOIL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>

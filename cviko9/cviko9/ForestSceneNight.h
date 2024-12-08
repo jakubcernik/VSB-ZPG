@@ -22,7 +22,6 @@ private:
     std::vector<Transformation*> transformations;
     void initializeSceneLight();
     void initializeFireflies(int count);
-    void initializeFlashlight();
 
 
     TreeModel treeModel;

@@ -66,8 +66,6 @@ void ForestSceneNight::initializeSceneLight() {
         1                                 // type
     );
 
-    sceneLight->addObserver(&treeShaderProgram);
-    sceneLight->addObserver(&bushShaderProgram);
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);

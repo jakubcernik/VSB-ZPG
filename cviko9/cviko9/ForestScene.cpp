@@ -113,17 +113,6 @@ ForestScene::ForestScene(int treeCount)
 ForestScene::~ForestScene() {}
 
 void ForestScene::initializeObservers() {
-    for (auto& light : lights) {
-        light.addObserver(&treeShaderProgram);
-        light.addObserver(&bushShaderProgram);
-        light.addObserver(&groundShaderProgram);
-        light.addObserver(&houseShaderProgram);
-    }
-    flashlight.addObserver(&treeShaderProgram);
-    flashlight.addObserver(&bushShaderProgram);
-    flashlight.addObserver(&groundShaderProgram);
-    flashlight.addObserver(&houseShaderProgram);
-
     camera.addObserver(&treeShaderProgram);
     camera.addObserver(&bushShaderProgram);
     camera.addObserver(&lightShaderProgram);
@@ -314,7 +303,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
         treeShaderProgram.free();
     }
 
-    rotateDynamicly(0.016f); // Rotate 45 degrees per second
+    rotateDynamicly(0.016f); // 0.016f = 60 FPS
 
     
     // Draw the house
