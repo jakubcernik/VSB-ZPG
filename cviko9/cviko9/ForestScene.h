@@ -19,7 +19,7 @@ public:
     ForestScene(int treeCount);
     ~ForestScene();
     void initializeObservers();
-    GLuint loadGroundTexture(const std::string& filename);
+    GLuint loadTexture(const std::string& filename);
     GLuint loadSkyboxTexture(const std::vector<std::string>& faces);
     void configureShader(ShaderProgram& shader, const std::string& textureUniform, int textureUnit);
     void createForest(int treeCount);

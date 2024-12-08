@@ -80,33 +80,19 @@ ForestScene::ForestScene(int treeCount)
     initializeObservers();
     createForest(treeCount);
 
-    // Load skybox texture
-    skyboxTexture = loadSkyboxTexture({
-		"posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg"
-		});
-    if (skyboxTexture == 0) 
-    {
-		printf("Failed to load skybox texture");
-	}
+    // Naètení textur
+    groundTexture = loadTexture("grass.png");
+    houseTexture = loadTexture("house.png");
+
+    skyboxTexture = loadSkyboxTexture({ "posx.jpg", "negx.jpg", "posy.jpg", "negy.jpg", "posz.jpg", "negz.jpg" });
+
+    if (!groundTexture || !houseTexture || !skyboxTexture) {
+        std::cerr << "Failed to load one or more textures!" << std::endl;
+    }
 
     configureShader(groundShaderProgram, "texture1", 0);
-
-    // Load ground texture
-    groundTexture = loadGroundTexture("grass.png");
-    if (groundTexture == 0) {
-        printf("Failed to load ground texture");
-	}
-	else {
-        printf("Ground texture loaded!");
-	}
-
-    configureShader(skyboxShaderProgram, "UISky", 0);
-
-    // Load house texture
-    houseTexture = SOIL_load_OGL_texture("house.png", SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
-
-
     configureShader(houseShaderProgram, "textureUnitID", 0);
+    configureShader(skyboxShaderProgram, "UISky", 0);
 
 }
 
@@ -120,67 +106,67 @@ void ForestScene::initializeObservers() {
     camera.addObserver(&houseShaderProgram);
 }
 
-GLuint ForestScene::loadGroundTexture(const std::string& filename) {
-    GLuint textureID;
-    glActiveTexture(GL_TEXTURE0);
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
+GLuint ForestScene::loadTexture(const std::string& filename)
+{
+    GLuint textureID = SOIL_load_OGL_texture(
+        filename.c_str(),
+        SOIL_LOAD_RGBA,
+        SOIL_CREATE_NEW_ID,
+        SOIL_FLAG_INVERT_Y
+    );
 
-    int width, height;
-    unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
-    if (image) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else {
+    if (!textureID) {
         std::cerr << "Failed to load texture: " << filename << std::endl;
-    }
-    if (image == 0) {
-        std::cerr << "An error occurred while loading CubeMap." << std::endl;
-        std::cerr << "SOIL error: " << SOIL_last_result() << std::endl;
         return 0;
     }
 
-    SOIL_free_image_data(image);
+    // Nastavení parametrù textury
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return textureID;
 }
 
-GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces) {
+
+
+GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces)
+{
     GLuint textureID;
     glGenTextures(1, &textureID);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 
-    int width, height, channels;
-    unsigned char* image;
+    for (size_t i = 0; i < faces.size(); ++i) {
+        int width, height, channels;
+        unsigned char* image = SOIL_load_image(faces[i].c_str(), &width, &height, &channels, SOIL_LOAD_RGB);
 
-    for (GLuint i = 0; i < faces.size(); i++) {
-        image = SOIL_load_image(faces[i].c_str(), &width, &height, &channels, SOIL_LOAD_RGB);
         if (image) {
-            glTexImage2D(
-                GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image
-            );
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
             SOIL_free_image_data(image);
         }
         else {
-            std::cerr << "SOIL error: " << SOIL_last_result() << std::endl;
+            std::cerr << "Failed to load skybox texture: " << faces[i] << std::endl;
+            glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
             return 0;
         }
     }
 
-    // Set texture parameters
+    // Nastavení parametrù skyboxu
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0); // Unbind
     return textureID;
 }
+
+
 
 void ForestScene::configureShader(ShaderProgram& shader, const std::string& textureUniform, int textureUnit) {
     shader.use();
@@ -312,6 +298,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
 
     houseShaderProgram.use();
     houseShaderProgram.setUniform("textureUnitID", 0);
+    setLightingUniforms(houseShaderProgram, viewPos);
     houseObject->draw();
     houseShaderProgram.free();
 

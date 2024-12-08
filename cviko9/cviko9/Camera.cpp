@@ -70,10 +70,14 @@ void Camera::addObserver(Observer* observer) {
 }
 
 void Camera::notify() const {
+    int width, height;
+    glfwGetFramebufferSize(glfwGetCurrentContext(), &width, &height); // Actual window size
+    float aspectRatio = width / static_cast<float>(height);
+
     glm::mat4 view = getViewMatrix();
-    glm::mat4 projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 1000.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 1000.0f);
     for (Observer* observer : observers) {
         observer->onNotify(view, projection);
     }
-    //printf("I notified that camera moved\n");
 }
+

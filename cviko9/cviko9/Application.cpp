@@ -52,6 +52,10 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
     }
 }
 
+void framebuffer_size(GLFWwindow* window, int width, int height) {
+    // Nastaví nový viewport podle aktuální velikosti okna
+    glViewport(0, 0, width, height);
+}
 
 void Application::initWindow() {
     window = glfwCreateWindow(width, height, "ZPG CER0548", nullptr, nullptr);
@@ -66,7 +70,9 @@ void Application::initWindow() {
 
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size);
 }
+
 
 void Application::initOpenGL() {
     glewExperimental = GL_TRUE;
@@ -113,6 +119,16 @@ void Application::run(Scene& triangleScene, Scene& forestScene, Scene& sphereSce
         lastFrame = currentFrame;
 
         glfwPollEvents();
+
+        // Check if window was resized
+        int currentWidth, currentHeight;
+        glfwGetFramebufferSize(window, &currentWidth, &currentHeight);
+        if (currentWidth != width || currentHeight != height) {
+            width = currentWidth;
+            height = currentHeight;
+            glViewport(0, 0, currentWidth, currentHeight);
+            projection = glm::perspective(glm::radians(45.0f), (float)currentWidth / (float)currentHeight, 1.0f, 1000.0f);
+        }
 
         // Scene switching with keys 1, 2, and 3
         if (glfwGetKey(window, GLFW_KEY_1) == GLFW_PRESS) {

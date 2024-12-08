@@ -189,7 +189,6 @@
     <ClInclude Include="SphereModel.h" />
     <ClInclude Include="SphereScene.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="SuziModel.h" />
     <ClInclude Include="suzi_flat.h" />
     <ClInclude Include="suzi_smooth.h" />
     <ClInclude Include="Transformation.h" />

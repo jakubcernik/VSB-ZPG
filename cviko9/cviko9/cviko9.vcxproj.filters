@@ -155,9 +155,6 @@
     <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SuziModel.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="bushes.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
