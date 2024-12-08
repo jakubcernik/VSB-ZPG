@@ -1,7 +1,6 @@
 #pragma once
 #include "TreeModel.h"
 #include "BushModel.h"
-#include "Shader.h"  
 #include "DrawableObject.h"
 #include "Scene.h"
 #include "ForestScene.h"

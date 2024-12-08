@@ -3,7 +3,6 @@
 #include "Model.h"
 #include "TreeModel.h"
 #include "BushModel.h"
-#include "Shader.h"
 #include "DrawableObject.h"  // Include the DrawableObject header
 #include "Scene.h"
 #include "Camera.h"

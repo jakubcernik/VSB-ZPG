@@ -147,7 +147,6 @@
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="ShaderShowcaseScene.cpp" />
@@ -179,7 +178,6 @@
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="Scale.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="ShaderShowcaseScene.h" />
