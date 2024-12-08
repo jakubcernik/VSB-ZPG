@@ -1,4 +1,6 @@
-﻿#include "Application.h"
+﻿// Author: Jakub Černík
+// Login: CER0548
+#include "Application.h"
 #include "TriangleScene.h"
 #include "ForestScene.h"
 #include "ForestSceneNight.h"
