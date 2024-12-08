@@ -22,7 +22,6 @@ public:
     Camera& getCamera() override;
 
 private:
-    std::vector<Transformation*> transformations;
     void createShaderShowcase();
 
     // Helper function to add an object with a specified shader at a position

@@ -60,9 +60,6 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reflector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -346,12 +343,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="posz.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Snímek obrazovky 2024-11-24 165027.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Snímek obrazovky 2024-11-24 165042.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

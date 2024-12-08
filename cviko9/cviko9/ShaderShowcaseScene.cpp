@@ -66,12 +66,9 @@ void ShaderShowcaseScene::createShaderShowcase() {
 void ShaderShowcaseScene::addObjectWithShader(const Model& model, const glm::vec3& position, ShaderProgram& shader, float scale) {
     Transformation* transform = new Transformation();
     transform->addTransformation(new Translation(position));
-    transform->addTransformation(new Scale(glm::vec3(scale)));  // Scale to match the size of the objects
+    transform->addTransformation(new Scale(glm::vec3(scale)));
     DrawableObject object(model, transform, shader, false, glm::vec3(1.0f, 1.0f, 1.0f));
     addObject(object);
-
-    // Store the transformation for cleanup later
-    transformations.push_back(transform);
 }
 
 

@@ -14,11 +14,9 @@ public:
     void createForest(int treeCount);
     void render(const glm::mat4& projection, const glm::mat4& view, const glm::vec3& viewPos);
     Camera& getCamera() override;
-    void setCamera(Camera& camera);
     void updateFireflies(float deltaTime);
 
 private:
-    std::vector<Transformation*> transformations;
     void initializeSceneLight();
     void initializeFireflies(int count);
 

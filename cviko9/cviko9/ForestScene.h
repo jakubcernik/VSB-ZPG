@@ -3,7 +3,7 @@
 #include "Model.h"
 #include "TreeModel.h"
 #include "BushModel.h"
-#include "DrawableObject.h"  // Include the DrawableObject header
+#include "DrawableObject.h"
 #include "Scene.h"
 #include "Camera.h"
 #include "Light.h"
@@ -28,8 +28,6 @@ public:
     void rotateDynamicly(float deltaTime);
 
 private:
-    //std::vector<Transformation*> transformations;
-
     TreeModel treeModel;
     BushModel bushModel;
     PlainModel groundModel;

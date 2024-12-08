@@ -1,5 +1,3 @@
-// SphereScene.cpp
-
 #include "SphereScene.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -24,9 +22,6 @@ SphereScene::SphereScene()
         sphereTransform->addTransformation(new Translation(pos));
         DrawableObject sphere(sphereModel, sphereTransform, shaderProgram, false, glm::vec3(0.63f, 0.31f, 0.72f));
         spheres.emplace_back(sphere);
-
-        // Store the transformation for cleanup later
-        transformations.push_back(sphereTransform);
     }
 
 

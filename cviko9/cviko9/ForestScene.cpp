@@ -80,7 +80,7 @@ ForestScene::ForestScene(int treeCount)
     initializeObservers();
     createForest(treeCount);
 
-    // Naètení textur
+    // Load textures
     groundTexture = loadTexture("grass.png");
     houseTexture = loadTexture("house.png");
 
@@ -155,7 +155,6 @@ GLuint ForestScene::loadSkyboxTexture(const std::vector<std::string>& faces)
         }
     }
 
-    // Nastavení parametrù skyboxu
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -302,7 +301,7 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     houseObject->draw();
     houseShaderProgram.free();
 
-    //Draw the login with ground texture
+    //Draw login with ground texture
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, groundTexture);
 
@@ -310,7 +309,6 @@ void ForestScene::render(const glm::mat4& projection, const glm::mat4& view, con
     houseShaderProgram.setUniform("textureUnitID", 0);
     loginObject->draw();
     houseShaderProgram.free();
-
 
     // Draw lights
     for (auto& light : lights) {

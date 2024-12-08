@@ -1,5 +1,3 @@
-// Light.cpp
-
 #include "Light.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -10,17 +8,17 @@ Light::Light(const glm::vec3& position, const glm::vec3& direction, const glm::v
 
 void Light::setPosition(const glm::vec3& newPosition) {
     position = newPosition;
-    notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix
+    notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f));
 }
 
 void Light::setDirection(const glm::vec3& newDirection) {
 	direction = newDirection;
-	notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix
+	notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f));
 }
 
 void Light::setColor(const glm::vec3& newColor) {
     color = newColor;
-    notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f)); // viewMatrix and projectionMatrix
+    notifyObservers(glm::mat4(1.0f), glm::mat4(1.0f));
 }
 
 const glm::vec3& Light::getPosition() const {
@@ -31,7 +29,7 @@ const glm::vec3& Light::getColor() const {
     return color;
 }
 
-glm::vec3 Light::getDirection() const {
+const glm::vec3 Light::getDirection() const {
     return direction;
 }
 
@@ -44,9 +42,8 @@ int Light::getType() const {
 }
 
 void Light::draw() const {
-    Transformation transform;  // Create a Transformation object on the stack
+    Transformation transform;
 
-    // Add transformations using raw pointers
     transform.addTransformation(new Translation(position));
     transform.addTransformation(new Scale(glm::vec3(scale)));
 
@@ -55,7 +52,6 @@ void Light::draw() const {
     lightShader.setUniform("modelMatrix", modelMatrix);
     lightModel.draw();
     lightShader.free();
-    // No need to delete 'transform', as it will be destroyed automatically when it goes out of scope
 }
 
 

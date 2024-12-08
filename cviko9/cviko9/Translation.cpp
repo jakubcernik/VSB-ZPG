@@ -1,4 +1,3 @@
-// Translation.cpp
 #include "Translation.h"
 
 Translation::Translation(const glm::vec3& deltaPosition) : deltaPosition(deltaPosition) {}

@@ -11,7 +11,6 @@ int main() {
     const int windowHeight = 600;
     Application app(windowWidth, windowHeight);
 
-    // Scenes initialization
     TriangleScene triangleScene;
     ForestScene forestScene(200);
     SphereScene sphereScene;

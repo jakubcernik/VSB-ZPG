@@ -143,7 +143,6 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelObj.cpp" />
     <ClCompile Include="PlainModel.cpp" />
-    <ClCompile Include="Reflector.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Scale.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -237,8 +236,6 @@
     <Image Include="posx.jpg" />
     <Image Include="posy.jpg" />
     <Image Include="posz.jpg" />
-    <Image Include="Snímek obrazovky 2024-11-24 165027.png" />
-    <Image Include="Snímek obrazovky 2024-11-24 165042.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

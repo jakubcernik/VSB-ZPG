@@ -1,5 +1,3 @@
-// ForestSceneNight.cpp
-
 #include "ForestSceneNight.h"
 #include "Transformation.h"
 #include "Translation.h"
@@ -92,16 +90,12 @@ void ForestSceneNight::createForest(int treeCount) {
     float groundLevel = 0.0f;
 
     for (int i = 0; i < treeCount; ++i) {
-        // Use raw pointers
         Transformation* treeTransform = new Transformation();
         Transformation* bushTransform = new Transformation();
 
-        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f,
-            groundLevel, groundLevel, -100.0f, 100.0f);
-        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f,
-            groundLevel, groundLevel, -100.0f, 100.0f);
+        glm::vec3 treeRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
+        glm::vec3 bushRandomPosition = generateRandomVec3(-100.0f, 100.0f, groundLevel, groundLevel, -100.0f, 100.0f);
 
-        // Add transformations using raw pointers
         treeTransform->addTransformation(new Translation(treeRandomPosition));
         bushTransform->addTransformation(new Translation(bushRandomPosition));
 
@@ -114,16 +108,11 @@ void ForestSceneNight::createForest(int treeCount) {
 
         glm::vec3 autumnColor = generateAutumnColor();
 
-        // Pass the Transformation pointers directly
         DrawableObject tree(treeModel, treeTransform, treeShaderProgram, true, autumnColor);
         DrawableObject bush(bushModel, bushTransform, bushShaderProgram, false, glm::vec3(0.1f, 0.8f, 0.2f));
 
         addObject(tree);
         addObject(bush);
-
-        // Store transformations for cleanup
-        transformations.push_back(treeTransform);
-        transformations.push_back(bushTransform);
     }
 }
 
@@ -188,10 +177,4 @@ void ForestSceneNight::render(const glm::mat4& projection, const glm::mat4& view
 
 Camera& ForestSceneNight::getCamera() {
     return camera;
-}
-
-void ForestSceneNight::setCamera(Camera& camera) {
-    camera.addObserver(&treeShaderProgram);
-    camera.addObserver(&bushShaderProgram);
-    camera.addObserver(&lightShaderProgram);
 }

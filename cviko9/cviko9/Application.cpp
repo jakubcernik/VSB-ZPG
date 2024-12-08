@@ -53,7 +53,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 }
 
 void framebuffer_size(GLFWwindow* window, int width, int height) {
-    // Nastaví nový viewport podle aktuální velikosti okna
+    // New viewport size
     glViewport(0, 0, width, height);
 }
 
@@ -81,7 +81,6 @@ void Application::initOpenGL() {
         exit(EXIT_FAILURE);
     }
 
-    // Check the OpenGL version to ensure the context is properly initialized
     const GLubyte* version = glGetString(GL_VERSION);
     if (version) {
         cout << "OpenGL version: " << version << endl;

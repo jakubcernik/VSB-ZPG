@@ -16,7 +16,13 @@ out vec2 fragTexCoord;          // Texture coordinates
 void main()
 {
     fragWorldPosition = vec3(modelMatrix * vec4(vertexPosition, 1.0));
-    fragWorldNormal = mat3(transpose(inverse(modelMatrix))) * vertexNormal;
+    
+    // Calculate normal matrix from model matrix
+    mat3 normalMatrix = transpose(inverse(mat3(modelMatrix)));
+    
+    // Transform normal to world space
+    fragWorldNormal = normalize(normalMatrix * vertexNormal);
+
     fragTexCoord = vertexTexCoord;
     gl_Position = projectionMatrix * viewMatrix * vec4(fragWorldPosition, 1.0);
 }

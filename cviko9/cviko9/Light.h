@@ -1,4 +1,3 @@
-// Light.h
 #pragma once
 #include "Subject.h"
 #include "SphereModel.h"
@@ -15,7 +14,7 @@ public:
     const glm::vec3& getPosition() const;
     const glm::vec3& getColor() const;
 
-    glm::vec3 getDirection() const;
+    const glm::vec3 getDirection() const;
     float getAngle() const;
     int getType() const;
 

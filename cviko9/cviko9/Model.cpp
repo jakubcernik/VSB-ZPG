@@ -1,5 +1,5 @@
 ﻿#include "Model.h"
-#include <cstdio>  // For printf
+#include <cstdio>
 
 Model::Model() : vao(0), vbo(0) {}
 

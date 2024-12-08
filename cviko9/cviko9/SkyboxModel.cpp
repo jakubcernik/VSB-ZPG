@@ -1,4 +1,3 @@
-// SkyboxModel.cpp
 #include "SkyboxModel.h"
 
 SkyboxModel::SkyboxModel() {

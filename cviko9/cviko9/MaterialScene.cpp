@@ -62,7 +62,7 @@ void MaterialScene::render(const glm::mat4& projection, const glm::mat4& view, c
         objects[i].draw();
     }
 
-    phongShader.setLightingUniforms(lightPos, viewPos, lightColor, glm::vec3(1.0f, 1.0f, 1.0f)); // white
+    phongShader.setLightingUniforms(lightPos, viewPos, lightColor, glm::vec3(1.0f, 1.0f, 1.0f));
     sceneLight->draw();
 }
 

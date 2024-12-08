@@ -16,7 +16,6 @@ public:
     void setCamera(Camera& camera);
 
 private:
-    std::vector<Transformation*> transformations;
     SphereModel sphereModel;
     ShaderProgram shaderProgram;
     ShaderProgram lightShaderProgram;

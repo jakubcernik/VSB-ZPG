@@ -41,7 +41,6 @@ void ShaderProgram::setUniform(const std::string& name, int value) {
         glUniform1i(location, value);
     }
     else {
-        // Handle the error, possibly by logging
         fprintf(stderr, "Failed to get uniform location for %s\n", name.c_str());
     }
 }
