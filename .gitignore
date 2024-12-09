@@ -5,7 +5,6 @@
 *.slo
 *.lo
 *.o
-*.obj
 
 # Precompiled Headers
 *.gch
@@ -106,7 +105,6 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
 *.iobj
 *.pch
 *.pdb
@@ -448,3 +446,5 @@ FodyWeavers.xsd
 !libraries/**
 !dlls/
 *.html
+!*.obj
+
